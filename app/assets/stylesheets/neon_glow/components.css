@@ -559,14 +559,18 @@
 .ng-animate-gradient {
   position: relative;
   overflow: hidden;
-  z-index: 0;
+  border-radius: var(--ng-radius-lg);
+  border: none;
+  padding: 0;
+  background: transparent;
+  isolation: isolate;
 }
 
 .ng-animate-gradient::before {
   content: "";
   position: absolute;
-  z-index: -2;
   inset: -100%;
+  z-index: 1;
   background: conic-gradient(
     var(--ng-primary),
     var(--ng-secondary),
@@ -582,10 +586,15 @@
 .ng-animate-gradient::after {
   content: "";
   position: absolute;
-  z-index: -1;
   inset: 2px;
-  border-radius: inherit;
+  z-index: 2;
+  border-radius: calc(var(--ng-radius-lg) - 2px);
   background: var(--ng-surface);
+}
+
+.ng-animate-gradient > * {
+  position: relative;
+  z-index: 3;
 }
 
 @media (prefers-reduced-motion: reduce) {
