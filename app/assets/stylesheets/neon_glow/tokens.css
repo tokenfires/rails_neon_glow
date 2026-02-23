@@ -8,9 +8,12 @@
  *
  * Usage:
  *   <body class="neon-rainbow neon-intense">
- *   <body class="neon-unicorn neon-subtle">
- *   <body class="neon-cinematic neon-medium">
- *   <body class="neon-pink neon-intense">
+ *   <body class="neon-retrowave neon-medium">
+ *   <body class="neon-cyberpunk neon-intense">
+ *   <body class="neon-vfd neon-medium">
+ *
+ * 10 palettes: Rainbow, Unicorn, Cinematic, Pink, Retrowave,
+ *   Grunge, Y2K, Social, Cyberpunk, VFD Display
  */
 
 /* ============================================================
@@ -186,6 +189,238 @@
     var(--ng-gradient-angle, 135deg),
     #ff2d95, #ff00ff, #cc44ff, #ffb3d9
   );
+}
+
+/* ============================================================
+   PALETTE: 80'S RETROWAVE
+   Synthwave sunsets and neon grid lines. Outrun aesthetic.
+   Magenta, cyan, and purple through a VHS filter.
+   ============================================================ */
+.neon-retrowave {
+  --ng-primary:       #ff2975;
+  --ng-primary-rgb:   255, 41, 117;
+  --ng-secondary:     #00fff0;
+  --ng-secondary-rgb: 0, 255, 240;
+  --ng-accent:        #f5a623;
+  --ng-accent-rgb:    245, 166, 35;
+  --ng-success:       #00e68a;
+  --ng-success-rgb:   0, 230, 138;
+  --ng-warning:       #f5a623;
+  --ng-warning-rgb:   245, 166, 35;
+  --ng-danger:        #ff1744;
+  --ng-danger-rgb:    255, 23, 68;
+  --ng-info:          #7c4dff;
+  --ng-info-rgb:      124, 77, 255;
+
+  --ng-gradient: linear-gradient(
+    180deg,
+    #1a0033 0%,
+    #7c4dff 20%,
+    #ff2975 40%,
+    #f5a623 60%,
+    #ffeb3b 80%
+  );
+
+  --ng-gradient-border: linear-gradient(
+    var(--ng-gradient-angle, 135deg),
+    #ff2975, #7c4dff, #00fff0, #f5a623
+  );
+}
+
+/* ============================================================
+   PALETTE: 90'S GRUNGE
+   Flannel and feedback. Distressed, raw, analog.
+   Like a neon sign in a dive bar that's seen better days.
+   ============================================================ */
+.neon-grunge {
+  --ng-primary:       #c4a535;
+  --ng-primary-rgb:   196, 165, 53;
+  --ng-secondary:     #8b6f47;
+  --ng-secondary-rgb: 139, 111, 71;
+  --ng-accent:        #b55a30;
+  --ng-accent-rgb:    181, 90, 48;
+  --ng-success:       #5a8a4a;
+  --ng-success-rgb:   90, 138, 74;
+  --ng-warning:       #d4952a;
+  --ng-warning-rgb:   212, 149, 42;
+  --ng-danger:        #a83232;
+  --ng-danger-rgb:    168, 50, 50;
+  --ng-info:          #6a5a8e;
+  --ng-info-rgb:      106, 90, 142;
+
+  --ng-gradient: linear-gradient(
+    135deg,
+    #c4a535 0%,
+    #b55a30 33%,
+    #5a8a4a 66%,
+    #6a5a8e 100%
+  );
+
+  --ng-gradient-border: linear-gradient(
+    var(--ng-gradient-angle, 135deg),
+    #c4a535, #b55a30, #8b6f47, #6a5a8e
+  );
+}
+
+/* ============================================================
+   PALETTE: Y2K / 2000'S
+   Frosted glass, chrome, and bubblegum. The boy-band era.
+   The future was supposed to be clean, shiny, and iridescent.
+   ============================================================ */
+.neon-y2k {
+  --ng-primary:       #7eb8ff;
+  --ng-primary-rgb:   126, 184, 255;
+  --ng-secondary:     #e0e0e8;
+  --ng-secondary-rgb: 224, 224, 232;
+  --ng-accent:        #ffb8e0;
+  --ng-accent-rgb:    255, 184, 224;
+  --ng-success:       #88eebb;
+  --ng-success-rgb:   136, 238, 187;
+  --ng-warning:       #ffe0a0;
+  --ng-warning-rgb:   255, 224, 160;
+  --ng-danger:        #ff8888;
+  --ng-danger-rgb:    255, 136, 136;
+  --ng-info:          #c8b8ff;
+  --ng-info-rgb:      200, 184, 255;
+
+  --ng-gradient: linear-gradient(
+    135deg,
+    #7eb8ff 0%,
+    #c8b8ff 25%,
+    #ffb8e0 50%,
+    #e0e0e8 75%,
+    #7eb8ff 100%
+  );
+
+  --ng-gradient-border: linear-gradient(
+    var(--ng-gradient-angle, 135deg),
+    #7eb8ff, #c8b8ff, #ffb8e0, #e0e0e8
+  );
+}
+
+/* ============================================================
+   PALETTE: 2010'S SOCIAL / MEME
+   The colors of the feed. Notification pings and viral moments.
+   Built from the platforms that defined a decade.
+   ============================================================ */
+.neon-social {
+  --ng-primary:       #1da1f2;
+  --ng-primary-rgb:   29, 161, 242;
+  --ng-secondary:     #ff4500;
+  --ng-secondary-rgb: 255, 69, 0;
+  --ng-accent:        #ffd700;
+  --ng-accent-rgb:    255, 215, 0;
+  --ng-success:       #25d366;
+  --ng-success-rgb:   37, 211, 102;
+  --ng-warning:       #ff9900;
+  --ng-warning-rgb:   255, 153, 0;
+  --ng-danger:        #e1306c;
+  --ng-danger-rgb:    225, 48, 108;
+  --ng-info:          #9146ff;
+  --ng-info-rgb:      145, 70, 255;
+
+  --ng-gradient: linear-gradient(
+    135deg,
+    #1da1f2 0%,
+    #e1306c 25%,
+    #ffd700 50%,
+    #25d366 75%,
+    #9146ff 100%
+  );
+
+  --ng-gradient-border: linear-gradient(
+    var(--ng-gradient-angle, 135deg),
+    #1da1f2, #e1306c, #ff4500, #9146ff
+  );
+}
+
+/* ============================================================
+   PALETTE: 2020'S CYBERPUNK
+   Toxic neon against corporate steel. Glitch aesthetic.
+   The future arrived and it's beautiful and broken.
+   ============================================================ */
+.neon-cyberpunk {
+  --ng-primary:       #39ff14;
+  --ng-primary-rgb:   57, 255, 20;
+  --ng-secondary:     #ff003c;
+  --ng-secondary-rgb: 255, 0, 60;
+  --ng-accent:        #ffe600;
+  --ng-accent-rgb:    255, 230, 0;
+  --ng-success:       #00ff9d;
+  --ng-success-rgb:   0, 255, 157;
+  --ng-warning:       #ffe600;
+  --ng-warning-rgb:   255, 230, 0;
+  --ng-danger:        #ff003c;
+  --ng-danger-rgb:    255, 0, 60;
+  --ng-info:          #0ff;
+  --ng-info-rgb:      0, 255, 255;
+
+  --ng-gradient: linear-gradient(
+    135deg,
+    #39ff14 0%,
+    #00ffff 25%,
+    #ff003c 50%,
+    #ffe600 75%,
+    #39ff14 100%
+  );
+
+  --ng-gradient-border: linear-gradient(
+    var(--ng-gradient-angle, 135deg),
+    #39ff14, #0ff, #ff003c, #ffe600
+  );
+}
+
+/* ============================================================
+   PALETTE: VFD DISPLAY
+   Vacuum fluorescent display. That warm phosphor glow.
+   Monochromatic by default (cyan-green), but override
+   --ng-vfd-hue to shift the entire palette through the
+   color wheel -- just like changing the lens on a real VFD.
+
+   Hue values: 0=red, 30=amber, 60=yellow, 120=green,
+   180=cyan (default), 210=blue, 270=purple, 330=pink
+   ============================================================ */
+.neon-vfd {
+  --ng-vfd-hue: 170;
+
+  --ng-primary:       hsl(var(--ng-vfd-hue), 100%, 65%);
+  --ng-primary-rgb:   0, 230, 210;
+  --ng-secondary:     hsl(var(--ng-vfd-hue), 60%, 50%);
+  --ng-secondary-rgb: 51, 179, 163;
+  --ng-accent:        hsl(var(--ng-vfd-hue), 80%, 75%);
+  --ng-accent-rgb:    128, 230, 219;
+  --ng-success:       hsl(calc(var(--ng-vfd-hue) + 20), 80%, 55%);
+  --ng-success-rgb:   28, 204, 163;
+  --ng-warning:       hsl(calc(var(--ng-vfd-hue) - 20), 80%, 55%);
+  --ng-warning-rgb:   28, 189, 204;
+  --ng-danger:        hsl(calc(var(--ng-vfd-hue) + 180), 70%, 50%);
+  --ng-danger-rgb:    179, 38, 62;
+  --ng-info:          hsl(var(--ng-vfd-hue), 50%, 60%);
+  --ng-info-rgb:      77, 194, 179;
+
+  --ng-gradient: linear-gradient(
+    135deg,
+    hsl(var(--ng-vfd-hue), 100%, 65%) 0%,
+    hsl(var(--ng-vfd-hue), 60%, 40%) 50%,
+    hsl(var(--ng-vfd-hue), 100%, 65%) 100%
+  );
+
+  --ng-gradient-border: linear-gradient(
+    var(--ng-gradient-angle, 135deg),
+    hsl(var(--ng-vfd-hue), 100%, 65%),
+    hsl(var(--ng-vfd-hue), 60%, 40%),
+    hsl(var(--ng-vfd-hue), 80%, 55%)
+  );
+
+  --ng-bg:             #050508;
+  --ng-surface:        #0a0a10;
+  --ng-surface-raised: #101018;
+  --ng-surface-overlay:#181822;
+  --ng-border:         hsl(var(--ng-vfd-hue), 40%, 18%);
+  --ng-border-subtle:  hsl(var(--ng-vfd-hue), 30%, 12%);
+  --ng-text:           hsl(var(--ng-vfd-hue), 60%, 80%);
+  --ng-text-secondary: hsl(var(--ng-vfd-hue), 40%, 55%);
+  --ng-text-muted:     hsl(var(--ng-vfd-hue), 25%, 35%);
 }
 
 /* ============================================================

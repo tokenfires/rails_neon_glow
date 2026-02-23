@@ -2,7 +2,7 @@
 
 **A dark neon glow design system for Bootstrap and Tailwind CSS.**
 
-4 color palettes. 3 intensity levels. Fully open source.
+10 color palettes. 3 intensity levels. Fully open source.
 
 <p align="center">
   <img src="docs/gifs/home_800x560.gif" alt="Neon Glow -- palette switching demo">
