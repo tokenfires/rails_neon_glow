@@ -132,6 +132,27 @@ Import the tokens in your Tailwind entry point:
 @import "neon_glow/components.css";
 ```
 
+### Via CDN (no package manager needed)
+
+One line. No npm, no gems, no build step:
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/neon-glow-css/css/neon-glow.css">
+```
+
+Then just add the body classes:
+
+```html
+<body class="neon-glow-body neon-cyberpunk neon-intense">
+  <div class="ng-card ng-border-glow">
+    <h1 class="ng-gradient-text">Hello, Neon</h1>
+    <button class="ng-btn ng-btn-primary">Glow</button>
+  </div>
+</body>
+```
+
+Works with any vanilla HTML/CSS/JS project, static site generators, CodePen, JSFiddle -- anything.
+
 ### With Bootstrap (SCSS)
 
 Override Bootstrap's SCSS variables with the neon dark surface colors (see `bootstrap_custom.scss` for the full list), then import Bootstrap. Layer the neon glow tokens on top via a separate `<link>` tag.
