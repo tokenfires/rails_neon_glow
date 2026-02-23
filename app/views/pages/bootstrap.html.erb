@@ -131,6 +131,8 @@
 <%# ===== ALERTS ===== %>
 <section class="mb-5">
   <h2 style="color: var(--ng-primary);" class="h5 fw-bold mb-3">Alerts</h2>
+
+  <p class="ng-text-muted small mb-2">Standard Bootstrap alerts with dark theme SCSS overrides applied.</p>
   <div class="alert alert-success">
     <strong>Success!</strong> Your changes have been saved.
   </div>
@@ -140,17 +142,26 @@
   <div class="alert alert-danger">
     <strong>Error!</strong> Something went wrong. Please try again.
   </div>
-  <div class="alert alert-info">
+  <div class="alert alert-info mb-4">
     <strong>Info:</strong> A new version is available.
   </div>
-  <p class="ng-text-muted small mt-3 mb-2">Neon Glow Alerts</p>
+
+  <p class="ng-text-muted small mb-2">Neon Glow alerts &mdash; glowing left border accent with dark surface background.</p>
   <div class="ng-alert ng-alert-success mb-2">
     <strong style="color: var(--ng-success);">Success!</strong>
-    <span style="color: var(--ng-text-secondary);"> Neon glow style alert.</span>
+    <span style="color: var(--ng-text-secondary);"> Your changes have been saved.</span>
   </div>
-  <div class="ng-alert ng-alert-danger">
+  <div class="ng-alert ng-alert-warning mb-2">
+    <strong style="color: var(--ng-warning);">Warning:</strong>
+    <span style="color: var(--ng-text-secondary);"> Your session will expire in 5 minutes.</span>
+  </div>
+  <div class="ng-alert ng-alert-danger mb-2">
     <strong style="color: var(--ng-danger);">Error!</strong>
-    <span style="color: var(--ng-text-secondary);"> Neon glow style alert.</span>
+    <span style="color: var(--ng-text-secondary);"> Something went wrong. Please try again.</span>
+  </div>
+  <div class="ng-alert ng-alert-info">
+    <strong style="color: var(--ng-info);">Info:</strong>
+    <span style="color: var(--ng-text-secondary);"> A new version is available.</span>
   </div>
 </section>
 
