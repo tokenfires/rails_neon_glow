@@ -1,0 +1,256 @@
+/*
+ * Neon Glow Design Tokens
+ * Designed by Claude (Anthropic)
+ *
+ * The foundation of the Neon Glow theme system.
+ * All palettes, intensities, surfaces, and glow effects are defined here
+ * as CSS custom properties. Swap a class on <body> to change everything.
+ *
+ * Usage:
+ *   <body class="neon-rainbow neon-intense">
+ *   <body class="neon-unicorn neon-subtle">
+ *   <body class="neon-cinematic neon-medium">
+ *   <body class="neon-pink neon-intense">
+ */
+
+/* ============================================================
+   BASE DARK SURFACE SYSTEM
+   Shared across all palettes. Inspired by the deep navy-black
+   of the EmberHearth icon backgrounds (#0a0a1e).
+   ============================================================ */
+:root {
+  --ng-bg:             #0a0a1e;
+  --ng-surface:        #12122a;
+  --ng-surface-raised: #1a1a3e;
+  --ng-surface-overlay:#222252;
+  --ng-border:         #2a2a5a;
+  --ng-border-subtle:  #1e1e48;
+
+  --ng-text:           #e8e8ff;
+  --ng-text-secondary: #a0a0cc;
+  --ng-text-muted:     #6868a0;
+  --ng-text-inverse:   #0a0a1e;
+
+  --ng-radius-sm: 0.375rem;
+  --ng-radius:    0.5rem;
+  --ng-radius-lg: 0.75rem;
+  --ng-radius-xl: 1rem;
+
+  --ng-transition: 0.2s ease;
+  --ng-transition-glow: 0.3s ease;
+}
+
+/* ============================================================
+   PALETTE: RAINBOW GLOW
+   Full-spectrum neon. Bold, vivid, electric.
+   Think arcade cabinets and pride flags made of light.
+   ============================================================ */
+.neon-rainbow {
+  --ng-primary:       #ff3333;
+  --ng-primary-rgb:   255, 51, 51;
+  --ng-secondary:     #00e5ff;
+  --ng-secondary-rgb: 0, 229, 255;
+  --ng-accent:        #ffdd00;
+  --ng-accent-rgb:    255, 221, 0;
+  --ng-success:       #00ff88;
+  --ng-success-rgb:   0, 255, 136;
+  --ng-warning:       #ff8800;
+  --ng-warning-rgb:   255, 136, 0;
+  --ng-danger:        #ff2255;
+  --ng-danger-rgb:    255, 34, 85;
+  --ng-info:          #8855ff;
+  --ng-info-rgb:      136, 85, 255;
+
+  --ng-gradient: linear-gradient(
+    135deg,
+    #ff3333 0%,
+    #ff8800 16%,
+    #ffdd00 32%,
+    #00ff88 48%,
+    #00e5ff 64%,
+    #8855ff 80%,
+    #ff2d95 100%
+  );
+
+  --ng-gradient-border: linear-gradient(
+    var(--ng-gradient-angle, 135deg),
+    #ff3333, #ff8800, #ffdd00, #00ff88, #00e5ff, #8855ff, #ff2d95
+  );
+}
+
+/* ============================================================
+   PALETTE: UNICORN GLOW
+   Pastel rainbow. Dreamy, soft, ethereal.
+   The same spectrum, but like light through frosted glass.
+   ============================================================ */
+.neon-unicorn {
+  --ng-primary:       #c4a1ff;
+  --ng-primary-rgb:   196, 161, 255;
+  --ng-secondary:     #7fffe0;
+  --ng-secondary-rgb: 127, 255, 224;
+  --ng-accent:        #ffe4a1;
+  --ng-accent-rgb:    255, 228, 161;
+  --ng-success:       #a1ffcc;
+  --ng-success-rgb:   161, 255, 204;
+  --ng-warning:       #ffc4a1;
+  --ng-warning-rgb:   255, 196, 161;
+  --ng-danger:        #ffa1c4;
+  --ng-danger-rgb:    255, 161, 196;
+  --ng-info:          #a1c4ff;
+  --ng-info-rgb:      161, 196, 255;
+
+  --ng-gradient: linear-gradient(
+    135deg,
+    #ffa1a1 0%,
+    #ffc4a1 16%,
+    #ffe4a1 32%,
+    #a1ffcc 48%,
+    #7fffe0 64%,
+    #c4a1ff 80%,
+    #ffb3d9 100%
+  );
+
+  --ng-gradient-border: linear-gradient(
+    var(--ng-gradient-angle, 135deg),
+    #ffa1a1, #ffc4a1, #ffe4a1, #a1ffcc, #7fffe0, #c4a1ff, #ffb3d9
+  );
+}
+
+/* ============================================================
+   PALETTE: CINEMATIC GLOW
+   Electric blue + amber/orange. The Blade Runner palette.
+   Every sci-fi movie poster you've ever loved.
+   ============================================================ */
+.neon-cinematic {
+  --ng-primary:       #0088ff;
+  --ng-primary-rgb:   0, 136, 255;
+  --ng-secondary:     #ff8800;
+  --ng-secondary-rgb: 255, 136, 0;
+  --ng-accent:        #ffd700;
+  --ng-accent-rgb:    255, 215, 0;
+  --ng-success:       #00cc88;
+  --ng-success-rgb:   0, 204, 136;
+  --ng-warning:       #ffaa00;
+  --ng-warning-rgb:   255, 170, 0;
+  --ng-danger:        #ff4444;
+  --ng-danger-rgb:    255, 68, 68;
+  --ng-info:          #44aaff;
+  --ng-info-rgb:      68, 170, 255;
+
+  --ng-gradient: linear-gradient(
+    135deg,
+    #0088ff 0%,
+    #0066dd 25%,
+    #ff8800 50%,
+    #ffd700 75%,
+    #0088ff 100%
+  );
+
+  --ng-gradient-border: linear-gradient(
+    var(--ng-gradient-angle, 135deg),
+    #0088ff, #44aaff, #ff8800, #ffd700
+  );
+}
+
+/* ============================================================
+   PALETTE: PINK GLOW
+   Hot pink + magenta. Unapologetically vibrant.
+   For the gamer girls, women in tech, and anyone who
+   knows that pink is a power color.
+   ============================================================ */
+.neon-pink {
+  --ng-primary:       #ff2d95;
+  --ng-primary-rgb:   255, 45, 149;
+  --ng-secondary:     #ff00ff;
+  --ng-secondary-rgb: 255, 0, 255;
+  --ng-accent:        #ffb3d9;
+  --ng-accent-rgb:    255, 179, 217;
+  --ng-success:       #00ffaa;
+  --ng-success-rgb:   0, 255, 170;
+  --ng-warning:       #ff88cc;
+  --ng-warning-rgb:   255, 136, 204;
+  --ng-danger:        #ff1155;
+  --ng-danger-rgb:    255, 17, 85;
+  --ng-info:          #cc44ff;
+  --ng-info-rgb:      204, 68, 255;
+
+  --ng-gradient: linear-gradient(
+    135deg,
+    #ff2d95 0%,
+    #ff00ff 33%,
+    #cc44ff 66%,
+    #ff2d95 100%
+  );
+
+  --ng-gradient-border: linear-gradient(
+    var(--ng-gradient-angle, 135deg),
+    #ff2d95, #ff00ff, #cc44ff, #ffb3d9
+  );
+}
+
+/* ============================================================
+   INTENSITY: SUBTLE
+   Gentle glow. Professional. Easy on the eyes.
+   Good for productivity apps and long reading sessions.
+   ============================================================ */
+.neon-subtle {
+  --ng-glow-spread:    4px;
+  --ng-glow-blur:      8px;
+  --ng-glow-opacity:   0.3;
+  --ng-glow-text-blur: 4px;
+  --ng-border-glow-opacity: 0.4;
+  --ng-pulse-scale:    1.02;
+}
+
+/* ============================================================
+   INTENSITY: MEDIUM (default)
+   Balanced glow. Noticeable but not overwhelming.
+   The sweet spot for most applications.
+   ============================================================ */
+.neon-medium,
+:root {
+  --ng-glow-spread:    8px;
+  --ng-glow-blur:      16px;
+  --ng-glow-opacity:   0.5;
+  --ng-glow-text-blur: 8px;
+  --ng-border-glow-opacity: 0.6;
+  --ng-pulse-scale:    1.04;
+}
+
+/* ============================================================
+   INTENSITY: INTENSE
+   Maximum glow. Over the top. The WOW factor.
+   Cranked to 11 for showcases and gaming vibes.
+   ============================================================ */
+.neon-intense {
+  --ng-glow-spread:    12px;
+  --ng-glow-blur:      28px;
+  --ng-glow-opacity:   0.7;
+  --ng-glow-text-blur: 14px;
+  --ng-border-glow-opacity: 0.85;
+  --ng-pulse-scale:    1.06;
+}
+
+/* ============================================================
+   DEFAULT PALETTE
+   If no palette class is set, fall back to Rainbow.
+   ============================================================ */
+:root {
+  --ng-primary:       #ff3333;
+  --ng-primary-rgb:   255, 51, 51;
+  --ng-secondary:     #00e5ff;
+  --ng-secondary-rgb: 0, 229, 255;
+  --ng-accent:        #ffdd00;
+  --ng-accent-rgb:    255, 221, 0;
+  --ng-success:       #00ff88;
+  --ng-success-rgb:   0, 255, 136;
+  --ng-warning:       #ff8800;
+  --ng-warning-rgb:   255, 136, 0;
+  --ng-danger:        #ff2255;
+  --ng-danger-rgb:    255, 34, 85;
+  --ng-info:          #8855ff;
+  --ng-info-rgb:      136, 85, 255;
+  --ng-gradient: linear-gradient(135deg, #ff3333, #ff8800, #ffdd00, #00ff88, #00e5ff, #8855ff, #ff2d95);
+  --ng-gradient-border: linear-gradient(135deg, #ff3333, #ff8800, #ffdd00, #00ff88, #00e5ff, #8855ff, #ff2d95);
+  --ng-gradient-angle: 135deg;
+}

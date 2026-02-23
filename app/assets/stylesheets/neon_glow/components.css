@@ -1,0 +1,618 @@
+/*
+ * Neon Glow Component Styles
+ * Designed by Claude (Anthropic)
+ *
+ * Reusable glow effects for UI components.
+ * These classes work with any palette and intensity --
+ * they read from the CSS custom properties in tokens.css.
+ */
+
+/* ============================================================
+   BASE BODY STYLES
+   ============================================================ */
+.neon-glow-body {
+  background-color: var(--ng-bg);
+  color: var(--ng-text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  transition: background-color var(--ng-transition), color var(--ng-transition);
+}
+
+/* ============================================================
+   GLOW BOX SHADOWS
+   Apply to cards, panels, buttons, inputs, etc.
+   ============================================================ */
+.ng-glow-primary {
+  box-shadow:
+    0 0 var(--ng-glow-blur) rgba(var(--ng-primary-rgb), var(--ng-glow-opacity)),
+    0 0 var(--ng-glow-spread) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.5)),
+    inset 0 0 calc(var(--ng-glow-spread) * 0.5) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.15));
+}
+
+.ng-glow-secondary {
+  box-shadow:
+    0 0 var(--ng-glow-blur) rgba(var(--ng-secondary-rgb), var(--ng-glow-opacity)),
+    0 0 var(--ng-glow-spread) rgba(var(--ng-secondary-rgb), calc(var(--ng-glow-opacity) * 0.5)),
+    inset 0 0 calc(var(--ng-glow-spread) * 0.5) rgba(var(--ng-secondary-rgb), calc(var(--ng-glow-opacity) * 0.15));
+}
+
+.ng-glow-accent {
+  box-shadow:
+    0 0 var(--ng-glow-blur) rgba(var(--ng-accent-rgb), var(--ng-glow-opacity)),
+    0 0 var(--ng-glow-spread) rgba(var(--ng-accent-rgb), calc(var(--ng-glow-opacity) * 0.5)),
+    inset 0 0 calc(var(--ng-glow-spread) * 0.5) rgba(var(--ng-accent-rgb), calc(var(--ng-glow-opacity) * 0.15));
+}
+
+.ng-glow-success {
+  box-shadow:
+    0 0 var(--ng-glow-blur) rgba(var(--ng-success-rgb), var(--ng-glow-opacity)),
+    0 0 var(--ng-glow-spread) rgba(var(--ng-success-rgb), calc(var(--ng-glow-opacity) * 0.5));
+}
+
+.ng-glow-warning {
+  box-shadow:
+    0 0 var(--ng-glow-blur) rgba(var(--ng-warning-rgb), var(--ng-glow-opacity)),
+    0 0 var(--ng-glow-spread) rgba(var(--ng-warning-rgb), calc(var(--ng-glow-opacity) * 0.5));
+}
+
+.ng-glow-danger {
+  box-shadow:
+    0 0 var(--ng-glow-blur) rgba(var(--ng-danger-rgb), var(--ng-glow-opacity)),
+    0 0 var(--ng-glow-spread) rgba(var(--ng-danger-rgb), calc(var(--ng-glow-opacity) * 0.5));
+}
+
+.ng-glow-info {
+  box-shadow:
+    0 0 var(--ng-glow-blur) rgba(var(--ng-info-rgb), var(--ng-glow-opacity)),
+    0 0 var(--ng-glow-spread) rgba(var(--ng-info-rgb), calc(var(--ng-glow-opacity) * 0.5));
+}
+
+/* ============================================================
+   NEON TEXT
+   Glowing text effect using text-shadow.
+   ============================================================ */
+.ng-text-glow {
+  text-shadow:
+    0 0 var(--ng-glow-text-blur) rgba(var(--ng-primary-rgb), var(--ng-glow-opacity)),
+    0 0 calc(var(--ng-glow-text-blur) * 2) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.4));
+}
+
+.ng-text-glow-secondary {
+  text-shadow:
+    0 0 var(--ng-glow-text-blur) rgba(var(--ng-secondary-rgb), var(--ng-glow-opacity)),
+    0 0 calc(var(--ng-glow-text-blur) * 2) rgba(var(--ng-secondary-rgb), calc(var(--ng-glow-opacity) * 0.4));
+}
+
+.ng-text-glow-accent {
+  text-shadow:
+    0 0 var(--ng-glow-text-blur) rgba(var(--ng-accent-rgb), var(--ng-glow-opacity)),
+    0 0 calc(var(--ng-glow-text-blur) * 2) rgba(var(--ng-accent-rgb), calc(var(--ng-glow-opacity) * 0.4));
+}
+
+/* ============================================================
+   GRADIENT BORDER
+   The signature look -- gradient borders with glow.
+   Uses a pseudo-element technique for true gradient borders.
+   ============================================================ */
+.ng-border-glow {
+  position: relative;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+.ng-border-glow::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: var(--ng-gradient-border);
+  z-index: -1;
+  opacity: var(--ng-border-glow-opacity);
+  transition: opacity var(--ng-transition-glow);
+}
+
+.ng-border-glow::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: var(--ng-gradient-border);
+  z-index: -2;
+  opacity: calc(var(--ng-border-glow-opacity) * 0.4);
+  filter: blur(var(--ng-glow-blur));
+  transition: opacity var(--ng-transition-glow), filter var(--ng-transition-glow);
+}
+
+.ng-border-glow:hover::before {
+  opacity: 1;
+}
+
+.ng-border-glow:hover::after {
+  opacity: calc(var(--ng-border-glow-opacity) * 0.7);
+  filter: blur(calc(var(--ng-glow-blur) * 1.3));
+}
+
+/* Single-color border glow variants */
+.ng-border-primary {
+  border: 1px solid var(--ng-primary);
+  box-shadow: 0 0 var(--ng-glow-spread) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.4));
+  transition: box-shadow var(--ng-transition-glow);
+}
+
+.ng-border-primary:hover {
+  box-shadow: 0 0 var(--ng-glow-blur) rgba(var(--ng-primary-rgb), var(--ng-glow-opacity));
+}
+
+.ng-border-secondary {
+  border: 1px solid var(--ng-secondary);
+  box-shadow: 0 0 var(--ng-glow-spread) rgba(var(--ng-secondary-rgb), calc(var(--ng-glow-opacity) * 0.4));
+  transition: box-shadow var(--ng-transition-glow);
+}
+
+.ng-border-secondary:hover {
+  box-shadow: 0 0 var(--ng-glow-blur) rgba(var(--ng-secondary-rgb), var(--ng-glow-opacity));
+}
+
+/* ============================================================
+   SURFACE CARDS
+   Dark cards with glow borders -- the bread and butter.
+   ============================================================ */
+.ng-card {
+  background-color: var(--ng-surface);
+  border-radius: var(--ng-radius-lg);
+  padding: 1.5rem;
+  border: 1px solid var(--ng-border-subtle);
+  transition: border-color var(--ng-transition), box-shadow var(--ng-transition-glow);
+}
+
+.ng-card:hover {
+  border-color: var(--ng-border);
+}
+
+.ng-card-raised {
+  background-color: var(--ng-surface-raised);
+  border-radius: var(--ng-radius-lg);
+  padding: 1.5rem;
+  border: 1px solid var(--ng-border);
+  transition: box-shadow var(--ng-transition-glow);
+}
+
+/* ============================================================
+   NEON BUTTONS
+   Glowing buttons with hover intensification.
+   ============================================================ */
+.ng-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.25rem;
+  border-radius: var(--ng-radius);
+  font-weight: 600;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  cursor: pointer;
+  border: none;
+  transition:
+    box-shadow var(--ng-transition-glow),
+    transform var(--ng-transition),
+    background-color var(--ng-transition);
+}
+
+.ng-btn:active {
+  transform: scale(0.97);
+}
+
+.ng-btn-primary {
+  background-color: var(--ng-primary);
+  color: var(--ng-text-inverse);
+  box-shadow: 0 0 var(--ng-glow-spread) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.5));
+}
+
+.ng-btn-primary:hover {
+  box-shadow:
+    0 0 var(--ng-glow-blur) rgba(var(--ng-primary-rgb), var(--ng-glow-opacity)),
+    0 0 calc(var(--ng-glow-blur) * 2) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.3));
+}
+
+.ng-btn-secondary {
+  background-color: var(--ng-secondary);
+  color: var(--ng-text-inverse);
+  box-shadow: 0 0 var(--ng-glow-spread) rgba(var(--ng-secondary-rgb), calc(var(--ng-glow-opacity) * 0.5));
+}
+
+.ng-btn-secondary:hover {
+  box-shadow:
+    0 0 var(--ng-glow-blur) rgba(var(--ng-secondary-rgb), var(--ng-glow-opacity)),
+    0 0 calc(var(--ng-glow-blur) * 2) rgba(var(--ng-secondary-rgb), calc(var(--ng-glow-opacity) * 0.3));
+}
+
+.ng-btn-outline {
+  background-color: transparent;
+  color: var(--ng-primary);
+  border: 1px solid var(--ng-primary);
+  box-shadow: 0 0 var(--ng-glow-spread) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.25));
+}
+
+.ng-btn-outline:hover {
+  background-color: rgba(var(--ng-primary-rgb), 0.1);
+  box-shadow:
+    0 0 var(--ng-glow-blur) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.6)),
+    inset 0 0 var(--ng-glow-spread) rgba(var(--ng-primary-rgb), 0.1);
+}
+
+.ng-btn-ghost {
+  background-color: transparent;
+  color: var(--ng-text);
+  border: 1px solid var(--ng-border);
+}
+
+.ng-btn-ghost:hover {
+  border-color: var(--ng-primary);
+  color: var(--ng-primary);
+  box-shadow: 0 0 var(--ng-glow-spread) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.3));
+}
+
+/* ============================================================
+   NEON INPUTS
+   Form inputs with glow on focus.
+   ============================================================ */
+.ng-input {
+  background-color: var(--ng-surface);
+  color: var(--ng-text);
+  border: 1px solid var(--ng-border);
+  border-radius: var(--ng-radius);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color var(--ng-transition), box-shadow var(--ng-transition-glow);
+}
+
+.ng-input::placeholder {
+  color: var(--ng-text-muted);
+}
+
+.ng-input:focus {
+  border-color: var(--ng-primary);
+  box-shadow:
+    0 0 var(--ng-glow-spread) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.4)),
+    0 0 var(--ng-glow-blur) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.2));
+}
+
+/* ============================================================
+   NEON BADGES / PILLS
+   ============================================================ */
+.ng-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}
+
+.ng-badge-primary {
+  background-color: rgba(var(--ng-primary-rgb), 0.15);
+  color: var(--ng-primary);
+  border: 1px solid rgba(var(--ng-primary-rgb), 0.3);
+}
+
+.ng-badge-secondary {
+  background-color: rgba(var(--ng-secondary-rgb), 0.15);
+  color: var(--ng-secondary);
+  border: 1px solid rgba(var(--ng-secondary-rgb), 0.3);
+}
+
+.ng-badge-success {
+  background-color: rgba(var(--ng-success-rgb), 0.15);
+  color: var(--ng-success);
+  border: 1px solid rgba(var(--ng-success-rgb), 0.3);
+}
+
+.ng-badge-warning {
+  background-color: rgba(var(--ng-warning-rgb), 0.15);
+  color: var(--ng-warning);
+  border: 1px solid rgba(var(--ng-warning-rgb), 0.3);
+}
+
+.ng-badge-danger {
+  background-color: rgba(var(--ng-danger-rgb), 0.15);
+  color: var(--ng-danger);
+  border: 1px solid rgba(var(--ng-danger-rgb), 0.3);
+}
+
+.ng-badge-info {
+  background-color: rgba(var(--ng-info-rgb), 0.15);
+  color: var(--ng-info);
+  border: 1px solid rgba(var(--ng-info-rgb), 0.3);
+}
+
+/* ============================================================
+   NEON ALERTS
+   ============================================================ */
+.ng-alert {
+  padding: 1rem 1.25rem;
+  border-radius: var(--ng-radius);
+  border-left: 3px solid;
+  background-color: var(--ng-surface);
+}
+
+.ng-alert-success {
+  border-left-color: var(--ng-success);
+  box-shadow: -4px 0 var(--ng-glow-spread) rgba(var(--ng-success-rgb), calc(var(--ng-glow-opacity) * 0.3));
+}
+
+.ng-alert-warning {
+  border-left-color: var(--ng-warning);
+  box-shadow: -4px 0 var(--ng-glow-spread) rgba(var(--ng-warning-rgb), calc(var(--ng-glow-opacity) * 0.3));
+}
+
+.ng-alert-danger {
+  border-left-color: var(--ng-danger);
+  box-shadow: -4px 0 var(--ng-glow-spread) rgba(var(--ng-danger-rgb), calc(var(--ng-glow-opacity) * 0.3));
+}
+
+.ng-alert-info {
+  border-left-color: var(--ng-info);
+  box-shadow: -4px 0 var(--ng-glow-spread) rgba(var(--ng-info-rgb), calc(var(--ng-glow-opacity) * 0.3));
+}
+
+/* ============================================================
+   NEON TABLE
+   ============================================================ */
+.ng-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.ng-table th {
+  background-color: var(--ng-surface-raised);
+  color: var(--ng-text-secondary);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--ng-border);
+}
+
+.ng-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--ng-border-subtle);
+  font-size: 0.875rem;
+}
+
+.ng-table tbody tr {
+  transition: background-color var(--ng-transition);
+}
+
+.ng-table tbody tr:hover {
+  background-color: var(--ng-surface);
+}
+
+/* ============================================================
+   NEON NAVBAR
+   ============================================================ */
+.ng-navbar {
+  background-color: var(--ng-surface);
+  border-bottom: 1px solid var(--ng-border-subtle);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(12px);
+  background-color: rgba(18, 18, 42, 0.85);
+}
+
+.ng-navbar-brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ng-text);
+  text-decoration: none;
+}
+
+.ng-nav-link {
+  color: var(--ng-text-secondary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--ng-radius);
+  transition: color var(--ng-transition), background-color var(--ng-transition);
+}
+
+.ng-nav-link:hover {
+  color: var(--ng-text);
+  background-color: var(--ng-surface-raised);
+}
+
+.ng-nav-link-active {
+  color: var(--ng-primary);
+  background-color: rgba(var(--ng-primary-rgb), 0.1);
+}
+
+/* ============================================================
+   NEON PROGRESS BAR
+   ============================================================ */
+.ng-progress {
+  width: 100%;
+  height: 0.5rem;
+  background-color: var(--ng-surface-raised);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.ng-progress-bar {
+  height: 100%;
+  border-radius: 9999px;
+  background: var(--ng-gradient);
+  box-shadow: 0 0 var(--ng-glow-spread) rgba(var(--ng-primary-rgb), var(--ng-glow-opacity));
+  transition: width 0.5s ease;
+}
+
+/* ============================================================
+   NEON SELECT (for theme switcher and forms)
+   ============================================================ */
+.ng-select {
+  background-color: var(--ng-surface);
+  color: var(--ng-text);
+  border: 1px solid var(--ng-border);
+  border-radius: var(--ng-radius);
+  padding: 0.4rem 2rem 0.4rem 0.75rem;
+  font-size: 0.8rem;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23a0a0cc' d='M2 4l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  transition: border-color var(--ng-transition), box-shadow var(--ng-transition-glow);
+}
+
+.ng-select:focus {
+  border-color: var(--ng-primary);
+  box-shadow: 0 0 var(--ng-glow-spread) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.3));
+}
+
+.ng-select option {
+  background-color: var(--ng-surface);
+  color: var(--ng-text);
+}
+
+/* ============================================================
+   NEON SWITCH / TOGGLE
+   ============================================================ */
+.ng-switch {
+  position: relative;
+  display: inline-block;
+  width: 2.75rem;
+  height: 1.5rem;
+}
+
+.ng-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.ng-switch-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: var(--ng-surface-raised);
+  border: 1px solid var(--ng-border);
+  border-radius: 9999px;
+  transition: background-color var(--ng-transition), box-shadow var(--ng-transition-glow);
+}
+
+.ng-switch-slider::before {
+  content: "";
+  position: absolute;
+  height: 1rem;
+  width: 1rem;
+  left: 0.2rem;
+  bottom: 0.19rem;
+  background-color: var(--ng-text-muted);
+  border-radius: 50%;
+  transition: transform var(--ng-transition), background-color var(--ng-transition);
+}
+
+.ng-switch input:checked + .ng-switch-slider {
+  background-color: rgba(var(--ng-primary-rgb), 0.2);
+  border-color: var(--ng-primary);
+  box-shadow: 0 0 var(--ng-glow-spread) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.4));
+}
+
+.ng-switch input:checked + .ng-switch-slider::before {
+  transform: translateX(1.25rem);
+  background-color: var(--ng-primary);
+}
+
+/* ============================================================
+   ANIMATIONS
+   Subtle pulse and gradient rotation.
+   Respects prefers-reduced-motion.
+   ============================================================ */
+@keyframes ng-pulse {
+  0%, 100% { opacity: var(--ng-glow-opacity); }
+  50% { opacity: calc(var(--ng-glow-opacity) * 1.4); }
+}
+
+@keyframes ng-gradient-rotate {
+  0% { --ng-gradient-angle: 0deg; }
+  100% { --ng-gradient-angle: 360deg; }
+}
+
+@property --ng-gradient-angle {
+  syntax: "<angle>";
+  initial-value: 135deg;
+  inherits: false;
+}
+
+.ng-animate-pulse {
+  animation: ng-pulse 2s ease-in-out infinite;
+}
+
+.ng-animate-gradient {
+  animation: ng-gradient-rotate 4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ng-animate-pulse,
+  .ng-animate-gradient {
+    animation: none;
+  }
+
+  .ng-btn,
+  .ng-input,
+  .ng-card,
+  .ng-card-raised,
+  .ng-nav-link,
+  .ng-border-glow::before,
+  .ng-border-glow::after,
+  .ng-switch-slider,
+  .ng-switch-slider::before {
+    transition: none;
+  }
+}
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+.ng-text-primary   { color: var(--ng-primary); }
+.ng-text-secondary { color: var(--ng-secondary); }
+.ng-text-accent    { color: var(--ng-accent); }
+.ng-text-success   { color: var(--ng-success); }
+.ng-text-warning   { color: var(--ng-warning); }
+.ng-text-danger    { color: var(--ng-danger); }
+.ng-text-info      { color: var(--ng-info); }
+.ng-text-muted     { color: var(--ng-text-muted); }
+
+.ng-bg-surface       { background-color: var(--ng-surface); }
+.ng-bg-surface-raised { background-color: var(--ng-surface-raised); }
+.ng-bg-overlay       { background-color: var(--ng-surface-overlay); }
+
+.ng-gradient-text {
+  background: var(--ng-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.ng-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--ng-border) 20%,
+    var(--ng-primary) 50%,
+    var(--ng-border) 80%,
+    transparent
+  );
+  opacity: 0.5;
+}

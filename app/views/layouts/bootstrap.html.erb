@@ -16,11 +16,14 @@
     <link rel="apple-touch-icon" href="/icon.png">
 
     <%= stylesheet_link_tag "bootstrap_custom", "data-turbo-track": "reload" %>
+    <link rel="stylesheet" href="<%= asset_path('neon_glow/tokens.css') %>">
+    <link rel="stylesheet" href="<%= asset_path('neon_glow/components.css') %>">
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mt-4">
+  <body class="neon-glow-body neon-rainbow neon-medium">
+    <%= render "shared/navbar" %>
+    <main class="container py-4">
       <%= yield %>
     </main>
   </body>

@@ -1,0 +1,282 @@
+<h1 class="ng-gradient-text" style="font-size: 2.25rem; font-weight: 800; margin-bottom: 0.5rem;">Bootstrap Kitchen Sink</h1>
+<p class="ng-text-muted" style="margin-bottom: 2.5rem;">Bootstrap components styled with the Neon Glow dark theme.</p>
+
+<%# ===== TYPOGRAPHY ===== %>
+<section class="mb-5">
+  <h2 style="color: var(--ng-primary);" class="h5 fw-bold mb-3">Typography</h2>
+  <div class="ng-card">
+    <h1 class="ng-gradient-text display-4 fw-bold">Display Heading</h1>
+    <h2 class="h2">Heading 2</h2>
+    <h3 class="h3">Heading 3</h3>
+    <h4 class="h4 text-secondary">Heading 4</h4>
+    <p>Body text. The quick brown fox jumps over the lazy dog. This paragraph demonstrates Bootstrap's default typography on the neon dark surface.</p>
+    <p class="text-secondary">Secondary text for less prominent content.</p>
+    <p class="ng-text-muted">Muted text for captions and metadata.</p>
+    <p class="ng-text-glow" style="color: var(--ng-primary); font-size: 1.5rem; font-weight: 700;">Glowing neon text</p>
+    <p><code style="background: var(--ng-surface-raised); color: var(--ng-accent); padding: 0.2rem 0.5rem; border-radius: 0.25rem;">inline code example</code></p>
+  </div>
+</section>
+
+<%# ===== BUTTONS ===== %>
+<section class="mb-5">
+  <h2 style="color: var(--ng-primary);" class="h5 fw-bold mb-3">Buttons</h2>
+  <div class="ng-card">
+    <p class="ng-text-muted small mb-2">Bootstrap Buttons (themed)</p>
+    <div class="d-flex flex-wrap gap-2 mb-3">
+      <button class="btn btn-primary">Primary</button>
+      <button class="btn btn-secondary">Secondary</button>
+      <button class="btn btn-success">Success</button>
+      <button class="btn btn-warning">Warning</button>
+      <button class="btn btn-danger">Danger</button>
+      <button class="btn btn-info">Info</button>
+    </div>
+    <p class="ng-text-muted small mb-2">Outline Buttons</p>
+    <div class="d-flex flex-wrap gap-2 mb-3">
+      <button class="btn btn-outline-primary">Primary</button>
+      <button class="btn btn-outline-secondary">Secondary</button>
+      <button class="btn btn-outline-success">Success</button>
+      <button class="btn btn-outline-danger">Danger</button>
+    </div>
+    <p class="ng-text-muted small mb-2">Neon Glow Buttons</p>
+    <div class="d-flex flex-wrap gap-2 mb-3">
+      <button class="ng-btn ng-btn-primary">Neon Primary</button>
+      <button class="ng-btn ng-btn-secondary">Neon Secondary</button>
+      <button class="ng-btn ng-btn-outline">Neon Outline</button>
+      <button class="ng-btn ng-btn-ghost">Neon Ghost</button>
+    </div>
+    <p class="ng-text-muted small mb-2">Sizes</p>
+    <div class="d-flex flex-wrap gap-2 align-items-center">
+      <button class="btn btn-primary btn-sm">Small</button>
+      <button class="btn btn-primary">Default</button>
+      <button class="btn btn-primary btn-lg">Large</button>
+    </div>
+  </div>
+</section>
+
+<%# ===== BADGES ===== %>
+<section class="mb-5">
+  <h2 style="color: var(--ng-primary);" class="h5 fw-bold mb-3">Badges</h2>
+  <div class="ng-card">
+    <p class="ng-text-muted small mb-2">Bootstrap Badges</p>
+    <div class="d-flex flex-wrap gap-2 mb-3">
+      <span class="badge bg-primary">Primary</span>
+      <span class="badge bg-secondary">Secondary</span>
+      <span class="badge bg-success">Success</span>
+      <span class="badge bg-warning text-dark">Warning</span>
+      <span class="badge bg-danger">Danger</span>
+      <span class="badge bg-info">Info</span>
+    </div>
+    <p class="ng-text-muted small mb-2">Neon Glow Badges</p>
+    <div class="d-flex flex-wrap gap-2">
+      <span class="ng-badge ng-badge-primary">Primary</span>
+      <span class="ng-badge ng-badge-secondary">Secondary</span>
+      <span class="ng-badge ng-badge-success">Success</span>
+      <span class="ng-badge ng-badge-warning">Warning</span>
+      <span class="ng-badge ng-badge-danger">Danger</span>
+      <span class="ng-badge ng-badge-info">Info</span>
+    </div>
+  </div>
+</section>
+
+<%# ===== FORMS ===== %>
+<section class="mb-5">
+  <h2 style="color: var(--ng-primary);" class="h5 fw-bold mb-3">Forms</h2>
+  <div class="ng-card" style="max-width: 32rem;">
+    <form>
+      <div class="mb-3">
+        <label class="form-label small fw-semibold" style="color: var(--ng-text-secondary);">Email</label>
+        <input type="email" class="form-control" placeholder="you@example.com">
+      </div>
+      <div class="mb-3">
+        <label class="form-label small fw-semibold" style="color: var(--ng-text-secondary);">Password</label>
+        <input type="password" class="form-control" placeholder="Enter password">
+      </div>
+      <div class="mb-3">
+        <label class="form-label small fw-semibold" style="color: var(--ng-text-secondary);">Select</label>
+        <select class="form-select">
+          <option>Option 1</option>
+          <option>Option 2</option>
+          <option>Option 3</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label small fw-semibold" style="color: var(--ng-text-secondary);">Textarea</label>
+        <textarea class="form-control" rows="3" placeholder="Write something..."></textarea>
+      </div>
+      <div class="mb-3 form-check form-switch">
+        <input class="form-check-input" type="checkbox" checked>
+        <label class="form-check-label" style="color: var(--ng-text-secondary);">Enable notifications</label>
+      </div>
+      <div class="mb-3">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" checked>
+          <label class="form-check-label" style="color: var(--ng-text-secondary);">Checkbox option</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="radioGroup" checked>
+          <label class="form-check-label" style="color: var(--ng-text-secondary);">Radio option 1</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="radioGroup">
+          <label class="form-check-label" style="color: var(--ng-text-secondary);">Radio option 2</label>
+        </div>
+      </div>
+      <button type="button" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</section>
+
+<%# ===== ALERTS ===== %>
+<section class="mb-5">
+  <h2 style="color: var(--ng-primary);" class="h5 fw-bold mb-3">Alerts</h2>
+  <div class="alert alert-success">
+    <strong>Success!</strong> Your changes have been saved.
+  </div>
+  <div class="alert alert-warning">
+    <strong>Warning:</strong> Your session will expire in 5 minutes.
+  </div>
+  <div class="alert alert-danger">
+    <strong>Error!</strong> Something went wrong. Please try again.
+  </div>
+  <div class="alert alert-info">
+    <strong>Info:</strong> A new version is available.
+  </div>
+  <p class="ng-text-muted small mt-3 mb-2">Neon Glow Alerts</p>
+  <div class="ng-alert ng-alert-success mb-2">
+    <strong style="color: var(--ng-success);">Success!</strong>
+    <span style="color: var(--ng-text-secondary);"> Neon glow style alert.</span>
+  </div>
+  <div class="ng-alert ng-alert-danger">
+    <strong style="color: var(--ng-danger);">Error!</strong>
+    <span style="color: var(--ng-text-secondary);"> Neon glow style alert.</span>
+  </div>
+</section>
+
+<%# ===== CARDS ===== %>
+<section class="mb-5">
+  <h2 style="color: var(--ng-primary);" class="h5 fw-bold mb-3">Cards</h2>
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Bootstrap Card</h5>
+          <p class="card-text" style="color: var(--ng-text-muted);">A standard Bootstrap card with the neon dark theme applied via SCSS variables.</p>
+          <button class="btn btn-primary btn-sm">Action</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="ng-card ng-glow-secondary h-100">
+        <h5 style="color: var(--ng-text);">Neon Card + Glow</h5>
+        <p style="color: var(--ng-text-muted); font-size: 0.85rem;">A neon glow card with secondary glow effect.</p>
+        <button class="ng-btn ng-btn-secondary" style="font-size: 0.8rem;">Action</button>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="ng-card ng-border-glow ng-animate-gradient h-100">
+        <h5 style="color: var(--ng-text);">Animated Border</h5>
+        <p style="color: var(--ng-text-muted); font-size: 0.85rem;">Gradient border with rotation animation.</p>
+        <button class="ng-btn ng-btn-primary" style="font-size: 0.8rem;">Action</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%# ===== TABLE ===== %>
+<section class="mb-5">
+  <h2 style="color: var(--ng-primary);" class="h5 fw-bold mb-3">Table</h2>
+  <div class="ng-card" style="padding: 0; overflow: hidden;">
+    <table class="table table-hover mb-0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ada Lovelace</td>
+          <td class="text-secondary">Engineer</td>
+          <td><span class="badge bg-success">Active</span></td>
+          <td><button class="btn btn-outline-secondary btn-sm">Edit</button></td>
+        </tr>
+        <tr>
+          <td>Grace Hopper</td>
+          <td class="text-secondary">Admiral</td>
+          <td><span class="badge bg-primary">Lead</span></td>
+          <td><button class="btn btn-outline-secondary btn-sm">Edit</button></td>
+        </tr>
+        <tr>
+          <td>Margaret Hamilton</td>
+          <td class="text-secondary">Director</td>
+          <td><span class="badge bg-warning text-dark">Away</span></td>
+          <td><button class="btn btn-outline-secondary btn-sm">Edit</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<%# ===== PROGRESS ===== %>
+<section class="mb-5">
+  <h2 style="color: var(--ng-primary);" class="h5 fw-bold mb-3">Progress Bars</h2>
+  <div class="ng-card">
+    <p class="ng-text-muted small mb-2">Bootstrap Progress</p>
+    <div class="progress mb-3" style="height: 0.5rem; background-color: var(--ng-surface-raised);">
+      <div class="progress-bar" style="width: 45%;"></div>
+    </div>
+    <p class="ng-text-muted small mb-2">Neon Glow Progress</p>
+    <div class="ng-progress mb-2"><div class="ng-progress-bar" style="width: 45%;"></div></div>
+    <div class="ng-progress mb-2"><div class="ng-progress-bar" style="width: 75%;"></div></div>
+  </div>
+</section>
+
+<%# ===== PAGINATION ===== %>
+<section class="mb-5">
+  <h2 style="color: var(--ng-primary);" class="h5 fw-bold mb-3">Pagination</h2>
+  <nav>
+    <ul class="pagination">
+      <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+  </nav>
+</section>
+
+<%# ===== BREADCRUMB ===== %>
+<section class="mb-5">
+  <h2 style="color: var(--ng-primary);" class="h5 fw-bold mb-3">Breadcrumb</h2>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#" style="color: var(--ng-primary);">Home</a></li>
+      <li class="breadcrumb-item"><a href="#" style="color: var(--ng-primary);">Library</a></li>
+      <li class="breadcrumb-item active" aria-current="page" style="color: var(--ng-text-muted);">Data</li>
+    </ol>
+  </nav>
+</section>
+
+<%# ===== LIST GROUP ===== %>
+<section class="mb-5">
+  <h2 style="color: var(--ng-primary);" class="h5 fw-bold mb-3">List Group</h2>
+  <ul class="list-group" style="max-width: 24rem;">
+    <li class="list-group-item d-flex justify-content-between align-items-center" style="background: var(--ng-surface); border-color: var(--ng-border-subtle); color: var(--ng-text);">
+      Messages <span class="badge bg-primary rounded-pill">14</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center" style="background: var(--ng-surface); border-color: var(--ng-border-subtle); color: var(--ng-text);">
+      Notifications <span class="badge bg-danger rounded-pill">3</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center" style="background: var(--ng-surface); border-color: var(--ng-border-subtle); color: var(--ng-text);">
+      Updates <span class="badge bg-success rounded-pill">7</span>
+    </li>
+  </ul>
+</section>
+
+<hr class="ng-divider">
+
+<p class="text-center mt-4 mb-5" style="color: var(--ng-text-muted); font-size: 0.8rem;">
+  Designed by <strong style="color: var(--ng-text-secondary);">Claude</strong> (Anthropic) &middot; Neon Glow
+</p>

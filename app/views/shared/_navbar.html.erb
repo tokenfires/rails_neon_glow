@@ -1,0 +1,25 @@
+<nav class="ng-navbar" data-controller="theme-switcher">
+  <div style="display: flex; align-items: center; gap: 1.5rem;">
+    <a href="<%= root_path %>" class="ng-navbar-brand ng-gradient-text">Neon Glow</a>
+    <div style="display: flex; gap: 0.25rem;">
+      <a href="<%= root_path %>" class="ng-nav-link <%= 'ng-nav-link-active' if current_page?(root_path) %>">Home</a>
+      <a href="<%= tailwind_kitchen_sink_path %>" class="ng-nav-link <%= 'ng-nav-link-active' if current_page?(tailwind_kitchen_sink_path) %>">Tailwind</a>
+      <a href="<%= bootstrap_kitchen_sink_path %>" class="ng-nav-link <%= 'ng-nav-link-active' if current_page?(bootstrap_kitchen_sink_path) %>">Bootstrap</a>
+    </div>
+  </div>
+  <div style="display: flex; align-items: center; gap: 0.75rem;">
+    <label class="ng-text-muted" style="font-size: 0.75rem;">Palette</label>
+    <select class="ng-select" data-theme-switcher-target="palette" data-action="change->theme-switcher#changePalette">
+      <option value="neon-rainbow">Rainbow</option>
+      <option value="neon-unicorn">Unicorn</option>
+      <option value="neon-cinematic">Cinematic</option>
+      <option value="neon-pink">Pink</option>
+    </select>
+    <label class="ng-text-muted" style="font-size: 0.75rem;">Intensity</label>
+    <select class="ng-select" data-theme-switcher-target="intensity" data-action="change->theme-switcher#changeIntensity">
+      <option value="neon-subtle">Subtle</option>
+      <option value="neon-medium">Medium</option>
+      <option value="neon-intense">Intense</option>
+    </select>
+  </div>
+</nav>
