@@ -557,15 +557,35 @@
 }
 
 .ng-animate-gradient {
+  position: relative;
   overflow: hidden;
+  z-index: 0;
 }
 
-.ng-animate-gradient::before,
+.ng-animate-gradient::before {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  inset: -100%;
+  background: conic-gradient(
+    var(--ng-primary),
+    var(--ng-secondary),
+    var(--ng-accent),
+    var(--ng-success),
+    var(--ng-info),
+    var(--ng-primary)
+  );
+  animation: ng-gradient-rotate 6s linear infinite;
+  opacity: var(--ng-border-glow-opacity);
+}
+
 .ng-animate-gradient::after {
-  animation: ng-gradient-rotate 8s linear infinite;
-  transform-origin: center;
-  inset: -50%;
-  border-radius: 0;
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 2px;
+  border-radius: inherit;
+  background: var(--ng-surface);
 }
 
 @media (prefers-reduced-motion: reduce) {
