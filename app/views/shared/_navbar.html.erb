@@ -34,7 +34,18 @@
       <option value="neon-intense">Intense</option>
     </select>
     <div data-theme-switcher-target="vfdHueGroup" style="display: none; align-items: center; gap: 0.5rem;">
-      <label class="ng-text-muted" style="font-size: 0.75rem;">VFD Hue</label>
+      <label class="ng-text-muted" style="font-size: 0.75rem;">VFD</label>
+      <select class="ng-select" data-theme-switcher-target="vfdPreset" data-action="change->theme-switcher#changeVfdPreset">
+        <option value="neon-vfd-cyan">Cyan</option>
+        <option value="neon-vfd-green">Green</option>
+        <option value="neon-vfd-amber">Amber</option>
+        <option value="neon-vfd-red">Red</option>
+        <option value="neon-vfd-yellow">Yellow</option>
+        <option value="neon-vfd-blue">Blue</option>
+        <option value="neon-vfd-purple">Purple</option>
+        <option value="neon-vfd-pink">Pink</option>
+        <option value="custom">Custom</option>
+      </select>
       <input type="range" min="0" max="360" value="170" data-theme-switcher-target="vfdHue" data-action="input->theme-switcher#changeVfdHue" style="width: 5rem; accent-color: var(--ng-primary);">
     </div>
   </div>

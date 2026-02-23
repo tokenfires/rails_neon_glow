@@ -464,6 +464,18 @@
   --ng-text-muted:     hsl(var(--ng-vfd-hue), 25%, 35%);
 }
 
+/* VFD hue presets -- use alongside .neon-vfd
+   Example: <body class="neon-glow-body neon-vfd neon-vfd-amber neon-medium">
+   Or set any hue directly: style="--ng-vfd-hue: 45" */
+.neon-vfd-red    { --ng-vfd-hue: 0; }
+.neon-vfd-amber  { --ng-vfd-hue: 30; }
+.neon-vfd-yellow { --ng-vfd-hue: 55; }
+.neon-vfd-green  { --ng-vfd-hue: 120; }
+.neon-vfd-cyan   { --ng-vfd-hue: 170; }
+.neon-vfd-blue   { --ng-vfd-hue: 210; }
+.neon-vfd-purple { --ng-vfd-hue: 270; }
+.neon-vfd-pink   { --ng-vfd-hue: 330; }
+
 /* ============================================================
    INTENSITY: SUBTLE
    Gentle glow. Professional. Easy on the eyes.

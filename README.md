@@ -8,24 +8,78 @@
   <img src="docs/gifs/home_800x560.gif" alt="Neon Glow -- palette switching demo">
 </p>
 
+<!-- VFD small-multiples placeholder: add screenshots here -->
+<!-- <p align="center">
+  <img src="docs/screenshots/vfd-amber.png" alt="VFD Amber" width="19%">
+  <img src="docs/screenshots/vfd-green.png" alt="VFD Green" width="19%">
+  <img src="docs/screenshots/vfd-cyan.png" alt="VFD Cyan" width="19%">
+  <img src="docs/screenshots/vfd-red.png" alt="VFD Red" width="19%">
+  <img src="docs/screenshots/vfd-purple.png" alt="VFD Purple" width="19%">
+</p> -->
+
 ---
 
 ## Palettes
 
-| Palette | Vibe | Colors |
-|---------|------|--------|
-| **Rainbow Glow** | Full-spectrum neon. Arcade cabinets and light shows. | Red, cyan, yellow, green, purple, pink |
-| **Unicorn Glow** | Pastel rainbow. Dreamy, soft, ethereal. | Lavender, mint, peach, soft rose |
-| **Cinematic Glow** | Electric blue + amber. The Blade Runner palette. | Blue, orange, gold |
-| **Pink Glow** | Hot pink + magenta. A power color for everyone. | Pink, magenta, rose, purple |
+### Classic
+
+| Class | Palette | Vibe |
+|-------|---------|------|
+| `neon-rainbow` | **Rainbow Glow** | Full-spectrum neon. Arcade cabinets and light shows. |
+| `neon-unicorn` | **Unicorn Glow** | Pastel rainbow. Dreamy, soft, ethereal. |
+| `neon-cinematic` | **Cinematic Glow** | Electric blue + amber. The Blade Runner palette. |
+| `neon-pink` | **Pink Glow** | Hot pink + magenta. A power color for everyone. |
+
+### Decades
+
+Each decade palette has its own themed dark background for visual identity.
+
+| Class | Palette | Vibe | Background |
+|-------|---------|------|------------|
+| `neon-retrowave` | **80's Retrowave** | Synthwave sunsets, neon grid lines, Outrun aesthetic. | Deep purple-black |
+| `neon-grunge` | **90's Grunge** | Flannel and feedback. Raw amber buzz on dirty surfaces. | Oily brown-black |
+| `neon-y2k` | **2000's Y2K** | Frosted glass, chrome, bubblegum iridescence. | Cool steel-grey |
+| `neon-social` | **2010's Social** | Platform colors. Notification pings and viral moments. | Deep phone-screen blue |
+| `neon-cyberpunk` | **2020's Cyberpunk** | Toxic neon against corporate steel. Glitch aesthetic. | Green-tinged black |
+
+### Hardware
+
+| Class | Palette | Vibe |
+|-------|---------|------|
+| `neon-vfd` | **VFD Display** | Vacuum fluorescent display. Monochromatic phosphor glow with adjustable hue. |
+
+#### VFD Hue Presets
+
+Use a preset class alongside `neon-vfd`, or set any hue directly:
+
+```html
+<!-- Preset -->
+<body class="neon-glow-body neon-vfd neon-vfd-amber neon-medium">
+
+<!-- Custom hue -->
+<body class="neon-glow-body neon-vfd neon-medium" style="--ng-vfd-hue: 45">
+```
+
+| Class | Hue | Look |
+|-------|-----|------|
+| `neon-vfd-red` | 0 | Alarm clock, emergency readout |
+| `neon-vfd-amber` | 30 | Classic VCR, stereo receiver |
+| `neon-vfd-yellow` | 55 | Taxi meter, industrial gauge |
+| `neon-vfd-green` | 120 | Terminal, Pip-Boy, old-school CRT |
+| `neon-vfd-cyan` | 170 | Default. The iconic VFD blue-green. |
+| `neon-vfd-blue` | 210 | Cool instrument panel |
+| `neon-vfd-purple` | 270 | Sci-fi readout, doesn't exist in nature |
+| `neon-vfd-pink` | 330 | Neon sign through rain |
+
+---
 
 ## Intensity Levels
 
-| Level | Description |
-|-------|-------------|
-| **Subtle** | Gentle glow. Professional. Easy on the eyes. |
-| **Medium** | Balanced glow. The sweet spot for most apps. |
-| **Intense** | Maximum glow. Over the top. The WOW factor. |
+| Class | Level | Description |
+|-------|-------|-------------|
+| `neon-subtle` | **Subtle** | Gentle glow. Professional. Easy on the eyes. |
+| `neon-medium` | **Medium** | Balanced glow. The sweet spot for most apps. |
+| `neon-intense` | **Intense** | Maximum glow. Over the top. The WOW factor. |
 
 ---
 
@@ -35,9 +89,11 @@
 - **Framework Agnostic Core** -- The token system (`tokens.css` + `components.css`) works with any CSS framework or standalone.
 - **Tailwind CSS Integration** -- Import the tokens into your Tailwind setup and use neon glow alongside Tailwind utilities.
 - **Bootstrap Integration** -- Dark-themed Bootstrap via SCSS variable overrides, plus neon glow component classes.
+- **Decade-Specific Backgrounds** -- Each decade palette has its own dark surface system for unique visual identity.
+- **VFD Hue System** -- The VFD Display palette is fully monochromatic and adjustable via CSS custom property or preset classes.
 - **Glow Effects** -- Box shadows, text shadows, gradient borders, and animated gradient rotation.
 - **Accessibility** -- Respects `prefers-reduced-motion` to disable animations for users who need it.
-- **Theme Switcher** -- A simple dropdown-based palette and intensity switcher using Stimulus.js.
+- **Theme Switcher** -- Dropdown-based palette, intensity, and VFD hue switcher using Stimulus.js.
 
 ---
 
@@ -48,8 +104,8 @@
 Copy the two core CSS files into your project:
 
 ```
-app/assets/stylesheets/neon_glow/tokens.css
-app/assets/stylesheets/neon_glow/components.css
+neon_glow/tokens.css
+neon_glow/components.css
 ```
 
 Link them in your HTML:
@@ -88,15 +144,24 @@ Override Bootstrap's SCSS variables with the neon dark surface colors (see `boot
 Add one of these to `<body>` to set the color palette:
 
 ```
-neon-rainbow    -- Full spectrum neon
-neon-unicorn    -- Pastel rainbow
-neon-cinematic  -- Blue + amber (movie poster)
-neon-pink       -- Hot pink + magenta
+Classic:
+  neon-rainbow     -- Full spectrum neon
+  neon-unicorn     -- Pastel rainbow
+  neon-cinematic   -- Blue + amber (movie poster)
+  neon-pink        -- Hot pink + magenta
+
+Decades:
+  neon-retrowave   -- 80's synthwave sunset
+  neon-grunge      -- 90's dive bar amber
+  neon-y2k         -- 2000's chrome + bubblegum
+  neon-social      -- 2010's platform colors
+  neon-cyberpunk   -- 2020's toxic neon
+
+Hardware:
+  neon-vfd         -- VFD phosphor display (add neon-vfd-* for hue)
 ```
 
 ### Intensity Classes
-
-Add one of these to `<body>` to control glow strength:
 
 ```
 neon-subtle   -- Gentle, professional
@@ -145,7 +210,7 @@ var(--ng-success)        /* Success green */
 var(--ng-warning)        /* Warning orange */
 var(--ng-danger)         /* Danger red */
 var(--ng-info)           /* Info purple */
-var(--ng-bg)             /* Background */
+var(--ng-bg)             /* Background (themed per palette) */
 var(--ng-surface)        /* Card/panel surface */
 var(--ng-surface-raised) /* Elevated surface */
 var(--ng-text)           /* Primary text */
@@ -154,6 +219,7 @@ var(--ng-text-muted)     /* Muted text */
 var(--ng-gradient)       /* Full gradient */
 var(--ng-glow-blur)      /* Current glow blur radius */
 var(--ng-glow-opacity)   /* Current glow opacity */
+var(--ng-vfd-hue)        /* VFD hue (0-360, VFD palette only) */
 ```
 
 ### JavaScript Theme Switching
@@ -161,13 +227,21 @@ var(--ng-glow-opacity)   /* Current glow opacity */
 Switch palettes and intensities at runtime by swapping classes on `<body>`:
 
 ```javascript
-// Switch to Pink palette
-document.body.classList.remove("neon-rainbow", "neon-unicorn", "neon-cinematic", "neon-pink");
-document.body.classList.add("neon-pink");
+// Switch to Cyberpunk palette
+const palettes = [
+  "neon-rainbow", "neon-unicorn", "neon-cinematic", "neon-pink",
+  "neon-retrowave", "neon-grunge", "neon-y2k", "neon-social",
+  "neon-cyberpunk", "neon-vfd"
+];
+palettes.forEach(p => document.body.classList.remove(p));
+document.body.classList.add("neon-cyberpunk");
 
 // Switch to Intense glow
 document.body.classList.remove("neon-subtle", "neon-medium", "neon-intense");
 document.body.classList.add("neon-intense");
+
+// Set VFD hue (when using neon-vfd palette)
+document.body.style.setProperty("--ng-vfd-hue", "30"); // amber
 ```
 
 ---
@@ -176,7 +250,7 @@ document.body.classList.add("neon-intense");
 
 This repository includes a Rails 8.1.2 application with live demos:
 
-- **Home** (`/`) -- Overview with palette cards
+- **Home** (`/`) -- Overview with palette cards organized by category
 - **Tailwind Kitchen Sink** (`/tailwind`) -- All components styled with Tailwind + Neon Glow
 - **Bootstrap Kitchen Sink** (`/bootstrap`) -- All components styled with Bootstrap + Neon Glow
 
@@ -212,7 +286,7 @@ Visit `http://localhost:5000` and use the palette/intensity dropdowns in the nav
 
 The Neon Glow design system was created through an AI-human collaboration. Claude designed the color palettes, glow effects, component styles, and the overall dark neon aesthetic. TokenFires provided creative direction, reference materials, and review.
 
-The design draws inspiration from neon signage, arcade aesthetics, sci-fi movie palettes, and the SVG icon glow style from the [EmberHearth](https://github.com/tokenfires/emberhearth) project.
+The design draws inspiration from neon signage, arcade aesthetics, sci-fi movie palettes, retro hardware displays, and the SVG icon glow style from the [EmberHearth](https://github.com/tokenfires/emberhearth) project.
 
 ---
 
@@ -237,7 +311,7 @@ Use Neon Glow in your own projects:
 
 ## Screenshots
 
-### Home -- All 4 Palettes (Intense)
+### Classic Palettes
 
 <p align="center">
   <img src="docs/screenshots/home-rainbow.png" alt="Rainbow Palette" width="48%">
