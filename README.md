@@ -182,9 +182,10 @@ This repository includes a Rails 8.1.2 application with live demos:
 git clone https://github.com/tokenfires/rails_neon_glow.git
 cd rails_neon_glow
 bundle install
-bin/rails db:create
 bin/dev
 ```
+
+No database setup required -- the app uses SQLite, which is included in the repo.
 
 Visit `http://localhost:5000` and use the palette/intensity dropdowns in the navbar.
 
@@ -192,8 +193,8 @@ Visit `http://localhost:5000` and use the palette/intensity dropdowns in the nav
 
 ## Tech Stack
 
-- Ruby 3.4.7 / Rails 8.1.2
-- PostgreSQL
+- Ruby 4.0.0 / Rails 8.1.2
+- SQLite (zero-config, included)
 - Tailwind CSS 4.2 (via tailwindcss-rails)
 - Bootstrap 5.3 (via dartsass-rails)
 - Hotwire (Turbo + Stimulus)
