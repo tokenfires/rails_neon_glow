@@ -4,6 +4,14 @@
 
 4 color palettes. 3 intensity levels. Fully open source.
 
+<!-- Replace with your animated GIF when ready -->
+<!-- ![Neon Glow Demo](docs/screenshots/neon-glow-demo.gif) -->
+
+<p align="center">
+  <img src="docs/screenshots/home-rainbow.png" alt="Rainbow Palette" width="48%">
+  <img src="docs/screenshots/home-cinematic.png" alt="Cinematic Palette" width="48%">
+</p>
+
 ---
 
 ## Palettes
@@ -228,6 +236,28 @@ Use Neon Glow in your own projects:
 |---------|---------|
 | **Ruby gem** | `gem "neon_glow"` -- [neon_glow_gem](https://github.com/tokenfires/neon_glow_gem) |
 | **npm** | `npm install neon-glow-css` -- [neon_glow_npm](https://github.com/tokenfires/neon_glow_npm) |
+
+---
+
+## Screenshots
+
+### Home -- All 4 Palettes (Intense)
+
+<p align="center">
+  <img src="docs/screenshots/home-rainbow.png" alt="Rainbow Palette" width="48%">
+  <img src="docs/screenshots/home-unicorn.png" alt="Unicorn Palette" width="48%">
+</p>
+<p align="center">
+  <img src="docs/screenshots/home-cinematic.png" alt="Cinematic Palette" width="48%">
+  <img src="docs/screenshots/home-pink.png" alt="Pink Palette" width="48%">
+</p>
+
+### Kitchen Sink -- Components
+
+<p align="center">
+  <img src="docs/screenshots/tailwind-swatches-rainbow.png" alt="Tailwind Color Swatches" width="48%">
+  <img src="docs/screenshots/bootstrap-cinematic.png" alt="Bootstrap Cinematic" width="48%">
+</p>
 
 ---
 
