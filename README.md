@@ -220,6 +220,17 @@ Use it in any project, commercial or personal. Attribution appreciated but not r
 
 ---
 
+## Packages
+
+Use Neon Glow in your own projects:
+
+| Package | Install |
+|---------|---------|
+| **Ruby gem** | `gem "neon_glow"` -- [neon_glow_gem](https://github.com/tokenfires/neon_glow_gem) |
+| **npm** | `npm install neon-glow-css` -- [neon_glow_npm](https://github.com/tokenfires/neon_glow_npm) |
+
+---
+
 ## Contributing
 
 Contributions welcome! Whether it's new palettes, component styles, bug fixes, or documentation improvements.
