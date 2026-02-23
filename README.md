@@ -323,6 +323,33 @@ Use Neon Glow in your own projects:
   <img src="docs/screenshots/home-pink.png" alt="Pink Palette" width="48%">
 </p>
 
+### Decades
+
+#### 80's Retrowave
+<p align="center">
+  <img src="docs/screenshots/decades-80s-retrowave.png" alt="80's Retrowave" width="80%">
+</p>
+
+#### 90's Grunge
+<p align="center">
+  <img src="docs/screenshots/decades-90s-grunge.png" alt="90's Grunge" width="80%">
+</p>
+
+#### 2000's Y2K
+<p align="center">
+  <img src="docs/screenshots/decades-2000s-y2k.png" alt="2000's Y2K" width="80%">
+</p>
+
+#### 2010's Social
+<p align="center">
+  <img src="docs/screenshots/decades-2010s-social.png" alt="2010's Social" width="80%">
+</p>
+
+#### 2020's Cyberpunk
+<p align="center">
+  <img src="docs/screenshots/decades-2020s-cyberpunk.png" alt="2020's Cyberpunk" width="80%">
+</p>
+
 ### Kitchen Sink -- Components
 
 <p align="center">
