@@ -557,44 +557,34 @@
 }
 
 .ng-animate-gradient {
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--ng-radius-lg);
-  border: none;
-  padding: 0;
-  background: transparent;
-  isolation: isolate;
+  animation: ng-glow-cycle 6s ease-in-out infinite;
 }
 
-.ng-animate-gradient::before {
-  content: "";
-  position: absolute;
-  inset: -100%;
-  z-index: 1;
-  background: conic-gradient(
-    var(--ng-primary),
-    var(--ng-secondary),
-    var(--ng-accent),
-    var(--ng-success),
-    var(--ng-info),
-    var(--ng-primary)
-  );
-  animation: ng-gradient-rotate 6s linear infinite;
-  opacity: var(--ng-border-glow-opacity);
-}
-
-.ng-animate-gradient::after {
-  content: "";
-  position: absolute;
-  inset: 2px;
-  z-index: 2;
-  border-radius: calc(var(--ng-radius-lg) - 2px);
-  background: var(--ng-surface);
-}
-
-.ng-animate-gradient > * {
-  position: relative;
-  z-index: 3;
+@keyframes ng-glow-cycle {
+  0%, 100% {
+    border-color: var(--ng-primary);
+    box-shadow:
+      0 0 var(--ng-glow-blur) rgba(var(--ng-primary-rgb), var(--ng-glow-opacity)),
+      0 0 calc(var(--ng-glow-blur) * 2) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.3));
+  }
+  25% {
+    border-color: var(--ng-secondary);
+    box-shadow:
+      0 0 var(--ng-glow-blur) rgba(var(--ng-secondary-rgb), var(--ng-glow-opacity)),
+      0 0 calc(var(--ng-glow-blur) * 2) rgba(var(--ng-secondary-rgb), calc(var(--ng-glow-opacity) * 0.3));
+  }
+  50% {
+    border-color: var(--ng-accent);
+    box-shadow:
+      0 0 var(--ng-glow-blur) rgba(var(--ng-accent-rgb), var(--ng-glow-opacity)),
+      0 0 calc(var(--ng-glow-blur) * 2) rgba(var(--ng-accent-rgb), calc(var(--ng-glow-opacity) * 0.3));
+  }
+  75% {
+    border-color: var(--ng-info);
+    box-shadow:
+      0 0 var(--ng-glow-blur) rgba(var(--ng-info-rgb), var(--ng-glow-opacity)),
+      0 0 calc(var(--ng-glow-blur) * 2) rgba(var(--ng-info-rgb), calc(var(--ng-glow-opacity) * 0.3));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
