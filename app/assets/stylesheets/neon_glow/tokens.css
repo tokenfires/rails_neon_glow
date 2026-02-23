@@ -374,33 +374,33 @@
    The future arrived and it's beautiful and broken.
    ============================================================ */
 .neon-cyberpunk {
-  --ng-primary:       #39ff14;
-  --ng-primary-rgb:   57, 255, 20;
+  --ng-primary:       #30d420;
+  --ng-primary-rgb:   48, 212, 32;
   --ng-secondary:     #ff003c;
   --ng-secondary-rgb: 255, 0, 60;
-  --ng-accent:        #ffe600;
-  --ng-accent-rgb:    255, 230, 0;
-  --ng-success:       #00ff9d;
-  --ng-success-rgb:   0, 255, 157;
-  --ng-warning:       #ffe600;
-  --ng-warning-rgb:   255, 230, 0;
+  --ng-accent:        #e0cc00;
+  --ng-accent-rgb:    224, 204, 0;
+  --ng-success:       #20cc80;
+  --ng-success-rgb:   32, 204, 128;
+  --ng-warning:       #e0cc00;
+  --ng-warning-rgb:   224, 204, 0;
   --ng-danger:        #ff003c;
   --ng-danger-rgb:    255, 0, 60;
-  --ng-info:          #0ff;
-  --ng-info-rgb:      0, 255, 255;
+  --ng-info:          #00ccdd;
+  --ng-info-rgb:      0, 204, 221;
 
   --ng-gradient: linear-gradient(
     135deg,
-    #39ff14 0%,
-    #00ffff 25%,
+    #30d420 0%,
+    #00ccdd 25%,
     #ff003c 50%,
-    #ffe600 75%,
-    #39ff14 100%
+    #e0cc00 75%,
+    #30d420 100%
   );
 
   --ng-gradient-border: linear-gradient(
     var(--ng-gradient-angle, 135deg),
-    #39ff14, #0ff, #ff003c, #ffe600
+    #30d420, #00ccdd, #ff003c, #e0cc00
   );
 
   --ng-bg:             #040806;
