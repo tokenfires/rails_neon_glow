@@ -462,6 +462,11 @@
   --ng-text:           hsl(var(--ng-vfd-hue), 60%, 80%);
   --ng-text-secondary: hsl(var(--ng-vfd-hue), 40%, 55%);
   --ng-text-muted:     hsl(var(--ng-vfd-hue), 25%, 35%);
+
+  --ng-radius-sm: 0.125rem;
+  --ng-radius:    0.125rem;
+  --ng-radius-lg: 0.1875rem;
+  --ng-radius-xl: 0.25rem;
 }
 
 /* VFD hue presets -- use alongside .neon-vfd
