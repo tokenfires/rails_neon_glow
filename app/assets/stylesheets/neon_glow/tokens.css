@@ -76,7 +76,7 @@
   );
 
   --ng-gradient-border: linear-gradient(
-    var(--ng-gradient-angle, 135deg),
+    var(--ng-border-angle, 135deg),
     #ff3333, #ff8800, #ffdd00, #00ff88, #00e5ff, #8855ff, #ff2d95
   );
 }
@@ -114,7 +114,7 @@
   );
 
   --ng-gradient-border: linear-gradient(
-    var(--ng-gradient-angle, 135deg),
+    var(--ng-border-angle, 135deg),
     #ffa1a1, #ffc4a1, #ffe4a1, #a1ffcc, #7fffe0, #c4a1ff, #ffb3d9
   );
 }
@@ -150,7 +150,7 @@
   );
 
   --ng-gradient-border: linear-gradient(
-    var(--ng-gradient-angle, 135deg),
+    var(--ng-border-angle, 135deg),
     #0088ff, #44aaff, #ff8800, #ffd700
   );
 }
@@ -186,7 +186,7 @@
   );
 
   --ng-gradient-border: linear-gradient(
-    var(--ng-gradient-angle, 135deg),
+    var(--ng-border-angle, 135deg),
     #ff2d95, #ff00ff, #cc44ff, #ffb3d9
   );
 }
@@ -222,7 +222,7 @@
   );
 
   --ng-gradient-border: linear-gradient(
-    var(--ng-gradient-angle, 135deg),
+    var(--ng-border-angle, 135deg),
     #ff2975, #7c4dff, #00fff0, #f5a623
   );
 
@@ -264,7 +264,7 @@
   );
 
   --ng-gradient-border: linear-gradient(
-    var(--ng-gradient-angle, 135deg),
+    var(--ng-border-angle, 135deg),
     #c4a535, #b55a30, #8b6f47, #6a5a8e
   );
 
@@ -310,7 +310,7 @@
   );
 
   --ng-gradient-border: linear-gradient(
-    var(--ng-gradient-angle, 135deg),
+    var(--ng-border-angle, 135deg),
     #7eb8ff, #c8b8ff, #ffb8e0, #e0e0e8
   );
 
@@ -356,7 +356,7 @@
   );
 
   --ng-gradient-border: linear-gradient(
-    var(--ng-gradient-angle, 135deg),
+    var(--ng-border-angle, 135deg),
     #1da1f2, #e1306c, #ff4500, #9146ff
   );
 
@@ -399,7 +399,7 @@
   );
 
   --ng-gradient-border: linear-gradient(
-    var(--ng-gradient-angle, 135deg),
+    var(--ng-border-angle, 135deg),
     #30d420, #00ccdd, #ff003c, #e0cc00
   );
 
@@ -447,7 +447,7 @@
   );
 
   --ng-gradient-border: linear-gradient(
-    var(--ng-gradient-angle, 135deg),
+    var(--ng-border-angle, 135deg),
     hsl(var(--ng-vfd-hue), 100%, 65%),
     hsl(var(--ng-vfd-hue), 60%, 40%),
     hsl(var(--ng-vfd-hue), 80%, 55%)
@@ -545,5 +545,5 @@
   --ng-info-rgb:      136, 85, 255;
   --ng-gradient: linear-gradient(135deg, #ff3333, #ff8800, #ffdd00, #00ff88, #00e5ff, #8855ff, #ff2d95);
   --ng-gradient-border: linear-gradient(135deg, #ff3333, #ff8800, #ffdd00, #00ff88, #00e5ff, #8855ff, #ff2d95);
-  --ng-gradient-angle: 135deg;
+  --ng-border-angle: 135deg;
 }

@@ -548,14 +548,8 @@
 }
 
 @keyframes ng-gradient-rotate {
-  0% { --ng-gradient-angle: 0deg; }
-  100% { --ng-gradient-angle: 360deg; }
-}
-
-@property --ng-gradient-angle {
-  syntax: "<angle>";
-  initial-value: 135deg;
-  inherits: false;
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .ng-animate-pulse {
@@ -563,7 +557,15 @@
 }
 
 .ng-animate-gradient {
+  overflow: hidden;
+}
+
+.ng-animate-gradient::before,
+.ng-animate-gradient::after {
   animation: ng-gradient-rotate 8s linear infinite;
+  transform-origin: center;
+  inset: -50%;
+  border-radius: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
