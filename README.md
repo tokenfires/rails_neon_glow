@@ -8,14 +8,15 @@
   <img src="docs/gifs/home_800x560.gif" alt="Neon Glow -- palette switching demo">
 </p>
 
-<!-- VFD small-multiples placeholder: add screenshots here -->
-<!-- <p align="center">
+## VFD Presets
+
+<p align="center">
   <img src="docs/screenshots/vfd-amber.png" alt="VFD Amber" width="19%">
   <img src="docs/screenshots/vfd-green.png" alt="VFD Green" width="19%">
   <img src="docs/screenshots/vfd-cyan.png" alt="VFD Cyan" width="19%">
   <img src="docs/screenshots/vfd-red.png" alt="VFD Red" width="19%">
   <img src="docs/screenshots/vfd-purple.png" alt="VFD Purple" width="19%">
-</p> -->
+</p>
 
 ---
 
