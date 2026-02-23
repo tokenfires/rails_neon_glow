@@ -217,7 +217,7 @@ ng-progress-bar      -- Gradient progress bar
 ng-navbar            -- Sticky navbar with backdrop blur
 ng-divider           -- Gradient divider line
 ng-animate-pulse     -- Pulsing glow animation
-ng-animate-gradient  -- Rotating gradient border animation
+ng-animate-gradient  -- Color-cycling neon border animation
 ```
 
 ### CSS Custom Properties
