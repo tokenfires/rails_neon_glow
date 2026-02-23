@@ -4,12 +4,8 @@
 
 4 color palettes. 3 intensity levels. Fully open source.
 
-<!-- Replace with your animated GIF when ready -->
-<!-- ![Neon Glow Demo](docs/screenshots/neon-glow-demo.gif) -->
-
 <p align="center">
-  <img src="docs/screenshots/home-rainbow.png" alt="Rainbow Palette" width="48%">
-  <img src="docs/screenshots/home-cinematic.png" alt="Cinematic Palette" width="48%">
+  <img src="docs/gifs/home_800x560.gif" alt="Neon Glow -- palette switching demo">
 </p>
 
 ---
@@ -253,6 +249,10 @@ Use Neon Glow in your own projects:
 </p>
 
 ### Kitchen Sink -- Components
+
+<p align="center">
+  <img src="docs/gifs/kitchen_sink_800x560.gif" alt="Tailwind Kitchen Sink -- palette switching demo">
+</p>
 
 <p align="center">
   <img src="docs/screenshots/tailwind-swatches-rainbow.png" alt="Tailwind Color Swatches" width="48%">
