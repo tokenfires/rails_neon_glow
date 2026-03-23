@@ -1,5 +1,10 @@
 #!/usr/bin/env sh
 
+if ! gem list bundler -i --silent; then
+  echo "Installing bundler..."
+  gem install bundler:4.0.1
+fi
+
 if ! gem list foreman -i --silent; then
   echo "Installing foreman..."
   gem install foreman
