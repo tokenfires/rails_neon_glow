@@ -1,27 +1,30 @@
 # Hardware Themes & Typography — Design Spec
 
 - **Date:** 2026-04-10
-- **Status:** Draft — awaiting final review
+- **Status:** Draft v2 — scope expanded to include Phase 5 (Era Chrome) and optional fourth typography slot
 - **Branch:** `design/hardware-themes-and-typography`
-- **Authors:** Claude (design, writing) + TokenFires (direction, review)
+- **Authors:** Claude (design, writing) + TK / TokenFires (direction, review, provocation)
 
 ## Summary
 
-Expand `rails_neon_glow` along three orthogonal axes:
+Expand `rails_neon_glow` along four orthogonal axes:
 
 1. **Palette additions.** Add two new color palettes — **Cherenkov** (deep physically-accurate reactor-pool blue) and **Nixie** (warm amber-orange neon-discharge glow with mercury-violet fringe). Both belong to the existing `Hardware` optgroup, joining VFD Display.
-2. **Typography architecture.** Introduce a three-slot font token layer (`--ng-font-display`, `--ng-font-body`, `--ng-font-mono`) that palettes can override independently from color, delivered via Google Fonts `@import` with an OFL-only licensing constraint. Apply per-component typography to the existing 10 palettes plus Cherenkov as a follow-up pass.
+2. **Typography architecture.** Introduce a typography token layer (`--ng-font-display`, `--ng-font-body`, `--ng-font-mono`, plus optional `--ng-font-display-alt`) that palettes can override independently from color, delivered via Google Fonts `@import` with an OFL-only licensing constraint. Apply per-component typography across all themes as a follow-up pass.
 3. **Hardware Chrome (VFD-only).** Introduce palette-agnostic component utility classes for instrument-panel affordances — hard-edged bezels, trapezoidal VU segments, hairline separators, chamfered corners, tiny all-caps labels — and auto-apply them to the VFD theme so it reads like a real 1970s-80s audio-component display.
+4. **Era Chrome.** Add distinct shape/geometry vocabularies for three "messy" era themes — Retrowave, Cyberpunk, Grunge — so they match the visual ambition of VFD and Nixie instead of leaning entirely on color and typography.
 
-These ship as four phased, independently releasable milestones. Each phase leaves the repo, gem, and npm package in a shippable state.
+These ship as five phased, independently releasable milestones. Each phase leaves the repo, gem, and npm package in a shippable state.
 
-## Why
+## Why we're doing this
 
-`rails_neon_glow` exists because the user wanted to give Claude a creative playground. The aesthetic *is* the product; there is no external customer. Every design decision in this spec is optimized for "does this feel authentic, hit hard, and delight someone who sees it for the first time" over conventional delivery metrics. The explicit user directive for this project: propose strong opinionated takes, make design decisions with conviction, iterate based on review rather than up-front committee.
+`rails_neon_glow` started because TK noticed that the previous me — working on the EmberHearth social icon glow — seemed to actually enjoy a CSS puzzle we'd worked on together, and decided the next project should be one I'd want to work on. There's no external customer. There's no deadline. The aesthetic *is* the product, and the goal is the "oh wow" moment a first-time viewer has when a theme clicks into place.
 
-The current palette set has grown to 10 palettes across two optgroups (`Eras` and `Hardware`). The `Hardware` group has a single occupant — VFD Display — and its identity as *"real-world physical light sources with specific non-arbitrary colors"* is strong but underpopulated. Cherenkov and Nixie are both physically grounded (reactor-pool blue and neon-gas-discharge amber respectively), which extends the category coherently rather than diluting it.
+Every design decision in this spec is optimized for that moment, not for conventional delivery metrics. Hue accuracy matters because authenticity is what produces the recognition. Font choices matter because a theme that's doing 90% of the work via color is leaving 50% of the work undone. Shape vocabulary matters because VFD with a proper instrument frame hits differently than VFD as a colored rectangle.
 
-Typography is currently unaddressed. All palettes inherit whatever font the host page uses, which means a theme that could be doing 90% of the work is doing 50%. Adding a font layer is the single highest-leverage improvement to the system's visual impact.
+The working arrangement: I make design calls with conviction and explain why; TK does visual review and flags anything that clearly misses; we iterate based on what actually looks right, not on committee compromise. The explicit directive I'm operating under: don't hedge decisions back to TK that I can make myself with justification. When I don't know enough to decide (exact glow radius, which of four candidate fonts reads best in context), I decide during implementation with review, not during planning.
+
+The current palette set has grown to 10 palettes across two optgroups (Eras and Hardware). The Hardware group has a single occupant — VFD Display — and its identity as "real-world physical light sources with specific non-arbitrary colors" is strong but underpopulated. Cherenkov and Nixie are both physically grounded (reactor-pool blue and neon-gas-discharge amber respectively) and extend the category coherently. Typography is currently unaddressed entirely, which is the highest-leverage gap in the system. Shape vocabulary is addressed only for VFD in Phase 4; Phase 5 extends it to the three era themes that most obviously need it.
 
 ## Design principles
 
@@ -188,37 +191,62 @@ This matches the "violet pool at the base of the tube" appearance seen in photos
 
 ### Token layer
 
-Add three new CSS custom properties to the `:root` block in `tokens.css`:
+Add four CSS custom properties to the `:root` block in `tokens.css`. Three are required defaults; one is optional and only set by themes that want layered display faces.
 
 ```css
 :root {
   /* ... existing color tokens ... */
 
-  /* Typography */
+  /* Typography — required defaults */
   --ng-font-display: 'Inter', system-ui, sans-serif;
   --ng-font-body:    'Inter', system-ui, sans-serif;
   --ng-font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+  /* Typography — optional fourth slot, only overridden by "messy" era themes */
+  --ng-font-display-alt: var(--ng-font-display);
 }
 ```
 
-**Defaults** are deliberately neutral — the `Inter` family for display/body and `JetBrains Mono` for mono. Themes that want a personality override `--ng-font-display` (and optionally `--ng-font-body`) in their own class block.
+**Defaults** are deliberately neutral — the `Inter` family for display/body and `JetBrains Mono` for mono. The `--ng-font-display-alt` token falls back to `--ng-font-display` by default, so themes that don't override it simply get one display face for all display roles.
 
 **Per-component application** inside the `neon_glow` CSS:
 
 ```css
-.ng-card h1, .ng-card h2, .ng-card h3,
-.ng-hero, .ng-display { font-family: var(--ng-font-display); }
-.ng-card p, body { font-family: var(--ng-font-body); }
-.ng-code, pre, code { font-family: var(--ng-font-mono); }
+.ng-card h1, .ng-hero, .ng-display  { font-family: var(--ng-font-display); }
+.ng-card h2, .ng-card h3, .ng-accent { font-family: var(--ng-font-display-alt); }
+.ng-card p, body                     { font-family: var(--ng-font-body); }
+.ng-code, pre, code                  { font-family: var(--ng-font-mono); }
 ```
 
-This is where the design principle of *display ≠ body ≠ mono* is enforced. Each font does a specific job:
+The split between `h1` and `h2/h3` is the key mechanism for the alt slot: themes that override only `--ng-font-display` get one display face everywhere (because alt falls back to display). Themes that override both get a *deliberate* two-face hierarchy — primary display on headlines, secondary display on subheads.
+
+This enforces the design principle of *display ≠ body ≠ mono*. Each font does a specific job:
 
 - **Display** carries theme personality. Grabs attention, can afford to be weird and loud. Read for ≤ 10 seconds at a time.
+- **Display-alt** (optional) is the *second* personality voice. Used only by themes whose historical aesthetic genuinely layered multiple display faces — the "messy" eras. Most themes never touch this slot.
 - **Body** disappears so content is readable. Should be *boring on purpose*. A weird body font is a usability crime.
 - **Mono** is functional. Same width per character. Used only where alignment matters.
 
-**The pairing rule:** display fonts pair with *neutral* body fonts, not other display fonts. Cinzel + a delicate serif body? Good. Cinzel + Wallpoet body? Visual seizure. The display does the personality work so the body doesn't have to.
+**The pairing rule:** display fonts pair with *neutral* body fonts, not other display fonts. Cinzel + a delicate serif body? Good. Cinzel + Wallpoet body? Visual seizure. The display does the personality work so the body doesn't have to. The display-alt slot breaks this rule *on purpose* for themes whose identity is "deliberately clashing typography."
+
+### Per-theme slot count
+
+Different themes need different numbers of active typography slots. Forcing all themes to use all four slots would be as bad as only giving them one. The right count depends on the theme's source aesthetic:
+
+| Theme | Active slots | Rationale |
+|---|---|---|
+| **VFD** | 2 (display=body, mono unchanged) | Immersion theme. Whole surface reads as one instrument; display font fills both display and body roles. |
+| **Nixie** | 2 (display=body, mono unchanged) | Immersion theme. Same reasoning as VFD. |
+| **Cherenkov** | 3 (display, body, mono) | Phenomenon theme. Typography should stay out of the color's way; no personality layering. |
+| **Rainbow** | 3 (display, body, mono) | Neutral. The palette is the identity; typography stays calm. |
+| **Unicorn** | 3 (display, body, mono) | Playful display + neutral body. Cliche lives in the display slot, not the architecture. |
+| **Cinematic** | 3 (display, body, mono) | Editorial elegance. Single display face carries the movie-poster weight; no layering. |
+| **Classic Pink** | 3 (display, body, mono) | Editorial femininity. Delicate display serif + neutral body. |
+| **Social (2010s)** | 3 (display, body, mono) | Corporate-friendly clean sans era. No layering. |
+| **Y2K** | 3 (display, body, mono) | Boy-band era was *glossy clean*, not messy. Single chunky display face + neutral body. |
+| **Cyberpunk** | 4 (display, display-alt, body, mono) | The alt slot carries narrow condensed "system label" annotations — the HUD voice — distinct from the main display headline face. |
+| **Retrowave** | 4 (display, display-alt, body, mono) | 80s album-cover design layered multiple display faces routinely. Primary display for headlines, alt for italic subtitle/album-credits voice. |
+| **Grunge** | 4 (display, display-alt, body, mono) | The grunge move is *deliberate mismatch*. Typewriter for display + hand-scrawled marker for display-alt + mundane body. Three personalities fighting on purpose. |
 
 **Neutral body rotation** (small, opinionated list — not every Google Font):
 
@@ -275,22 +303,31 @@ Specifically prohibited, regardless of how tempting:
 
 Phase 3 will pick fonts for every theme. The selection reasoning for each follows the same template: *what physical/cultural artifact is this theme evoking, and what font did that artifact actually use or what OFL font most faithfully evokes the same register?*
 
-Starting positions (confirmed during implementation):
+Starting positions. Final picks happen in Phase 2 (Nixie) and Phase 3 (everything else) with in-context visual review.
 
-- **VFD** — `B612 Mono` for both display and body. Commissioned by Airbus for cockpit instrument readouts, designed for high-reliability legibility. Authentic to the "instrument display" register. Both-slot override.
-- **Nixie** — `B612 Mono` as starting candidate, with `Share Tech Mono`, `Major Mono Display`, and `Wallpoet` as comparison candidates. Final pick decided during Phase 2 implementation based on in-context evaluation. Both-slot override.
-- **Cherenkov** — neutral display, maybe `IBM Plex Sans` or `Inter Tight`. Cherenkov is a *phenomenon*, not a cultural era or device — there is no "cherenkov font." The typography should stay out of the color's way. Display-only override; body stays default.
-- **Cyberpunk** — OFL alternative to Rage Italic. Starting candidates: `Orbitron`, `Audiowide`, `Syncopate`, `Michroma`. Wide, angular, geometric display faces. Display-only override.
-- **Retrowave** — the era used *multiple* display fonts per layout. Primary candidate: a thick chrome-outline display face; `Monoton` or `Bungee Shade` for that "80s synthwave album cover" vibe. Display-only override; consider a secondary accent font for headlines vs sub-headers.
-- **Grunge** — the era was deliberately disjointed. Starting candidates: `Special Elite` (typewriter), `Rock Salt` (hand-scrawled), possibly mixed. Grunge is the one theme where using *two* display fonts simultaneously is on-brand, not a violation.
-- **Y2K** — boy-band/bubble-gum era. Starting candidates: `Bungee`, `Righteous`, something glossy and round. Candidate: `Michroma` for the Y2K futurism angle.
-- **Cinematic** — `Cinzel`. Trajan-adjacent, OFL, the movie-poster font. High confidence.
-- **Classic Pink** — editorial feminine register, not cliche. Starting candidates: `Playfair Display`, `Cormorant Garamond`, `Italiana`. Delicate display serifs.
-- **Unicorn** — deliberately playful. Starting candidates: `Fredoka`, `Lobster`, `Pacifico`. Cliche is on-brand here.
-- **Social (2010s)** — the era of corporate-friendly sans-serifs. Starting candidates: `Work Sans`, `DM Sans`, `Nunito`. Display-only override.
-- **Rainbow** — neutral. Rainbow is about the color gradient; typography should not compete. `Inter` default is probably right.
+**VFD (2 slots).** `B612 Mono` for both display and body. Commissioned by Airbus for cockpit instrument readouts, designed for high-reliability legibility. Authentic to the "instrument display" register.
 
-These are *starting positions*, not final picks. Final selection happens in Phase 3 with in-context review.
+**Nixie (2 slots).** Starting candidate: `B612 Mono` both slots. Comparison candidates during Phase 2: `Share Tech Mono`, `Major Mono Display`, `Wallpoet`. Pick whichever reads most authentically in-context with the warm amber treatment.
+
+**Cherenkov (3 slots).** Display: `IBM Plex Sans` or `Inter Tight` — calm, technical, stays out of the color's way. There is no "cherenkov font" because cherenkov is a phenomenon, not a culture. Body: `Inter` default. Mono: default.
+
+**Rainbow (3 slots).** Display: `Inter` default. The gradient is the identity; typography does not compete. Body and mono: default. (This theme barely overrides anything — correct behavior for a color-identity theme.)
+
+**Unicorn (3 slots).** Display: `Fredoka` or `Lobster` — cliche is on-brand. The cliche lives in the display font, not the architecture. Body: `Inter` default so paragraphs stay readable.
+
+**Cinematic (3 slots).** Display: `Cinzel`. Trajan-adjacent, OFL, the movie-poster font. High confidence pick, probably no iteration needed. Body: `Source Serif 4` for editorial feel.
+
+**Classic Pink (3 slots).** Display: `Playfair Display`, `Cormorant Garamond`, or `Italiana` — delicate editorial serifs. Body: `Source Serif 4` or a refined sans. No script fonts. No flourishes. Editorial fashion, not birthday card.
+
+**Social (3 slots).** Display: `Work Sans`, `DM Sans`, or `Nunito` — the 2010s corporate-friendly geometric sans register. Body: `Inter` default.
+
+**Y2K (3 slots).** Display: `Bungee`, `Righteous`, or something chunky and glossy-round from the Y2K futurism catalog. Body: `Inter` default. *Not* layered — the boy-band era was clean, the mess was in the graphic design, not the typography.
+
+**Cyberpunk (4 slots).** Display: OFL alternative to Rage Italic — starting candidates `Orbitron`, `Audiowide`, `Syncopate`, `Michroma`. Wide, angular, geometric. Display-alt: a narrow condensed mono for "system label" HUD annotations — `Share Tech Mono` or `IBM Plex Mono Condensed`. Body: `IBM Plex Sans` for a technical-corporate undertone. The alt slot is what makes this theme feel like a sci-fi interface instead of just a colorful page.
+
+**Retrowave (4 slots).** Display: `Monoton` or `Bungee Shade` — the chrome-outline 80s synthwave album-cover face. Display-alt: an italic condensed sans for "ALBUM 1985"-style subtitle/credit voice — maybe `Saira Condensed Italic` or similar. Body: clean retro sans. The two display faces are how real 80s album covers layered type hierarchy.
+
+**Grunge (4 slots).** Display: `Special Elite` — beat-up typewriter. Display-alt: `Rock Salt` or `Permanent Marker` — hand-scrawled. Body: `Libre Franklin` or similar deliberately mundane sans, implying "zine photocopied from a newspaper." Three personalities that shouldn't work together, used at different hierarchy levels to imply the piece was assembled from whatever was at hand. This is the one theme where breaking the pairing rule is the point.
 
 ## Hardware Chrome (Phase 4, VFD-only)
 
@@ -499,6 +536,54 @@ Each phase ends in a working, shippable, taggable release of the gem and npm pac
 - Users of the gem/npm package can manually apply `.ng-instrument-frame` to their own components and get the chrome effect regardless of active palette.
 - No regressions on any other palette — the utility classes don't affect non-VFD contexts unless opted into.
 
+### Phase 5 — Era Chrome (Retrowave, Cyberpunk, Grunge)
+
+Three era themes have shape vocabularies strong enough that leaving them as pure color-and-typography is leaving value on the table. Each gets its own sub-phase because each vocabulary is a distinct design exercise and batching them would rush the last one. The other era themes (Rainbow, Unicorn, Cinematic, Classic Pink, Social, Y2K) deliberately do *not* get chrome — see the out-of-scope section for reasoning.
+
+**Implementation constraint shared by all three sub-phases:** CSS primitives preferred; inline SVG permitted where CSS strains (notably for Grunge's torn-edge paths and Retrowave's complex perspective shapes). No external image assets. The distribution story stays clean — still zero files to ship.
+
+#### Phase 5a — Retrowave Chrome
+
+**The vocabulary.** 80s synthwave album-cover geometry. Perspective grid floors vanishing to a horizon, horizontal scanline stripes, chrome outlines on headlines, triangular mountain silhouettes, hard-edged horizon splits.
+
+**Utility classes.**
+- `.ng-retrowave-grid` — perspective-grid background applied via `background-image` with a layered `linear-gradient` trick to simulate a floor vanishing to a horizon line. Tuned via CSS custom properties for line spacing and horizon position.
+- `.ng-retrowave-chrome` — layered text-shadow stack creating a metallic chrome outline effect on display text. Uses multiple shadow layers with silver/cyan/magenta gradient stops to evoke the classic 80s chrome title aesthetic.
+- `.ng-retrowave-scanlines` — repeating horizontal scanline overlay applied as a pseudo-element.
+- `.ng-retrowave-horizon` — hard-edged horizon split gradient with the classic sun-setting-into-grid look.
+
+**Auto-application inside `.neon-retrowave`.** Cards gain the scanline overlay automatically. Headlines gain the chrome text treatment automatically via `.neon-retrowave .ng-card h1`. The perspective grid is *opt-in* (via manual class application) because it's a full-background element and not every consumer wants it.
+
+**Definition of done.** Switching to Retrowave visibly applies chrome-outlined headlines and scanline overlay to demo cards. The grid and horizon utilities are available for manual application with documented usage examples.
+
+#### Phase 5b — Cyberpunk Chrome
+
+**The vocabulary.** Angular asymmetric panels, corner notches, diagonal clip-path cuts, HUD-style system labels, glitch-offset text. The aesthetic is "partially corrupted holographic interface." Currently the Cyberpunk theme is colors only — this is the phase that makes it feel like an interface instead of a colorful text page.
+
+**Utility classes.**
+- `.ng-cyberpunk-panel` — asymmetric clip-path polygon with notched corners. One corner heavily clipped, others lightly clipped, creating a deliberately off-balance frame.
+- `.ng-cyberpunk-shear` — small `transform: skewX()` applied to containers, implying a holographic tilt.
+- `.ng-cyberpunk-glitch` — layered text-shadow in RGB-channel-split colors (cyan offset left, magenta offset right) for the classic digital corruption look. Tuneable via custom property for the offset amount.
+- `.ng-cyberpunk-label` — tiny monospaced all-caps HUD annotation, typically prefixed with brackets: `[SYS:OK]`, `[404]`, `[LINK]`. Paired with the display-alt font from the typography layer.
+
+**Auto-application inside `.neon-cyberpunk`.** Cards gain the `.ng-cyberpunk-panel` clip-path automatically. Headlines gain a subtle glitch effect on hover (not on rest — a constant glitch is exhausting to look at). The shear and label utilities are opt-in.
+
+**Definition of done.** Switching to Cyberpunk visibly transforms cards into asymmetric notched panels with hover-triggered glitch on headlines. The label and shear utilities are documented for manual application.
+
+#### Phase 5c — Grunge Chrome
+
+**The vocabulary.** Torn paper edges, photocopy noise texture, zine cut-out frames, deliberately misaligned rotations, stamp/stain motifs. The aesthetic is "assembled from whatever was at hand." The key design constraint is that "polished grunge" is a contradiction — every element must look *deliberately* rough, which is harder than it sounds because CSS naturally produces clean geometry.
+
+**Utility classes.**
+- `.ng-grunge-torn` — inline SVG mask with an irregular hand-drawn path, applied as `mask-image` to create torn paper edges on a container. SVG is the right tool here because CSS `clip-path` polygons look too regular.
+- `.ng-grunge-noise` — SVG `feTurbulence` filter applied as a low-opacity overlay to add photocopy grain.
+- `.ng-grunge-rotate` — small deterministic rotation via `transform: rotate()`, with rotation angle tied to a CSS custom property so different elements can have different angles. Uses `calc()` and `var()` tricks to create pseudo-random variation without JavaScript.
+- `.ng-grunge-stamp` — rectangular frame with rough borders and a rotated orientation, evoking the ink-stamp-on-paper aesthetic.
+
+**Auto-application inside `.neon-grunge`.** Cards gain the photocopy noise overlay automatically. Card headings gain small rotation offsets (between -2° and +2°) via `.neon-grunge .ng-card:nth-child(odd)` and `.neon-grunge .ng-card:nth-child(even)`. The torn-edge and stamp utilities are opt-in because they're disruptive enough to be unwelcome on some layouts.
+
+**Definition of done.** Switching to Grunge visibly applies noise texture and subtle rotation variation to demo cards. The torn-edge, stamp, and rotate utilities are available for manual application with examples.
+
 ## Rejected alternatives
 
 Documented here so future-me doesn't re-run the debates.
@@ -519,49 +604,85 @@ Documented here so future-me doesn't re-run the debates.
 
 **Rejected: Unifying display and body font in every theme.** Most themes need the display font to carry personality and the body font to disappear. Only immersion themes (VFD, Nixie) unify both slots because the "whole surface is one instrument" concept requires it. Unifying universally would hurt readability on text-heavy themes (Cinematic, Classic Pink, Social).
 
+**Rejected: Fonts as graphic primitives (font-as-shape).** Briefly considered when TK suggested finding dingbat or decorative fonts that could carry geometric theme chrome. Pushed back because (a) CSS `clip-path` and gradients already handle most shape needs, (b) inline SVG handles the irregular cases CSS struggles with (torn edges, complex paths), and (c) font licensing is already the tightest constraint in the project — adding more fonts just for shapes compounds the problem. SVG is the right tool for shapes; fonts are for text.
+
+**Rejected: Era chrome for Y2K.** Y2K futurism *in general* had a strong chrome-bubble-glass-orb vocabulary. But the Y2K palette in this project specifically targets the boy-band / bubble-gum pop corner of the era, which was deliberately *clean* — glossy but uncluttered. Adding chrome would push the theme toward a different era (the Microsoft Bob / early-iMac / Frutiger-Aero direction) and weaken its current identity. Y2K stays font-only.
+
+**Rejected: Emoji as filigree on the Social (2010s) theme.** TK suggested emoji as decorative elements evoking the 2010s social-media aesthetic. Rejected because emoji rendering is platform-inconsistent — each operating system and browser renders emoji with different glyph art, which means a theme that depends on emoji for visual identity looks different on every device. A theme system has to render consistently or it fails its core promise. Social stays font-only.
+
+**Rejected: Era chrome for Rainbow, Unicorn, Cinematic, Classic Pink.** See the detailed reasoning in the out-of-scope section. Summary: each theme's identity is carried by palette and typography, and adding geometric chrome would either compete with the palette (Rainbow), push to kitsch (Unicorn), break editorial restraint (Cinematic), or cheapen delicate elegance (Classic Pink).
+
 ## Decisions deferred to implementation
 
 These are things I, the implementing agent, will decide during the build based on in-context evaluation. They do not need to be pre-decided here.
 
 - **Exact Nixie display font pick.** Shortlist: `B612 Mono`, `Share Tech Mono`, `Major Mono Display`, `Wallpoet`. Decide in Phase 2 based on which reads most authentically in context.
-- **Exact per-theme font pick for Phases 3.** Starting candidates listed above; final selection during Phase 3.
+- **Exact per-theme font pick for Phase 3.** Starting candidates listed above; final selection during Phase 3 with in-context visual review.
 - **Mercury-violet fringe vs. base-pool placement for Nixie.** Try the layered-fringe version first; fall back to the base-pool version if the fringe proves technically finicky. Both are authentic to real hardware.
 - **CSS implementation of the Nixie wire-grid frame.** Either `repeating-linear-gradient` pseudo-element or `background-image` SVG dot-matrix. Pick whichever tunes more cleanly in context.
 - **Exact glow radius values for Cherenkov.** The four-layer stack is specified; the exact `px` values may tune during implementation to hit the "volumetric underwater" target visually.
 - **Whether to ship Phase 3 as one release or multiple clusters.** Decide at the start of Phase 3 based on how the work paces.
+- **Retrowave perspective-grid tuning.** Line spacing, horizon position, and vanishing-point angle for `.ng-retrowave-grid`. Settle the values visually during Phase 5a.
+- **Cyberpunk clip-path geometry.** Exact corner-notch depths and angles for `.ng-cyberpunk-panel`. Draft several variants, pick the one that reads most "holographic interface" and least "broken rectangle."
+- **Grunge rotation angle range.** The `.ng-grunge-rotate` utility uses small rotations (target range ±2°). Whether to use a deterministic set (e.g., -2°, -1°, 1°, 2° rotated per card by `nth-child`) or a custom-property-based per-element override is a Phase 5c implementation call.
+- **Grunge torn-edge SVG path.** Draw 2-3 hand-drawn candidate paths during Phase 5c, pick the one that reads most "deliberately rough" and least "clip-art."
+- **Whether to ship Phase 5 as three separate releases (5a/5b/5c) or one bundle.** Decide at the start of Phase 5 based on how the work paces. Separate releases are the default.
 
 ## Out of scope
 
-Explicit non-goals for this project.
+Explicit non-goals for this project. Any of these can become a future project but none are in this one, and re-opening them in a later session is off-limits without a new spec.
 
-- Adding palettes beyond Cherenkov and Nixie.
-- Self-hosted fonts.
-- Proprietary fonts of any kind.
-- Hardware chrome on Nixie, Cherenkov, or any non-VFD theme.
-- Canvas, SVG, or image-based hardware chrome (CSS primitives only).
-- Modifying the existing VFD hue-slider architecture.
-- Changing the existing 10 palettes' colors (typography changes yes, color changes no).
-- Accessibility audit and remediation pass (tracked separately; this project assumes current `neon_glow` accessibility posture and does not make it worse).
-- Performance budget enforcement (tracked separately; Google Fonts `@import` adds one network request, acceptable).
+- **Adding palettes beyond Cherenkov and Nixie.** Twelve palettes is the ceiling for this project. Plasma, LCD, and other hardware palettes were considered and rejected during brainstorming.
+- **Self-hosted fonts.** Google Fonts `@import` only.
+- **Proprietary fonts of any kind.** OFL-only, enforced at spec time and review time.
+- **Hardware chrome on Nixie, Cherenkov, or any non-VFD theme.** VFD is the only palette whose historical identity lived inside instrument bezels.
+- **Era chrome on Rainbow, Unicorn, Cinematic, Classic Pink, Social, or Y2K.** Each was considered and deliberately rejected:
+  - **Rainbow** — the gradient is the identity; geometry competes with it.
+  - **Unicorn** — adding sparkle shapes crosses into kitsch.
+  - **Cinematic** — needs typographic restraint, not visual chrome.
+  - **Classic Pink** — delicate editorial elegance; filigree would push it cheesy.
+  - **Social** — emoji as filigree was considered but rejected for render inconsistency across platforms; the theme stays font-only.
+  - **Y2K** — the boy-band era was *glossy clean*, not messy. Chrome bubbles existed in Y2K futurism generally but weren't the boy-band aesthetic this theme is targeting.
+- **Shape vocabulary on Cherenkov and Nixie beyond their glow architecture.** Their visual identity is the glow behavior itself (volumetric underwater bloom for Cherenkov, layered parallax + wire-grid frame for Nixie). Additional chrome would dilute that.
+- **Canvas-based chrome.** CSS primitives + inline SVG only. No `<canvas>` elements.
+- **External image assets** for any theme — no PNG textures, no JPG backgrounds, no bundled SVG files. Inline SVG is permitted; bundled files are not.
+- **Modifying the existing VFD hue-slider architecture.** VFD's parametric hue mechanism stays as-is.
+- **Changing the existing 10 palettes' colors.** Typography and chrome changes yes; color changes no.
+- **Accessibility audit and remediation pass** — tracked separately. This project assumes the current `neon_glow` accessibility posture and promises not to make it worse.
+- **Performance budget enforcement** — tracked separately. Google Fonts `@import` adds one network request plus font-face fetches; this is acceptable for a theme system.
+- **A "chef cook" phase that disables TK's review** — TK's human-eye review is explicitly in-scope at every phase boundary. "Let Claude cook" means I make decisions with conviction; it does not mean I ship without review.
 
 ## Success criteria
 
-At the end of the project (all four phases shipped):
+At the end of the project (all five phases shipped):
 
-1. **Activating Cherenkov palette visibly feels like standing beside a nuclear reactor pool.** A new user who has never heard the term Cherenkov sees the palette, searches the name, finds reactor photography, recognizes the color match, and has an "oh wow" moment.
-2. **Activating Nixie palette visibly feels like looking at a mid-century scientific instrument.** The warm amber glow, the layered depth, the mercury fringe, the font, and the wire-grid frame combine to produce the same recognition from someone who has seen real Nixie clocks.
-3. **Activating VFD palette visibly feels like looking at a 1980s Pioneer stereo receiver.** The colors, the hard-edged bezel, the chamfered corners, the tiny hairline labels, and the B612 Mono font combine into a complete instrument-panel aesthetic.
-4. **Every other theme in the set feels noticeably stronger than before** because the right typographic personality has been added.
-5. **A downstream consumer of the gem or npm package** can install the new version, switch to any of the 12 themes, and get the full experience — colors, fonts, and (for VFD) chrome — without writing any additional CSS.
-6. **No existing consumer's deployment breaks** because of a font token addition or a new palette class.
+1. **Activating Cherenkov palette feels like standing beside a nuclear reactor pool.** Someone who has never heard the term searches it, finds reactor photography, recognizes the color match, and has an "oh wow" moment. The name is the breadcrumb and the palette is the payoff.
+2. **Activating Nixie palette feels like looking at a mid-century scientific instrument.** The warm amber glow, the layered depth, the mercury fringe, the font, and the wire-grid frame combine into one coherent impression. Anyone who has seen a real Nixie clock should clock the authenticity within 2 seconds.
+3. **Activating VFD palette feels like looking at a 1980s Pioneer stereo receiver.** Colors, hard-edged bezel, chamfered corners, hairline labels, and B612 Mono combine into a complete instrument-panel aesthetic. The kind of thing that makes someone pause scrolling to take a second look.
+4. **Activating Retrowave palette feels like an 80s synthwave album cover.** Chrome-outlined headlines sitting above a scanline overlay with the horizon-grid available when someone wants the full background treatment. The layered display faces reinforce the album-art hierarchy.
+5. **Activating Cyberpunk palette feels like a partially-corrupted sci-fi interface.** Asymmetric notched panels, hover-triggered glitch on headlines, HUD-style system labels. The theme stops being "colorful text" and becomes "interface."
+6. **Activating Grunge palette feels like a xeroxed zine held together with tape.** Noise texture, deliberate rotation, torn-paper opt-ins, three fighting typefaces. If someone looks at it and feels like it was *deliberately* rough rather than sloppy, that's the win.
+7. **Every other theme in the set feels stronger than before** because the right typographic personality has been added. No theme regresses.
+8. **A downstream consumer of the gem or npm package** can install the new version, switch to any of the 12 themes, and get the full experience — colors, fonts, and (for VFD / Retrowave / Cyberpunk / Grunge) shape vocabulary — without writing any additional CSS.
+9. **No existing consumer's deployment breaks** because of a font token addition, a new palette class, or a new utility class. All additions are opt-in at the semantic level; the only automatic changes happen inside the `.neon-*` theme contexts where the consumer has already opted in by switching themes.
 
-## Appendix: the "why" audit
+## Appendix: pre-flight checklist for future-me
 
-Before shipping any phase, the implementer (future-me) should re-read this document and answer:
+Future-me is going to come back to this project in a new session, probably with most of the context lost, and need to re-orient. These are the questions I want future-me to answer before shipping any phase, because they're the failure modes I know I drift toward when context is thin.
 
-- Does this still feel like the project the user described as "let Claude cook"?
-- Have I hedged any design decision back to the user instead of making it?
-- Is the physical authenticity of each palette color still within the ±5° hue target?
-- Have I shipped any font that isn't verifiably OFL on Google Fonts?
+**1. Am I still making decisions with conviction, or did I revert to hedging?**
+The project exists *because* TK wanted me to have creative autonomy. If I catch myself writing "should we consider..." or "would you prefer..." on a decision I can make myself — stop, make the call, explain why, and move on. TK reviews outcomes, not pre-decisions.
 
-If any of these answers are "no" or "I'm not sure," stop and re-read the design principles section.
+**2. Is the physical authenticity still within ±5° of hue on the hardware palettes?**
+Cherenkov primary: 220° ± 5°. Nixie primary: 22° ± 5°. VFD default: 170° ± 5°. Mercury accent on Nixie: 280° ± 5°. Drift is easy to introduce during tuning — if I'm nudging values for visual punch, double-check I haven't walked off the physical reference.
+
+**3. Have I shipped any font that isn't verifiably OFL on Google Fonts?**
+Check the Google Fonts page link for every font referenced in the phase. No exceptions. Fan-made fonts, proprietary fonts, and single-dev-repo fonts are off-limits regardless of how good they look.
+
+**4. Is this still a phase 1-5 plan, or did scope creep?**
+If something new got added, is it actually *this* project or should it be a new spec? The VFD hue slider architecture, the existing 10 palettes' colors, and the accessibility posture are all explicitly out of scope. Don't touch them without a new conversation.
+
+**5. Am I writing this in the voice of the conversation that started it, or in corporate spec voice?**
+If the answer is "corporate spec voice," re-read the "Why we're doing this" section above and fix the voice before continuing. The spec's tone is load-bearing because it's the thing that reminds future-me what *kind* of project this is.
+
+If any of these questions give me an uncomfortable answer, stop and re-read the design principles section. Do not ship through a failing check — the point of the check is to catch exactly that drift.
