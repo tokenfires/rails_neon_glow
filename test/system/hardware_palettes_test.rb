@@ -5,9 +5,15 @@ class HardwarePalettesTest < ApplicationSystemTestCase
   # test does not leak into the next one. Capybara reuses the browser
   # session within a test run by default, which means localStorage would
   # otherwise carry over.
+  #
+  # Sequence: visit to get a page context → clear localStorage → visit
+  # again so the Stimulus controller's connect() re-runs with empty
+  # storage. Without the second visit, setup exits with the controller
+  # still holding stale state from the first visit.
   setup do
     visit root_path
     page.execute_script("localStorage.clear()")
+    visit root_path
   end
 
   # Helper: count how many of the known palette classes are on <body>.
@@ -33,6 +39,14 @@ class HardwarePalettesTest < ApplicationSystemTestCase
     visit root_path
 
     assert_selector "h2", text: "HARDWARE"
+    # NOTE: Scoping the h3 assertions to the Hardware section's grid div was
+    # attempted using XPath:
+    #   within(:xpath, "//h2[normalize-space(text())='HARDWARE']/following-sibling::div[1]")
+    # but the selector fails because the actual h2 text is "Hardware" (mixed
+    # case) while Capybara's assert_selector does case-insensitive matching for
+    # the text: option. The XPath string comparison is case-sensitive, causing
+    # Capybara::ElementNotFound. Known limitation — these h3 assertions remain
+    # page-scoped.
     assert_selector "h3", text: "VFD Display"
     assert_selector "h3", text: "Cherenkov"
     assert_selector "h3", text: "Nixie"
@@ -42,9 +56,11 @@ class HardwarePalettesTest < ApplicationSystemTestCase
     visit root_path
 
     within("select[data-theme-switcher-target='palette']") do
-      assert_selector "option[value='neon-vfd']",       text: "VFD Display"
-      assert_selector "option[value='neon-cherenkov']", text: "Cherenkov"
-      assert_selector "option[value='neon-nixie']",     text: "Nixie"
+      within("optgroup[label='Hardware']") do
+        assert_selector "option[value='neon-vfd']",       text: "VFD Display"
+        assert_selector "option[value='neon-cherenkov']", text: "Cherenkov"
+        assert_selector "option[value='neon-nixie']",     text: "Nixie"
+      end
     end
   end
 
