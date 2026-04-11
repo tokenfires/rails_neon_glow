@@ -488,44 +488,45 @@
    Named for Pavel Cherenkov, who discovered the effect in 1934.
    ============================================================ */
 .neon-cherenkov {
-  --ng-primary:       #3377FF;
+  --ng-primary:       #3377ff;
   --ng-primary-rgb:   51, 119, 255;
-  --ng-secondary:     #196EE6;
+  --ng-secondary:     #196ee6;
   --ng-secondary-rgb: 25, 110, 230;
-  --ng-accent:        #6E90F7;
+  --ng-accent:        #6e90f7;
   --ng-accent-rgb:    110, 144, 247;
-  --ng-success:       #30BAE8;
+  --ng-success:       #30bae8;
   --ng-success-rgb:   48, 186, 232;
-  --ng-warning:       #5D52E0;
+  --ng-warning:       #5d52e0;
   --ng-warning-rgb:   93, 82, 224;
-  --ng-danger:        #F48C25;
+  --ng-danger:        #f48c25;
   --ng-danger-rgb:    244, 140, 37;
-  --ng-info:          #478CD1;
+  --ng-info:          #478cd1;
   --ng-info-rgb:      71, 140, 209;
 
   --ng-gradient: linear-gradient(
     135deg,
-    #3377FF 0%,
-    #196EE6 50%,
-    #3377FF 100%
+    #3377ff 0%,
+    #196ee6 50%,
+    #3377ff 100%
   );
 
   --ng-gradient-border: linear-gradient(
     var(--ng-border-angle, 135deg),
-    #3377FF,
-    #196EE6,
-    #6E90F7
+    #3377ff,
+    #196ee6,
+    #6e90f7
   );
 
   --ng-bg:             #030510;
   --ng-surface:        #060818;
   --ng-surface-raised: #0a0c22;
   --ng-surface-overlay:#0f1230;
+  --ng-text-inverse:   #030510;
   --ng-border:         #132039;
-  --ng-border-subtle:  #0F1624;
-  --ng-text:           #C9D4E8;
-  --ng-text-secondary: #8B9DC1;
-  --ng-text-muted:     #56698F;
+  --ng-border-subtle:  #0f1624;
+  --ng-text:           #c9d4e8;
+  --ng-text-secondary: #8b9dc1;
+  --ng-text-muted:     #56698f;
 }
 
 /* ============================================================
