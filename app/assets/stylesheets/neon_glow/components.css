@@ -708,5 +708,6 @@
     0 0 8px   rgba(var(--ng-primary-rgb), 0.55),
     0 0 20px  rgba(var(--ng-primary-rgb), 0.30),
     2px 3px 28px rgba(var(--ng-primary-rgb), 0.20),
-    0 4px 18px rgba(var(--ng-nixie-mercury-rgb), 0.15);
+    0 6px 10px  rgba(var(--ng-nixie-mercury-rgb), 0.65),
+    0 14px 24px rgba(var(--ng-nixie-mercury-rgb), 0.35);
 }
