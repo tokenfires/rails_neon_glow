@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 const PALETTES = [
   "neon-rainbow", "neon-unicorn", "neon-cinematic", "neon-pink",
   "neon-retrowave", "neon-grunge", "neon-y2k", "neon-social",
-  "neon-cyberpunk", "neon-vfd"
+  "neon-cyberpunk", "neon-vfd", "neon-cherenkov", "neon-nixie"
 ]
 
 const VFD_PRESETS = [
