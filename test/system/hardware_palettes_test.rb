@@ -39,17 +39,20 @@ class HardwarePalettesTest < ApplicationSystemTestCase
     visit root_path
 
     assert_selector "h2", text: "HARDWARE"
-    # NOTE: Scoping the h3 assertions to the Hardware section's grid div was
-    # attempted using XPath:
-    #   within(:xpath, "//h2[normalize-space(text())='HARDWARE']/following-sibling::div[1]")
-    # but the selector fails because the actual h2 text is "Hardware" (mixed
-    # case) while Capybara's assert_selector does case-insensitive matching for
-    # the text: option. The XPath string comparison is case-sensitive, causing
-    # Capybara::ElementNotFound. Known limitation — these h3 assertions remain
-    # page-scoped.
-    assert_selector "h3", text: "VFD Display"
-    assert_selector "h3", text: "Cherenkov"
-    assert_selector "h3", text: "Nixie"
+
+    # Scope card assertions to the grid container immediately following
+    # the Hardware heading, so a regression that moves these cards to
+    # another section would fail this test.
+    #
+    # XPath note: the DOM text is "Hardware" (mixed case) while Capybara's
+    # text: option above sees "HARDWARE" (rendered text, because of CSS
+    # text-transform: uppercase on the h2). XPath's text() function uses
+    # DOM text, so we match "Hardware" here.
+    within(:xpath, "//h2[normalize-space(text())='Hardware']/following-sibling::div[1]") do
+      assert_selector "h3", text: "VFD Display"
+      assert_selector "h3", text: "Cherenkov"
+      assert_selector "h3", text: "Nixie"
+    end
   end
 
   test "navbar palette dropdown includes all three Hardware options" do
