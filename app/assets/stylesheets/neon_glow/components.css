@@ -279,13 +279,14 @@
 
 /* Cherenkov form tint: lightly wash form controls in the palette's
    primary hue so they feel "seen through water" rather than generic
-   dark rectangles. Tuned for visibility on both large textareas and
-   small single-line inputs — alpha values boosted after the first
-   tuning pass read too subtle on small inputs. Default state only;
-   focus uses the normal strong Cherenkov blue that already works. */
+   dark rectangles. Covers both Tailwind/plain HTML forms (.ng-input,
+   textarea) and Bootstrap forms (.form-control, .form-select).
+   Default state only; focus uses the normal strong Cherenkov blue. */
 .neon-cherenkov .ng-input,
 .neon-cherenkov .ng-select,
-.neon-cherenkov textarea {
+.neon-cherenkov textarea,
+.neon-cherenkov .form-control,
+.neon-cherenkov .form-select {
   border-color: rgba(var(--ng-primary-rgb), 0.55);
   box-shadow:
     inset 0 0 14px rgba(var(--ng-primary-rgb), 0.12),
@@ -293,7 +294,8 @@
 }
 
 .neon-cherenkov .ng-input::placeholder,
-.neon-cherenkov textarea::placeholder {
+.neon-cherenkov textarea::placeholder,
+.neon-cherenkov .form-control::placeholder {
   color: rgba(var(--ng-primary-rgb), 0.55);
 }
 
