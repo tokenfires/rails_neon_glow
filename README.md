@@ -2,7 +2,7 @@
 
 **A dark neon glow design system for Bootstrap and Tailwind CSS.**
 
-10 color palettes. 3 intensity levels. Fully open source.
+12 color palettes. 3 intensity levels. Fully open source.
 
 <p align="center">
   <img src="docs/gifs/home_800x560.gif" alt="Neon Glow -- palette switching demo">
@@ -48,6 +48,8 @@ Each decade palette has its own themed dark background for visual identity.
 | Class | Palette | Vibe |
 |-------|---------|------|
 | `neon-vfd` | **VFD Display** | Vacuum fluorescent display. Monochromatic phosphor glow with adjustable hue. |
+| `neon-cherenkov` | **Cherenkov** | Reactor pool blue. The deep ghostly glow of charged particles exceeding the phase velocity of light in water. |
+| `neon-nixie` | **Nixie** | Warm amber-orange gas-discharge glow of a 1950s-60s instrument tube. Mercury-violet fringe at the base. |
 
 #### VFD Hue Presets
 
