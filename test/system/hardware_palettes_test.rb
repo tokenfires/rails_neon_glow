@@ -1,0 +1,108 @@
+require "application_system_test_case"
+
+class HardwarePalettesTest < ApplicationSystemTestCase
+  # Clear localStorage before each test so palette state from a previous
+  # test does not leak into the next one. Capybara reuses the browser
+  # session within a test run by default, which means localStorage would
+  # otherwise carry over.
+  setup do
+    visit root_path
+    page.execute_script("localStorage.clear()")
+  end
+
+  # Helper: count how many of the known palette classes are on <body>.
+  # Used to assert that palette switching removes the prior class
+  # instead of stacking.
+  PALETTE_CLASSES = %w[
+    neon-rainbow neon-unicorn neon-cinematic neon-pink
+    neon-retrowave neon-grunge neon-y2k neon-social
+    neon-cyberpunk neon-vfd neon-cherenkov neon-nixie
+  ].freeze
+
+  def count_body_palette_classes
+    page.evaluate_script(<<~JS)
+      (function() {
+        var classes = #{PALETTE_CLASSES.to_json};
+        var body = document.body;
+        return classes.filter(function(c) { return body.classList.contains(c); }).length;
+      })()
+    JS
+  end
+
+  test "home page renders all three Hardware palette cards" do
+    visit root_path
+
+    assert_selector "h2", text: "HARDWARE"
+    assert_selector "h3", text: "VFD Display"
+    assert_selector "h3", text: "Cherenkov"
+    assert_selector "h3", text: "Nixie"
+  end
+
+  test "navbar palette dropdown includes all three Hardware options" do
+    visit root_path
+
+    within("select[data-theme-switcher-target='palette']") do
+      assert_selector "option[value='neon-vfd']",       text: "VFD Display"
+      assert_selector "option[value='neon-cherenkov']", text: "Cherenkov"
+      assert_selector "option[value='neon-nixie']",     text: "Nixie"
+    end
+  end
+
+  test "selecting Cherenkov applies neon-cherenkov class to body" do
+    visit root_path
+
+    find("select[data-theme-switcher-target='palette']").select("Cherenkov")
+
+    assert page.evaluate_script("document.body.classList.contains('neon-cherenkov')"),
+      "expected body to have neon-cherenkov class after selecting Cherenkov"
+    assert_equal 1, count_body_palette_classes,
+      "expected exactly one palette class on body after selection, " \
+      "indicating the prior palette class was cleanly removed"
+  end
+
+  test "selecting Nixie applies neon-nixie class to body" do
+    visit root_path
+
+    find("select[data-theme-switcher-target='palette']").select("Nixie")
+
+    assert page.evaluate_script("document.body.classList.contains('neon-nixie')"),
+      "expected body to have neon-nixie class after selecting Nixie"
+    assert_equal 1, count_body_palette_classes,
+      "expected exactly one palette class on body after selection"
+  end
+
+  test "switching between Cherenkov and Nixie does not leave stale palette classes" do
+    visit root_path
+
+    find("select[data-theme-switcher-target='palette']").select("Cherenkov")
+    assert page.evaluate_script("document.body.classList.contains('neon-cherenkov')")
+
+    find("select[data-theme-switcher-target='palette']").select("Nixie")
+    assert page.evaluate_script("document.body.classList.contains('neon-nixie')")
+    refute page.evaluate_script("document.body.classList.contains('neon-cherenkov')"),
+      "expected neon-cherenkov to be removed after switching to Nixie"
+    assert_equal 1, count_body_palette_classes
+  end
+
+  test "Cherenkov palette persists across page reloads via localStorage" do
+    visit root_path
+    find("select[data-theme-switcher-target='palette']").select("Cherenkov")
+    assert page.evaluate_script("document.body.classList.contains('neon-cherenkov')")
+
+    visit root_path  # reload
+
+    assert page.evaluate_script("document.body.classList.contains('neon-cherenkov')"),
+      "expected Cherenkov palette to persist after page reload"
+  end
+
+  test "Nixie palette persists across page reloads via localStorage" do
+    visit root_path
+    find("select[data-theme-switcher-target='palette']").select("Nixie")
+    assert page.evaluate_script("document.body.classList.contains('neon-nixie')")
+
+    visit root_path  # reload
+
+    assert page.evaluate_script("document.body.classList.contains('neon-nixie')"),
+      "expected Nixie palette to persist after page reload"
+  end
+end
