@@ -277,6 +277,23 @@
     0 0 var(--ng-glow-blur) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.2));
 }
 
+/* Cherenkov form tint: lightly wash form controls in the palette's
+   primary hue so they feel "seen through water" rather than generic
+   dark rectangles, without being loud enough to distract from form
+   function. Default state only — focus state uses the normal strong
+   Cherenkov blue that already works. */
+.neon-cherenkov .ng-input,
+.neon-cherenkov .ng-select,
+.neon-cherenkov textarea {
+  border-color: rgba(var(--ng-primary-rgb), 0.35);
+  box-shadow: inset 0 0 12px rgba(var(--ng-primary-rgb), 0.06);
+}
+
+.neon-cherenkov .ng-input::placeholder,
+.neon-cherenkov textarea::placeholder {
+  color: rgba(var(--ng-primary-rgb), 0.45);
+}
+
 /* ============================================================
    NEON BADGES / PILLS
    ============================================================ */
