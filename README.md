@@ -183,6 +183,8 @@ Decades:
 
 Hardware:
   neon-vfd         -- VFD phosphor display (add neon-vfd-* for hue)
+  neon-cherenkov   -- Deep reactor-pool blue (Cherenkov radiation)
+  neon-nixie       -- Warm amber-orange gas-discharge tube glow
 ```
 
 ### Intensity Classes
@@ -255,7 +257,7 @@ Switch palettes and intensities at runtime by swapping classes on `<body>`:
 const palettes = [
   "neon-rainbow", "neon-unicorn", "neon-cinematic", "neon-pink",
   "neon-retrowave", "neon-grunge", "neon-y2k", "neon-social",
-  "neon-cyberpunk", "neon-vfd"
+  "neon-cyberpunk", "neon-vfd", "neon-cherenkov", "neon-nixie"
 ];
 palettes.forEach(p => document.body.classList.remove(p));
 document.body.classList.add("neon-cyberpunk");
