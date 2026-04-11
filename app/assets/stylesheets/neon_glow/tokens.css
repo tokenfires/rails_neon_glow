@@ -530,6 +530,67 @@
 }
 
 /* ============================================================
+   PALETTE: NIXIE
+   Warm amber-orange glow of a 1950s-60s gas-discharge tube.
+   Neon with trace mercury vapor, ~170V ignition. The cathode
+   wires produced a specific ~605-620nm orange, with a faint
+   violet fringe at the base from the mercury component.
+   Locked hue — real Nixies came in exactly one color.
+   ============================================================ */
+.neon-nixie {
+  --ng-primary:       #ff6e1a;
+  --ng-primary-rgb:   255, 110, 26;
+  --ng-secondary:     #e04706;
+  --ng-secondary-rgb: 224, 71, 6;
+  --ng-accent:        #ffa04d;
+  --ng-accent-rgb:    255, 160, 77;
+  --ng-success:       #f4af25;
+  --ng-success-rgb:   244, 175, 37;
+  --ng-warning:       #f94b1f;
+  --ng-warning-rgb:   249, 75, 31;
+  --ng-danger:        #a73cdd;
+  --ng-danger-rgb:    167, 60, 221;
+  --ng-info:          #cc8b66;
+  --ng-info-rgb:      204, 139, 102;
+
+  /* Mercury-violet accent — the violet fringe color at the base
+     of a lit Nixie tube. Used for fringe/fallback glow effects
+     in later phases. */
+  --ng-nixie-mercury:     #a219e6;
+  --ng-nixie-mercury-rgb: 162, 25, 230;
+
+  --ng-gradient: linear-gradient(
+    135deg,
+    #ff6e1a 0%,
+    #e04706 50%,
+    #ff6e1a 100%
+  );
+
+  --ng-gradient-border: linear-gradient(
+    var(--ng-border-angle, 135deg),
+    #ff6e1a,
+    #e04706,
+    #ffa04d
+  );
+
+  --ng-bg:             #0d0706;
+  --ng-surface:        #130907;
+  --ng-surface-raised: #1a0d09;
+  --ng-surface-overlay:#22120c;
+  --ng-text-inverse:   #0d0706;
+  --ng-border:         #362217;
+  --ng-border-subtle:  #211712;
+  --ng-text:           #ecd4c6;
+  --ng-text-secondary: #c59d87;
+  --ng-text-muted:     #8f6b56;
+
+  --ng-radius-sm: 0.125rem;
+  --ng-radius:    0.125rem;
+  --ng-radius-lg: 0.125rem;
+  --ng-radius-xl: 0.25rem;
+}
+
+/* ============================================================
    INTENSITY: SUBTLE
    Gentle glow. Professional. Easy on the eyes.
    Good for productivity apps and long reading sessions.
