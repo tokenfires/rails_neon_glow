@@ -124,4 +124,105 @@ class HardwarePalettesTest < ApplicationSystemTestCase
     assert page.evaluate_script("document.body.classList.contains('neon-nixie')"),
       "expected Nixie palette to persist after page reload"
   end
+
+  test "selecting Cyberpunk auto-applies neon-overdrive intensity" do
+    visit root_path
+
+    find("select[data-theme-switcher-target='palette']").select("2020's Cyberpunk")
+
+    assert page.evaluate_script("document.body.classList.contains('neon-cyberpunk')"),
+      "expected body to have neon-cyberpunk class"
+    assert page.evaluate_script("document.body.classList.contains('neon-overdrive')"),
+      "expected Cyberpunk to auto-apply neon-overdrive intensity"
+
+    intensity_value = page.evaluate_script("document.querySelector(\"select[data-theme-switcher-target='intensity']\").value")
+    assert_equal "neon-overdrive", intensity_value,
+      "expected intensity dropdown to reflect the auto-applied Overdrive selection"
+  end
+
+  test "selecting Cherenkov auto-applies neon-overdrive intensity" do
+    visit root_path
+
+    find("select[data-theme-switcher-target='palette']").select("Cherenkov")
+
+    assert page.evaluate_script("document.body.classList.contains('neon-cherenkov')")
+    assert page.evaluate_script("document.body.classList.contains('neon-overdrive')"),
+      "expected Cherenkov to auto-apply neon-overdrive intensity"
+  end
+
+  test "selecting Social auto-applies neon-subtle intensity" do
+    visit root_path
+
+    find("select[data-theme-switcher-target='palette']").select("2010's Social")
+
+    assert page.evaluate_script("document.body.classList.contains('neon-social')")
+    assert page.evaluate_script("document.body.classList.contains('neon-subtle')"),
+      "expected Social to auto-apply neon-subtle intensity"
+  end
+
+  test "selecting Nixie auto-applies neon-intense intensity" do
+    visit root_path
+
+    find("select[data-theme-switcher-target='palette']").select("Nixie")
+
+    assert page.evaluate_script("document.body.classList.contains('neon-nixie')")
+    assert page.evaluate_script("document.body.classList.contains('neon-intense')"),
+      "expected Nixie to auto-apply neon-intense intensity"
+  end
+
+  test "switching palettes overrides any manual intensity choice" do
+    visit root_path
+
+    # Start by selecting Cyberpunk (auto-applies overdrive)
+    find("select[data-theme-switcher-target='palette']").select("2020's Cyberpunk")
+    assert page.evaluate_script("document.body.classList.contains('neon-overdrive')")
+
+    # Manually change intensity to subtle
+    find("select[data-theme-switcher-target='intensity']").select("Subtle")
+    assert page.evaluate_script("document.body.classList.contains('neon-subtle')")
+    refute page.evaluate_script("document.body.classList.contains('neon-overdrive')")
+
+    # Switch palette to Cherenkov — should auto-apply overdrive (Cherenkov's default),
+    # overriding the manual subtle choice
+    find("select[data-theme-switcher-target='palette']").select("Cherenkov")
+    assert page.evaluate_script("document.body.classList.contains('neon-overdrive')"),
+      "switching palettes should auto-apply the new palette's default intensity, overriding manual choice"
+    refute page.evaluate_script("document.body.classList.contains('neon-subtle')")
+  end
+
+  test "neon-overdrive is selectable as a manual intensity choice" do
+    visit root_path
+
+    find("select[data-theme-switcher-target='intensity']").select("Overdrive")
+
+    assert page.evaluate_script("document.body.classList.contains('neon-overdrive')"),
+      "Overdrive should be selectable as a manual intensity choice"
+  end
+
+  test "saved manual intensity persists across page reloads" do
+    visit root_path
+
+    # Set a manual intensity preference (subtle) — this writes to localStorage
+    find("select[data-theme-switcher-target='intensity']").select("Subtle")
+    assert page.evaluate_script("document.body.classList.contains('neon-subtle')")
+
+    # Now reload the page; saved preference should win over palette default
+    visit root_path
+    assert page.evaluate_script("document.body.classList.contains('neon-subtle')"),
+      "saved manual intensity should persist across page reloads"
+  end
+
+  test "first load without saved intensity applies palette default" do
+    visit root_path
+
+    # Clear ALL state and set palette WITHOUT setting intensity
+    page.execute_script("localStorage.clear()")
+    page.execute_script("localStorage.setItem('ng-palette', 'neon-cherenkov')")
+
+    visit root_path
+
+    assert page.evaluate_script("document.body.classList.contains('neon-cherenkov')")
+    assert page.evaluate_script("document.body.classList.contains('neon-overdrive')"),
+      "first-load with palette saved but no intensity saved should apply the palette default"
+  end
 end
