@@ -59,7 +59,6 @@ export default class extends Controller {
     this.applyVfdPreset(savedPreset, false)
 
     if (this.hasPaletteTarget) this.paletteTarget.value = savedPalette
-    if (this.hasIntensityTarget) this.intensityTarget.value = savedIntensity
     if (this.hasVfdHueTarget) this.vfdHueTarget.value = savedHue
     if (this.hasVfdPresetTarget) this.vfdPresetTarget.value = savedPreset
   }
@@ -95,7 +94,8 @@ export default class extends Controller {
     const defaultIntensity = PALETTE_DEFAULT_INTENSITIES[palette]
     if (defaultIntensity) {
       this.applyIntensity(defaultIntensity)
-      if (this.hasIntensityTarget) this.intensityTarget.value = defaultIntensity
+    } else {
+      console.warn(`[neon_glow] No default intensity defined for palette: ${palette}`)
     }
   }
 
@@ -104,6 +104,7 @@ export default class extends Controller {
     INTENSITIES.forEach(i => body.classList.remove(i))
     body.classList.add(intensity)
     localStorage.setItem("ng-intensity", intensity)
+    if (this.hasIntensityTarget) this.intensityTarget.value = intensity
   }
 
   applyVfdHue(hue) {
