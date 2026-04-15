@@ -816,11 +816,12 @@ samp {
   isolation: isolate;
   display: inline-block;
   padding: 0.1em 0.2em;
-  /* Match the heading font so numerals in the Nixie demo row have the
-     same built-in-underline "connector wire" character as H1/H2 text.
+  /* Match the heading font so numerals in the Nixie demo row share
+     typographic register with H1/H2 text. Tracks whatever Nixie's
+     card-heading override uses (currently Megrim, experiment 2026-04-15).
      Without this, numerals drift to B612 Mono (inherited from Nixie's
-     --ng-font-body/display tokens) and lose the wire-connector look. */
-  font-family: 'Montserrat Underline', 'Courier New', monospace;
+     --ng-font-body/display tokens) and lose the blueprint register. */
+  font-family: 'Megrim', 'Courier New', monospace;
 }
 
 .neon-nixie .ng-nixie-char {
@@ -875,21 +876,27 @@ samp {
   display: block;
 }
 
-/* --- Nixie heading font: Montserrat Underline ---
-   Experimental: override H1/H2 headings inside Nixie cards to use
-   Montserrat Underline. The font has an underline stroke built into
-   each character's glyph, which combined with our per-character
-   wire-grid wrapping produces a PCB-trace-between-tube-bases visual.
-   Scoped narrowly to H1/H2/.display-4/.display-5 — H3 and below keep
-   B612 Mono for readability. If this treatment doesn't land, revert
-   this block alone to roll back cleanly. */
+/* --- Nixie heading font: Megrim (experiment, 2026-04-15) ---
+   Replaces Phase 2's Montserrat Underline trial. Megrim is a
+   constructivist-blueprint display face — thin geometric lines with
+   visible construction joints, the "drawn-with-ruler on engineering
+   graph paper" register. Mid-century scientific instrumentation was
+   drafted exactly this way before it was etched onto ceramic
+   substrates. The per-character wire-grid ::before cells show
+   THROUGH Megrim's skeletal letterforms rather than being overlaid,
+   which reads as a cathode stack with a thin glowing active digit in
+   front — a closer visual to a real lit Nixie tube than the previous
+   Montserrat Underline tube-line composite.
+   Trade-off: loses the underline-stroke-as-tube-line effect that was
+   Phase 2's breakthrough. Keep this block as a single revert point if
+   Megrim doesn't land. */
 .neon-nixie .ng-card h1,
 .neon-nixie .ng-card h2,
 .neon-nixie .ng-card .h1,
 .neon-nixie .ng-card .h2,
 .neon-nixie .ng-card .display-4,
 .neon-nixie .ng-card .display-5 {
-  font-family: 'Montserrat Underline', 'Courier New', monospace;
+  font-family: 'Megrim', 'Courier New', monospace;
 }
 
 /* ============================================================

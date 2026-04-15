@@ -20,7 +20,7 @@
    See 2026-04-10 design spec for the delivery-mechanism reasoning
    (OFL-only, CDN-delivered, zero bundled font files, identical
    behavior across Rails/gem/npm distributions). */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=B612+Mono:wght@400;700&family=Montserrat+Underline:wght@400;700&family=Orbitron:wght@400;700&family=Syncopate:wght@400;700&family=Space+Grotesk:wght@400;700&family=Rubik+Glitch&family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=B612+Mono:wght@400;700&family=Montserrat+Underline:wght@400;700&family=Orbitron:wght@400;700&family=Syncopate:wght@400;700&family=Space+Grotesk:wght@400;700&family=Rubik+Glitch&family=VT323&family=Megrim&display=swap');
 
 /* ============================================================
    BASE DARK SURFACE SYSTEM
