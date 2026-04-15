@@ -20,7 +20,7 @@
    See 2026-04-10 design spec for the delivery-mechanism reasoning
    (OFL-only, CDN-delivered, zero bundled font files, identical
    behavior across Rails/gem/npm distributions). */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=B612+Mono:wght@400;700&family=Montserrat+Underline:wght@400;700&family=Orbitron:wght@400;700&family=Syncopate:wght@400;700&family=Space+Grotesk:wght@400;700&family=Share+Tech+Mono&family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=B612+Mono:wght@400;700&family=Montserrat+Underline:wght@400;700&family=Orbitron:wght@400;700&family=Syncopate:wght@400;700&family=Space+Grotesk:wght@400;700&family=Rubik+Glitch&family=VT323&display=swap');
 
 /* ============================================================
    BASE DARK SURFACE SYSTEM
@@ -442,12 +442,15 @@
   --ng-border:         #243028;
   --ng-border-subtle:  #1a261e;
 
-  /* Phase 3: Share Tech Mono — monospace display that reads as
-     corporate-dystopian UI text. Glitch-adjacent; the register of
-     terminal prompts inside a megacorp HUD. Body stays Inter so
-     paragraph text doesn't bog down in full-monospace.
+  /* Phase 3: Rubik Glitch — clean geometric sans with visible
+     data-corruption artifacts baked into the glyphs. The letterforms
+     ARE the message: functional type that's been compromised. That's
+     the cyberpunk thesis in a single design — "the future arrived and
+     it's beautiful and broken," executed as type rather than depicted
+     by type. Fallback to sans-serif rather than monospace since the
+     base form of Rubik is geometric sans, not mono.
      Alt re-set; see Gotcha #6 in CLAUDE.md. */
-  --ng-font-display:     'Share Tech Mono', 'Courier New', monospace;
+  --ng-font-display:     'Rubik Glitch', system-ui, sans-serif;
   --ng-font-display-alt: var(--ng-font-display);
 }
 

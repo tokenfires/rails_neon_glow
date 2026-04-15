@@ -57,10 +57,10 @@ class PerThemeTypographyTest < ApplicationSystemTestCase
 
   # ---------- Batch 2 — Monospace-adjacent ----------
 
-  test "Cyberpunk applies Share Tech Mono to display elements" do
+  test "Cyberpunk applies Rubik Glitch to display elements" do
     select_palette("2020's Cyberpunk")
-    assert_match(/Share\s*Tech\s*Mono/i, display_font_family,
-      "expected Cyberpunk to set --ng-font-display to Share Tech Mono; got: #{display_font_family}")
+    assert_match(/Rubik\s*Glitch/i, display_font_family,
+      "expected Cyberpunk to set --ng-font-display to Rubik Glitch; got: #{display_font_family}")
   end
 
   test "VFD applies VT323 to display elements" do

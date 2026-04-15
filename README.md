@@ -127,7 +127,7 @@ Each palette with a strong era or hardware referent gets a display font tuned to
 |---------|--------------|-----|
 | **Retrowave** | `Orbitron` | Wide geometric sci-fi sans — 80s synthwave / Blade Runner title cards |
 | **Y2K** | `Syncopate` | Wide tall sans — early-2000s chrome and frosted glass |
-| **Cyberpunk** | `Share Tech Mono` | Monospace display — corporate-dystopian HUD / terminal prompt inside a megacorp |
+| **Cyberpunk** | `Rubik Glitch` | Geometric sans with visible data-corruption artifacts baked into the glyphs — type that IS broken, not type that depicts broken-ness |
 | **VFD** | `VT323` | Pixel terminal typeface — matches the vacuum-fluorescent segmented-display referent |
 | **Cherenkov** | `Space Grotesk` | Clean technical humanist sans — modern scientific instrument typography |
 | **Nixie** | `B612 Mono` (display + body) + `Montserrat Underline` (h1/h2 in `.ng-card`) | Airbus cockpit-display font for the instrument-readout register; underline font composes into wire-grid tube cells |
