@@ -83,6 +83,7 @@ non-Tailwind consumers of `tokens.css`, the `<link>` for our demo app.
 3. **`z-index: -1` without a stacking context.** Wire-grid `::before` rendered *behind* the opaque `.ng-card` background and went invisible. Add `isolation: isolate` to the parent so `z-index: -1` stays inside its own stacking context.
 4. **Body element selector outranked by class selector.** `body { font-family: ... }` (specificity `0,0,1`) got beaten by `.neon-glow-body { font-family: system-ui }` from earlier CSS. For body-scoped typography, use `.neon-glow-body` as the selector.
 5. **`getComputedStyle(font-family)` reports the declared string even if the font never loaded.** Tests can pass while the page renders Courier New fallback. See the Tailwind v4 gotcha above.
+6. **CSS variable forwarding via `var()` resolves at the *declaration* scope, not the *use* scope.** `:root { --ng-font-display-alt: var(--ng-font-display); }` resolves *once* at `:root` (to Inter) and inherits as that resolved value. Overriding `--ng-font-display` on a palette class does NOT retroactively update alt — alt stays Inter. Fix: any palette block that overrides `--ng-font-display` must also re-set `--ng-font-display-alt: var(--ng-font-display)` so re-resolution happens at the palette's cascade level. Same applies if other forwarding aliases get added.
 
 ## Design collaboration
 

@@ -20,7 +20,7 @@
    See 2026-04-10 design spec for the delivery-mechanism reasoning
    (OFL-only, CDN-delivered, zero bundled font files, identical
    behavior across Rails/gem/npm distributions). */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=B612+Mono:wght@400;700&family=Montserrat+Underline:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=B612+Mono:wght@400;700&family=Montserrat+Underline:wght@400;700&family=Orbitron:wght@400;700&family=Syncopate:wght@400;700&family=Space+Grotesk:wght@400;700&display=swap');
 
 /* ============================================================
    BASE DARK SURFACE SYSTEM
@@ -248,6 +248,16 @@
   --ng-surface-overlay:#2d004a;
   --ng-border:         #3d1060;
   --ng-border-subtle:  #280840;
+
+  /* Phase 3: Orbitron — wide geometric sci-fi sans, the Blade Runner /
+     synthwave title-card register. Body stays Inter for paragraph
+     readability; the personality lives in the headlines.
+     Alt is re-set so it forwards to display at this cascade level —
+     :root's --ng-font-display-alt: var(--ng-font-display) resolves
+     once at :root scope (to Inter) and inherits as the resolved value;
+     overriding display alone leaves alt stuck on Inter. */
+  --ng-font-display:     'Orbitron', system-ui, sans-serif;
+  --ng-font-display-alt: var(--ng-font-display);
 }
 
 /* ============================================================
@@ -339,6 +349,12 @@
   --ng-text:           #e8ecf4;
   --ng-text-secondary: #a0a8c0;
   --ng-text-muted:     #606880;
+
+  /* Phase 3: Syncopate — wide tall geometric sans, the early-2000s
+     chrome-and-frosted-glass register. Body stays Inter.
+     Alt re-set; see Retrowave block for the cascade-resolution note. */
+  --ng-font-display:     'Syncopate', system-ui, sans-serif;
+  --ng-font-display-alt: var(--ng-font-display);
 }
 
 /* ============================================================
@@ -543,6 +559,14 @@
   --ng-text:           #c9d4e8;
   --ng-text-secondary: #8b9dc1;
   --ng-text-muted:     #56698f;
+
+  /* Phase 3: Space Grotesk — clean technical humanist sans. Reads as
+     modern scientific instrument typography (the register of academic
+     papers, lab equipment LCDs, and high-end engineering software).
+     Anchors Cherenkov's "I am a real physical phenomenon" claim.
+     Alt re-set; see Retrowave block for the cascade-resolution note. */
+  --ng-font-display:     'Space Grotesk', system-ui, sans-serif;
+  --ng-font-display-alt: var(--ng-font-display);
 }
 
 /* ============================================================
@@ -609,9 +633,15 @@
      Nixie uses B612 Mono for both display AND body. The entire
      surface should feel like a continuous instrument readout;
      paragraphs and headings share the same instrument-font register.
-     Mono stays default (JetBrains Mono) for code. */
-  --ng-font-display: 'B612 Mono', 'Courier New', monospace;
-  --ng-font-body:    'B612 Mono', 'Courier New', monospace;
+     Mono stays default (JetBrains Mono) for code.
+     Alt re-set so it forwards to display at this cascade level —
+     :root's --ng-font-display-alt: var(--ng-font-display) resolves
+     once at :root scope (to Inter). Without re-setting alt here, h2/h3
+     inside Nixie cards would render as Inter against B612 Mono body
+     text. (Latent Phase 2 bug, fixed during Phase 3.) */
+  --ng-font-display:     'B612 Mono', 'Courier New', monospace;
+  --ng-font-body:        'B612 Mono', 'Courier New', monospace;
+  --ng-font-display-alt: var(--ng-font-display);
 }
 
 /* ============================================================

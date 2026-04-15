@@ -121,11 +121,18 @@ Fonts are delivered via Google Fonts `@import` at the top of `tokens.css`. All i
 
 ### Per-theme font overrides
 
-Currently one theme overrides the defaults:
+Each palette with a strong era or hardware referent gets a display font tuned to that referent. Body type stays `Inter` across most palettes for consistent reading.
 
-- **Nixie** uses `B612 Mono` on both display and body — a font commissioned by Airbus for cockpit instrument displays, which maps onto Nixie's 1960s scientific-instrumentation register. Nixie also gains a signature wire-grid frame effect on card headings, recreating the cathode stack visible through a real lit Nixie tube.
+| Palette | Display font | Why |
+|---------|--------------|-----|
+| **Retrowave** | `Orbitron` | Wide geometric sci-fi sans — 80s synthwave / Blade Runner title cards |
+| **Y2K** | `Syncopate` | Wide tall sans — early-2000s chrome and frosted glass |
+| **Cherenkov** | `Space Grotesk` | Clean technical humanist sans — modern scientific instrument typography |
+| **Nixie** | `B612 Mono` (display + body) + `Montserrat Underline` (h1/h2 in `.ng-card`) | Airbus cockpit-display font for the instrument-readout register; underline font composes into wire-grid tube cells |
 
-Additional per-theme font overrides will be added in later phases.
+Classic palettes (Rainbow, Unicorn, Cinematic, Pink) stay on `Inter` — they're abstract color stories without era/object referents, and a custom font would feel imposed.
+
+Additional per-theme overrides land in later batches of Phase 3.
 
 ### Using custom fonts
 
