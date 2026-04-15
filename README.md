@@ -155,6 +155,24 @@ The `.ng-nixie-digit` utility class applies a cathode-wire-and-bracket frame beh
 <span class="ng-nixie-digit">42</span>
 ```
 
+### The neon tube affordance
+
+The `.ng-neon-tube` utility makes any element read as literal neon signage. It applies the `Montserrat Underline` font — whose glyphs have a built-in stroke running beneath each character — so that across a string the strokes compose into a single continuous line: visually a glass neon tube with characters riding on it. Color follows the active palette's primary, so the same element renders as a differently-colored tube under each palette.
+
+```html
+<h1 class="ng-neon-tube">Neon Glow</h1>
+```
+
+The demo kitchen sinks (Bootstrap and Tailwind) and the home page hero all use this utility — switch palettes in the navbar to see the same sign relight in twelve different registers:
+
+- **Retrowave** — hot magenta tube
+- **Cyberpunk** — toxic green tube
+- **Cinematic** — amber Blade Runner title-card tube
+- **Cherenkov** — deep reactor-pool blue tube
+- **Nixie** — amber tube with the per-character wire-grid applied automatically (the only palette that layers the wire-grid on top of the tube; on other palettes the tube stands alone)
+
+Unlike `.ng-nixie-digit`, which is Nixie-only, `.ng-neon-tube` works under every palette. This is what makes the "neon glow" brand claim structural, not just color-based.
+
 ---
 
 ## Features
@@ -278,6 +296,7 @@ ng-glow-secondary    -- Secondary color box-shadow glow
 ng-text-glow         -- Glowing text (primary)
 ng-gradient-text     -- Rainbow gradient text
 ng-nixie-digit       -- Nixie cathode wire-grid frame (see Typography section)
+ng-neon-tube         -- Neon-signage treatment; picks up palette primary color
 ng-btn               -- Base button
 ng-btn-primary       -- Primary glowing button
 ng-btn-secondary     -- Secondary glowing button

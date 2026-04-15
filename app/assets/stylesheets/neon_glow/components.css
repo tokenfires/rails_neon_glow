@@ -891,3 +891,42 @@ samp {
 .neon-nixie .ng-card .display-5 {
   font-family: 'Montserrat Underline', 'Courier New', monospace;
 }
+
+/* ============================================================
+   NEON TUBE AFFORDANCE (Phase 2.5)
+
+   .ng-neon-tube — palette-agnostic utility that makes any element
+   read as literal neon signage. The Montserrat Underline font has an
+   underline stroke built into each character's glyph; across a string
+   those strokes compose into a single continuous line running through
+   the characters — visually a glass neon tube with the characters
+   riding on it.
+
+   Color comes from --ng-primary-rgb, so the same utility produces a
+   distinct visual register for each of the 12 palettes:
+     - Retrowave: hot magenta/cyan tube
+     - Cyberpunk: toxic green tube in a dystopian district
+     - Cinematic: amber Blade Runner movie-title tube
+     - Nixie:     amber tube + per-character wire-grid (overlay applied
+                  automatically when neon-nixie is active; see
+                  theme_switcher_controller.js wrapping)
+
+   One utility, twelve distinct registers.
+
+   Text-shadow produces a soft outer glow so the tube reads as
+   illuminated, not just shaped. Sized in em so it scales with font-size.
+   ============================================================ */
+
+.ng-neon-tube {
+  font-family: 'Montserrat Underline', 'Courier New', monospace;
+  color: rgb(var(--ng-primary-rgb));
+  text-shadow:
+    0 0 0.2em rgba(var(--ng-primary-rgb), 0.8),
+    0 0 0.5em rgba(var(--ng-primary-rgb), 0.5),
+    0 0 1em   rgba(var(--ng-primary-rgb), 0.3);
+}
+
+/* When Nixie is active, .ng-neon-tube elements get character-wrapped by
+   the controller and inherit the Nixie wire-grid via .ng-nixie-char's
+   existing ::before rule (scoped to .neon-nixie). No additional CSS
+   needed here — the shared span class carries the decoration. */

@@ -19,12 +19,22 @@ const VFD_PRESET_HUES = {
 
 const INTENSITIES = ["neon-subtle", "neon-medium", "neon-intense", "neon-overdrive"]
 
-// Headings that get per-character wire-grid treatment when Nixie is active.
-// We wrap each non-space character in a <span class="ng-nixie-char"> so CSS
-// can render one Nixie tube cell per character with spaces producing natural
-// gaps between tubes. Pure CSS can't do per-character styling; this is the
-// minimal DOM hook needed for that effect.
-const NIXIE_HEADING_SELECTORS = [
+// Selectors whose text gets per-character wrapping for the Nixie
+// wire-grid effect. We wrap each non-space character in a
+// <span class="ng-nixie-char"> so CSS can render one tube cell per
+// character, with spaces producing natural gaps between tubes.
+// Pure CSS can't do per-character styling; this is the minimal DOM
+// hook needed for that effect.
+//
+// Two groups:
+// 1. NIXIE_CARD_HEADING_SELECTORS — Nixie-specific auto-wrap for the
+//    card H1/H2 heading treatment. Only relevant when Nixie is active.
+// 2. NEON_TUBE_SELECTOR — Phase 2.5 generalization. Any element opted
+//    into the neon-tube affordance via .ng-neon-tube. These get wrapped
+//    only when Nixie is active (so the wire-grid CSS rule matches);
+//    on other palettes .ng-neon-tube relies on the Montserrat Underline
+//    font alone, no wrapping needed.
+const NIXIE_CARD_HEADING_SELECTORS = [
   ".ng-card h1",
   ".ng-card h2",
   ".ng-card .h1",
@@ -32,6 +42,10 @@ const NIXIE_HEADING_SELECTORS = [
   ".ng-card .display-4",
   ".ng-card .display-5"
 ].join(", ")
+
+const NEON_TUBE_SELECTOR = ".ng-neon-tube"
+
+const NIXIE_WRAP_SELECTORS = `${NIXIE_CARD_HEADING_SELECTORS}, ${NEON_TUBE_SELECTOR}`
 
 const PALETTE_DEFAULT_INTENSITIES = {
   "neon-rainbow":    "neon-medium",
@@ -112,15 +126,17 @@ export default class extends Controller {
       console.warn(`[neon_glow] No default intensity defined for palette: ${palette}`)
     }
 
-    // Wrap/unwrap heading characters for the Nixie per-character wire-grid
+    // Wrap/unwrap characters for the Nixie per-character wire-grid
     // effect. This is the minimal DOM manipulation needed for an effect
     // pure CSS can't express (per-character styling with space-skipping).
-    this.updateNixieHeadingWrap()
+    // Covers both .ng-card headings (Nixie-specific treatment) and any
+    // element opted into the .ng-neon-tube affordance.
+    this.updateCharacterWrapping()
   }
 
-  updateNixieHeadingWrap() {
+  updateCharacterWrapping() {
     const shouldWrap = document.body.classList.contains("neon-nixie")
-    document.querySelectorAll(NIXIE_HEADING_SELECTORS).forEach(el => {
+    document.querySelectorAll(NIXIE_WRAP_SELECTORS).forEach(el => {
       const isWrapped = el.dataset.nixieWrapped === "true"
       if (shouldWrap && !isWrapped) {
         this.wrapNixieChars(el)

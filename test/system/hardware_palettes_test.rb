@@ -361,4 +361,81 @@ class HardwarePalettesTest < ApplicationSystemTestCase
     assert_match(/linear-gradient/i, bg_image,
       "expected .ng-nixie-digit ::before to contain a linear-gradient; got: #{bg_image}")
   end
+
+  # ============================================================
+  # Phase 2.5 — Neon Tube Affordance (.ng-neon-tube)
+  #
+  # Generalizes Phase 2's underline-font + character-wrap effect to
+  # any element, regardless of palette. Each palette's primary color
+  # carries a differently-colored "neon tube" shape composed from
+  # Montserrat Underline's built-in underline strokes.
+  #
+  # The home page hero H1 "Neon Glow" uses this utility, making it
+  # a good fixture for these tests.
+  # ============================================================
+
+  test "ng-neon-tube applies Montserrat Underline font across palettes" do
+    visit root_path
+
+    # Default palette (Rainbow): hero should already be in Montserrat Underline
+    hero_font = page.evaluate_script(
+      "window.getComputedStyle(document.querySelector('.ng-neon-tube')).getPropertyValue('font-family')"
+    )
+    assert_match(/Montserrat\s*Underline/i, hero_font,
+      "expected .ng-neon-tube to apply Montserrat Underline on default palette; got: #{hero_font}")
+
+    # Switch to a non-Nixie palette and confirm the font persists
+    find("select[data-theme-switcher-target='palette']").select("Cherenkov")
+    hero_font = page.evaluate_script(
+      "window.getComputedStyle(document.querySelector('.ng-neon-tube')).getPropertyValue('font-family')"
+    )
+    assert_match(/Montserrat\s*Underline/i, hero_font,
+      "expected .ng-neon-tube to keep Montserrat Underline under Cherenkov; got: #{hero_font}")
+  end
+
+  test "ng-neon-tube picks up palette primary color" do
+    visit root_path
+
+    # Get the rendered color under Cherenkov
+    find("select[data-theme-switcher-target='palette']").select("Cherenkov")
+    cherenkov_color = page.evaluate_script(
+      "window.getComputedStyle(document.querySelector('.ng-neon-tube')).getPropertyValue('color')"
+    )
+
+    # Switch palettes; color should change (palettes have distinct primaries)
+    find("select[data-theme-switcher-target='palette']").select("2020's Cyberpunk")
+    cyberpunk_color = page.evaluate_script(
+      "window.getComputedStyle(document.querySelector('.ng-neon-tube')).getPropertyValue('color')"
+    )
+
+    refute_equal cherenkov_color, cyberpunk_color,
+      "expected .ng-neon-tube color to change between palettes with distinct primaries; " \
+      "both palettes rendered as: #{cherenkov_color}"
+  end
+
+  test "ng-neon-tube gets character-wrapped when Nixie palette is active" do
+    visit root_path
+
+    find("select[data-theme-switcher-target='palette']").select("Nixie")
+
+    wrapped_count = page.evaluate_script(<<~JS)
+      document.querySelectorAll('.ng-neon-tube .ng-nixie-char').length
+    JS
+    assert wrapped_count > 0,
+      "expected .ng-neon-tube to be character-wrapped with .ng-nixie-char spans " \
+      "when Nixie is active; got #{wrapped_count} wrapped spans"
+  end
+
+  test "ng-neon-tube is not character-wrapped on non-Nixie palettes" do
+    visit root_path
+
+    find("select[data-theme-switcher-target='palette']").select("Cherenkov")
+
+    wrapped_count = page.evaluate_script(<<~JS)
+      document.querySelectorAll('.ng-neon-tube .ng-nixie-char').length
+    JS
+    assert_equal 0, wrapped_count,
+      "expected .ng-neon-tube to NOT be character-wrapped on non-Nixie palettes; " \
+      "Cherenkov produced #{wrapped_count} wrapped spans"
+  end
 end
