@@ -746,3 +746,113 @@
     0 6px 10px  rgba(var(--ng-nixie-mercury-rgb), 0.65),
     0 14px 24px rgba(var(--ng-nixie-mercury-rgb), 0.35);
 }
+
+/* ============================================================
+   TYPOGRAPHY APPLICATION
+   Headings and display elements get --ng-font-display.
+   Subheads and accent elements get --ng-font-display-alt (which
+   defaults to --ng-font-display unless a theme overrides it).
+   Body text gets --ng-font-body. Code gets --ng-font-mono.
+   ============================================================ */
+
+.ng-card h1,
+.ng-hero,
+.ng-display {
+  font-family: var(--ng-font-display);
+}
+
+.ng-card h2,
+.ng-card h3,
+.ng-accent {
+  font-family: var(--ng-font-display-alt);
+}
+
+.ng-card p,
+body {
+  font-family: var(--ng-font-body);
+}
+
+.ng-code,
+pre,
+code,
+kbd,
+samp {
+  font-family: var(--ng-font-mono);
+}
+
+/* ============================================================
+   NIXIE WIRE-GRID FRAME
+   The signature Nixie visual: thin vertical cathode wires and
+   horizontal support brackets behind the glowing digit. Recreates
+   the cathode stack visible through the glass of a lit Nixie tube.
+
+   Two layers: (1) a utility class .ng-nixie-digit for manual
+   application to specific elements, (2) auto-application to
+   card h1/h2 (including Bootstrap typography classes) inside
+   .neon-nixie so consumers get the effect on card headings
+   without having to opt in manually.
+
+   Technique: repeating-linear-gradient for vertical wires, single
+   borders for horizontal brackets, z-index: -1 to sit behind the
+   parent's text. Pure CSS, no external assets.
+   ============================================================ */
+
+.ng-nixie-digit {
+  position: relative;
+  display: inline-block;
+  padding: 0.3em 0.5em 0.35em;
+}
+
+.ng-nixie-digit::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(var(--ng-primary-rgb), 0.22) 0,
+    rgba(var(--ng-primary-rgb), 0.22) 1px,
+    transparent 1px,
+    transparent 6px
+  );
+  border-top:    1px solid rgba(var(--ng-primary-rgb), 0.35);
+  border-bottom: 1px solid rgba(var(--ng-primary-rgb), 0.35);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Auto-apply to card headings inside the Nixie palette.
+   Covers both semantic headings (h1/h2) and Bootstrap typography
+   utility classes (.h1/.h2/.display-4/.display-5) so the effect
+   applies on both Tailwind and Bootstrap kitchen sink pages. */
+.neon-nixie .ng-card h1,
+.neon-nixie .ng-card h2,
+.neon-nixie .ng-card .h1,
+.neon-nixie .ng-card .h2,
+.neon-nixie .ng-card .display-4,
+.neon-nixie .ng-card .display-5 {
+  position: relative;
+  display: inline-block;
+  padding: 0.3em 0.5em 0.35em;
+}
+
+.neon-nixie .ng-card h1::before,
+.neon-nixie .ng-card h2::before,
+.neon-nixie .ng-card .h1::before,
+.neon-nixie .ng-card .h2::before,
+.neon-nixie .ng-card .display-4::before,
+.neon-nixie .ng-card .display-5::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(var(--ng-primary-rgb), 0.22) 0,
+    rgba(var(--ng-primary-rgb), 0.22) 1px,
+    transparent 1px,
+    transparent 6px
+  );
+  border-top:    1px solid rgba(var(--ng-primary-rgb), 0.35);
+  border-bottom: 1px solid rgba(var(--ng-primary-rgb), 0.35);
+  pointer-events: none;
+  z-index: -1;
+}
