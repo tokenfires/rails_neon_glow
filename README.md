@@ -277,6 +277,7 @@ ng-glow-primary      -- Primary color box-shadow glow
 ng-glow-secondary    -- Secondary color box-shadow glow
 ng-text-glow         -- Glowing text (primary)
 ng-gradient-text     -- Rainbow gradient text
+ng-nixie-digit       -- Nixie cathode wire-grid frame (see Typography section)
 ng-btn               -- Base button
 ng-btn-primary       -- Primary glowing button
 ng-btn-secondary     -- Secondary glowing button
