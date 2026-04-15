@@ -16,6 +16,12 @@
  *   Grunge, Y2K, Social, Cyberpunk, VFD Display, Cherenkov, Nixie
  */
 
+/* Typography delivery — Google Fonts @import.
+   See 2026-04-10 design spec for the delivery-mechanism reasoning
+   (OFL-only, CDN-delivered, zero bundled font files, identical
+   behavior across Rails/gem/npm distributions). */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=B612+Mono:wght@400;700&display=swap');
+
 /* ============================================================
    BASE DARK SURFACE SYSTEM
    Shared across all palettes. Inspired by the deep navy-black
@@ -41,6 +47,16 @@
 
   --ng-transition: 0.2s ease;
   --ng-transition-glow: 0.3s ease;
+
+  /* Typography — required defaults */
+  --ng-font-display: 'Inter', system-ui, sans-serif;
+  --ng-font-body:    'Inter', system-ui, sans-serif;
+  --ng-font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+  /* Typography — optional fourth slot, falls back to display when
+     not overridden. Used by "messy" era themes in Phase 3 to carry
+     a secondary display face for sub-headline roles. */
+  --ng-font-display-alt: var(--ng-font-display);
 }
 
 /* ============================================================
@@ -588,6 +604,14 @@
   --ng-radius:    0.125rem;
   --ng-radius-lg: 0.125rem;
   --ng-radius-xl: 0.25rem;
+
+  /* Typography — immersion override.
+     Nixie uses B612 Mono for both display AND body. The entire
+     surface should feel like a continuous instrument readout;
+     paragraphs and headings share the same instrument-font register.
+     Mono stays default (JetBrains Mono) for code. */
+  --ng-font-display: 'B612 Mono', 'Courier New', monospace;
+  --ng-font-body:    'B612 Mono', 'Courier New', monospace;
 }
 
 /* ============================================================
