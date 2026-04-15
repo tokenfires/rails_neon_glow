@@ -19,6 +19,20 @@ const VFD_PRESET_HUES = {
 
 const INTENSITIES = ["neon-subtle", "neon-medium", "neon-intense", "neon-overdrive"]
 
+// Headings that get per-character wire-grid treatment when Nixie is active.
+// We wrap each non-space character in a <span class="ng-nixie-char"> so CSS
+// can render one Nixie tube cell per character with spaces producing natural
+// gaps between tubes. Pure CSS can't do per-character styling; this is the
+// minimal DOM hook needed for that effect.
+const NIXIE_HEADING_SELECTORS = [
+  ".ng-card h1",
+  ".ng-card h2",
+  ".ng-card .h1",
+  ".ng-card .h2",
+  ".ng-card .display-4",
+  ".ng-card .display-5"
+].join(", ")
+
 const PALETTE_DEFAULT_INTENSITIES = {
   "neon-rainbow":    "neon-medium",
   "neon-unicorn":    "neon-intense",
@@ -97,6 +111,58 @@ export default class extends Controller {
     } else {
       console.warn(`[neon_glow] No default intensity defined for palette: ${palette}`)
     }
+
+    // Wrap/unwrap heading characters for the Nixie per-character wire-grid
+    // effect. This is the minimal DOM manipulation needed for an effect
+    // pure CSS can't express (per-character styling with space-skipping).
+    this.updateNixieHeadingWrap()
+  }
+
+  updateNixieHeadingWrap() {
+    const shouldWrap = document.body.classList.contains("neon-nixie")
+    document.querySelectorAll(NIXIE_HEADING_SELECTORS).forEach(el => {
+      const isWrapped = el.dataset.nixieWrapped === "true"
+      if (shouldWrap && !isWrapped) {
+        this.wrapNixieChars(el)
+      } else if (!shouldWrap && isWrapped) {
+        this.unwrapNixieChars(el)
+      }
+    })
+  }
+
+  wrapNixieChars(el) {
+    // Preserve original text so unwrap can restore it exactly.
+    if (!el.dataset.nixieOriginal) {
+      el.dataset.nixieOriginal = el.textContent
+    }
+    const text = el.textContent
+    // Build a document fragment via safe DOM methods (createElement +
+    // textContent). This deliberately avoids innerHTML to eliminate any
+    // XSS surface — textContent does not parse HTML, so there is no way
+    // for a malicious character in the source text to escape into markup.
+    // Spaces stay as plain text nodes so they render without a wire-grid
+    // cell (natural "gap between tubes" effect).
+    const fragment = document.createDocumentFragment()
+    for (const c of text) {
+      if (c === " " || c === "\u00a0" || c === "\t") {
+        fragment.appendChild(document.createTextNode(c))
+      } else {
+        const span = document.createElement("span")
+        span.className = "ng-nixie-char"
+        span.textContent = c
+        fragment.appendChild(span)
+      }
+    }
+    el.replaceChildren(fragment)
+    el.dataset.nixieWrapped = "true"
+  }
+
+  unwrapNixieChars(el) {
+    if (el.dataset.nixieOriginal !== undefined) {
+      el.textContent = el.dataset.nixieOriginal
+      delete el.dataset.nixieOriginal
+    }
+    delete el.dataset.nixieWrapped
   }
 
   applyIntensity(intensity) {

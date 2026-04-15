@@ -272,7 +272,7 @@ class HardwarePalettesTest < ApplicationSystemTestCase
     refute alt_font.empty?, "expected --ng-font-display-alt to be defined; got empty string"
   end
 
-  test "Nixie card headings have wire-grid frame pseudo-element" do
+  test "Nixie card headings have per-character wire-grid frame via .ng-nixie-char wrapping" do
     visit root_path
 
     find("select[data-theme-switcher-target='palette']").select("Nixie")
@@ -282,19 +282,28 @@ class HardwarePalettesTest < ApplicationSystemTestCase
     # which has both h1 and h2 inside .ng-card. Palette persists via localStorage.
     visit bootstrap_kitchen_sink_path
 
+    # Under the per-character architecture, Nixie headings don't have a ::before
+    # on the heading itself — instead, theme_switcher_controller.js wraps each
+    # non-space character in a .ng-nixie-char span, and each span has its own
+    # wire-grid ::before. Verify the wrapping happened AND the wrapped chars
+    # have the expected pseudo-element.
     bg_image = page.evaluate_script(<<~JS)
       (function() {
-        var heading = document.querySelector('.ng-card h1, .ng-card h2, .ng-card .h1, .ng-card .h2');
+        var heading = document.querySelector('.ng-card h1, .ng-card h2, .ng-card .h1, .ng-card .h2, .ng-card .display-4, .ng-card .display-5');
         if (!heading) return 'NO_HEADING_FOUND';
-        var style = window.getComputedStyle(heading, '::before');
+        var wrappedChar = heading.querySelector('.ng-nixie-char');
+        if (!wrappedChar) return 'NO_WRAPPED_CHAR_FOUND';
+        var style = window.getComputedStyle(wrappedChar, '::before');
         return style.getPropertyValue('background-image') || 'EMPTY';
       })()
     JS
 
     refute_equal "NO_HEADING_FOUND", bg_image,
       "no card heading found on the page; test setup may need a page with card headings"
+    refute_equal "NO_WRAPPED_CHAR_FOUND", bg_image,
+      "heading text was not wrapped in .ng-nixie-char spans — JS character wrapping may not have run"
     refute_equal "EMPTY", bg_image,
-      "expected wire-grid frame ::before background-image to be set on Nixie card heading"
+      "expected wire-grid frame ::before background-image to be set on .ng-nixie-char"
     assert_match(/linear-gradient/i, bg_image,
       "expected ::before background-image to contain a linear-gradient; got: #{bg_image}")
   end

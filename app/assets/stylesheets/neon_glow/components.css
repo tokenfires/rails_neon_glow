@@ -798,39 +798,39 @@ samp {
    parent's text. Pure CSS, no external assets.
    ============================================================ */
 
-.ng-nixie-digit,
-.neon-nixie .ng-card h1,
-.neon-nixie .ng-card h2,
-.neon-nixie .ng-card .h1,
-.neon-nixie .ng-card .h2,
-.neon-nixie .ng-card .display-4,
-.neon-nixie .ng-card .display-5 {
+/* --- Nixie tube cell (shared base for .ng-nixie-digit and .ng-nixie-char) ---
+   Both classes produce one "tube cell" per element, containing a
+   left bracket, interior wires, right bracket, and top/bottom chassis
+   borders. They differ in padding/margin only:
+   - .ng-nixie-digit: manually applied to individual digits (e.g. the
+     Nixie Numerals demo row). Scoped to .neon-nixie so other palettes
+     don't show wire mesh on elements using this class.
+   - .ng-nixie-char: auto-applied by theme_switcher_controller.js to
+     wrap each non-space character of .ng-card headings when Nixie is
+     active. Spaces remain as plain text nodes so they don't get a
+     mesh cell — producing the visible "gap between tubes" effect.
+   Both are deactivated entirely when the palette isn't Nixie. */
+
+.neon-nixie .ng-nixie-digit {
   position: relative;
   isolation: isolate;
   display: inline-block;
-  padding: 0.3em 0 0.35em;
+  padding: 0.1em 0.2em;
 }
 
-/* The ::before draws one "tube cell" as a linear-gradient and tiles it at
-   1ch intervals. Because Nixie uses a monospace font (B612 Mono), 1ch
-   equals exactly one character width for every character — so each
-   character gets its own tube with a left bracket, interior wires at
-   25%/50%/75%, and a right bracket. Adjacent cells' right+left brackets
-   naturally overlap at tube boundaries, producing a stronger vertical
-   line where tubes meet (visually accurate to real multi-tube displays).
-   Continuous top/bottom borders suggest the metal chassis holding the
-   tube row. */
-.ng-nixie-digit::before,
-.neon-nixie .ng-card h1::before,
-.neon-nixie .ng-card h2::before,
-.neon-nixie .ng-card .h1::before,
-.neon-nixie .ng-card .h2::before,
-.neon-nixie .ng-card .display-4::before,
-.neon-nixie .ng-card .display-5::before {
+.neon-nixie .ng-nixie-char {
+  position: relative;
+  isolation: isolate;
+  display: inline-block;
+  padding: 0.15em 0;
+  margin: 0 0.06em;
+}
+
+.neon-nixie .ng-nixie-digit::before,
+.neon-nixie .ng-nixie-char::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-size: 1ch 100%;
   background-image: linear-gradient(
     to right,
     rgba(var(--ng-primary-rgb), 0.45) 0,
@@ -856,4 +856,16 @@ samp {
   border-bottom: 1px solid rgba(var(--ng-primary-rgb), 0.40);
   pointer-events: none;
   z-index: -1;
+}
+
+/* --- Nixie-only display control ---
+   Hide elements unless the Nixie palette is active. Used to scope
+   Nixie-specific demo/reference content (like the Numerals row) so
+   it doesn't appear on palettes where the concept doesn't translate. */
+.ng-nixie-only {
+  display: none;
+}
+
+.neon-nixie .ng-nixie-only {
+  display: block;
 }

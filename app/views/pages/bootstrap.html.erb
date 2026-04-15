@@ -7,23 +7,24 @@
 <section class="mb-5">
   <h2 style="color: var(--ng-primary);" class="h5 fw-bold mb-3">Typography</h2>
 
-  <%# Nixie Tube Numerals — most visible when the Nixie palette is active.
-      On other palettes, the .ng-nixie-digit class picks up the active
-      palette's primary color, which is visually interesting in its own
-      right but most authentic to its concept under Nixie. %>
-  <div class="ng-card mb-3">
-    <p class="ng-text-muted small mb-3">Nixie Tube Numerals &mdash; individual cathode-wire-framed digits, a nod to the retro Nixie clocks people are building today. Switch to the Nixie palette to see the effect in its intended register.</p>
-    <div class="d-flex flex-wrap align-items-baseline" style="gap: 0.5rem; font-size: 4rem; line-height: 1; color: var(--ng-primary);">
-      <span class="ng-nixie-digit">1</span>
-      <span class="ng-nixie-digit">2</span>
-      <span class="ng-nixie-digit">3</span>
-      <span class="ng-nixie-digit">4</span>
-      <span class="ng-nixie-digit">5</span>
-      <span class="ng-nixie-digit">6</span>
-      <span class="ng-nixie-digit">7</span>
-      <span class="ng-nixie-digit">8</span>
-      <span class="ng-nixie-digit">9</span>
-      <span class="ng-nixie-digit">0</span>
+  <%# Nixie Tube Numerals — Nixie-only demo section. The .ng-nixie-only
+      class hides this entirely on other palettes (the concept doesn't
+      translate outside Nixie). %>
+  <div class="ng-nixie-only mb-3">
+    <div class="ng-card">
+      <p class="ng-text-muted small mb-3">Nixie Tube Numerals &mdash; individual cathode-wire-framed digits, a nod to the retro Nixie clocks people are building today.</p>
+      <div class="d-flex flex-wrap align-items-baseline" style="gap: 0.5rem; font-size: 4rem; line-height: 1; color: var(--ng-primary);">
+        <span class="ng-nixie-digit">1</span>
+        <span class="ng-nixie-digit">2</span>
+        <span class="ng-nixie-digit">3</span>
+        <span class="ng-nixie-digit">4</span>
+        <span class="ng-nixie-digit">5</span>
+        <span class="ng-nixie-digit">6</span>
+        <span class="ng-nixie-digit">7</span>
+        <span class="ng-nixie-digit">8</span>
+        <span class="ng-nixie-digit">9</span>
+        <span class="ng-nixie-digit">0</span>
+      </div>
     </div>
   </div>
 
