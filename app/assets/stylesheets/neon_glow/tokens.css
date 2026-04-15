@@ -20,7 +20,7 @@
    See 2026-04-10 design spec for the delivery-mechanism reasoning
    (OFL-only, CDN-delivered, zero bundled font files, identical
    behavior across Rails/gem/npm distributions). */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=B612+Mono:wght@400;700&family=Montserrat+Underline:wght@400;700&family=Orbitron:wght@400;700&family=Syncopate:wght@400;700&family=Space+Grotesk:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=B612+Mono:wght@400;700&family=Montserrat+Underline:wght@400;700&family=Orbitron:wght@400;700&family=Syncopate:wght@400;700&family=Space+Grotesk:wght@400;700&family=Share+Tech+Mono&family=VT323&display=swap');
 
 /* ============================================================
    BASE DARK SURFACE SYSTEM
@@ -441,6 +441,14 @@
   --ng-surface-overlay:#1a2420;
   --ng-border:         #243028;
   --ng-border-subtle:  #1a261e;
+
+  /* Phase 3: Share Tech Mono — monospace display that reads as
+     corporate-dystopian UI text. Glitch-adjacent; the register of
+     terminal prompts inside a megacorp HUD. Body stays Inter so
+     paragraph text doesn't bog down in full-monospace.
+     Alt re-set; see Gotcha #6 in CLAUDE.md. */
+  --ng-font-display:     'Share Tech Mono', 'Courier New', monospace;
+  --ng-font-display-alt: var(--ng-font-display);
 }
 
 /* ============================================================
@@ -499,6 +507,16 @@
   --ng-radius:    0.125rem;
   --ng-radius-lg: 0.1875rem;
   --ng-radius-xl: 0.25rem;
+
+  /* Phase 3: VT323 — pixelated terminal typeface that matches the
+     segmented-display referent. The hue slider already lets you swap
+     colors through a monochromatic VFD; this swaps the type so the
+     palette reads as an actual vacuum-fluorescent readout, not Inter
+     in a tinted box. Body stays Inter — VT323 at paragraph size
+     becomes hard to read, and VFD card bodies need to stay legible
+     across all hue rotations. */
+  --ng-font-display:     'VT323', 'Courier New', monospace;
+  --ng-font-display-alt: var(--ng-font-display);
 }
 
 /* VFD hue presets -- use alongside .neon-vfd

@@ -55,6 +55,20 @@ class PerThemeTypographyTest < ApplicationSystemTestCase
       "expected Cherenkov to set --ng-font-display to Space Grotesk; got: #{display_font_family}")
   end
 
+  # ---------- Batch 2 — Monospace-adjacent ----------
+
+  test "Cyberpunk applies Share Tech Mono to display elements" do
+    select_palette("2020's Cyberpunk")
+    assert_match(/Share\s*Tech\s*Mono/i, display_font_family,
+      "expected Cyberpunk to set --ng-font-display to Share Tech Mono; got: #{display_font_family}")
+  end
+
+  test "VFD applies VT323 to display elements" do
+    select_palette("VFD Display")
+    assert_match(/VT323/i, display_font_family,
+      "expected VFD to set --ng-font-display to VT323; got: #{display_font_family}")
+  end
+
   # ---------- Cross-palette sanity ----------
 
   test "switching palettes changes the display font" do
