@@ -166,7 +166,9 @@ The `.ng-nixie-digit` utility class applies a cathode-wire-and-bracket frame beh
 
 ### The neon tube affordance
 
-The `.ng-neon-tube` utility makes any element read as literal neon signage. It applies the `Montserrat Underline` font — whose glyphs have a built-in stroke running beneath each character — so that across a string the strokes compose into a single continuous line: visually a glass neon tube with characters riding on it. Color follows the active palette's primary, so the same element renders as a differently-colored tube under each palette.
+The `.ng-neon-tube` utility makes any element read as literal neon signage. It applies the `Megrim` font — a constructivist display face whose thin geometric letterforms are built from single-line strokes the way physical neon signs are: lengths of glass tubing bent into letter shapes. Each letter IS a tube. Color follows the active palette's primary, so the same element renders as a differently-colored tube under each palette.
+
+**Nixie exception:** under the `.neon-nixie` palette, `.ng-neon-tube` uses `Montserrat Underline` instead — whose built-in underline stroke composes across characters into a continuous tube-line with the characters riding on it. This is Nixie's Phase 2 signature register and stays specific to that palette.
 
 ```html
 <h1 class="ng-neon-tube">Neon Glow</h1>

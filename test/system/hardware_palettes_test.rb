@@ -374,23 +374,42 @@ class HardwarePalettesTest < ApplicationSystemTestCase
   # a good fixture for these tests.
   # ============================================================
 
-  test "ng-neon-tube applies Montserrat Underline font across palettes" do
+  test "ng-neon-tube applies Megrim on non-Nixie palettes" do
+    # Phase 3 re-pointed .ng-neon-tube from Montserrat Underline (which
+    # was promoted from Nixie's Phase 2 experiment) to Megrim, which is
+    # a stronger universal-tube referent — each Megrim letter IS a tube
+    # shape rather than riding on one.
     visit root_path
 
-    # Default palette (Rainbow): hero should already be in Montserrat Underline
+    # Default palette (Rainbow): hero should be Megrim
     hero_font = page.evaluate_script(
       "window.getComputedStyle(document.querySelector('.ng-neon-tube')).getPropertyValue('font-family')"
     )
-    assert_match(/Montserrat\s*Underline/i, hero_font,
-      "expected .ng-neon-tube to apply Montserrat Underline on default palette; got: #{hero_font}")
+    assert_match(/Megrim/i, hero_font,
+      "expected .ng-neon-tube to apply Megrim on default palette; got: #{hero_font}")
 
-    # Switch to a non-Nixie palette and confirm the font persists
+    # Switch to another non-Nixie palette and confirm Megrim persists
     find("select[data-theme-switcher-target='palette']").select("Cherenkov")
     hero_font = page.evaluate_script(
       "window.getComputedStyle(document.querySelector('.ng-neon-tube')).getPropertyValue('font-family')"
     )
+    assert_match(/Megrim/i, hero_font,
+      "expected .ng-neon-tube to keep Megrim under Cherenkov; got: #{hero_font}")
+  end
+
+  test "ng-neon-tube applies Montserrat Underline specifically under Nixie" do
+    # Nixie-specific override: under .neon-nixie the tube reverts to
+    # Montserrat Underline (its Phase 2 signature register — underline
+    # strokes composing into a continuous tube-line that characters
+    # ride on). Other palettes get Megrim.
+    visit root_path
+    find("select[data-theme-switcher-target='palette']").select("Nixie")
+
+    hero_font = page.evaluate_script(
+      "window.getComputedStyle(document.querySelector('.ng-neon-tube')).getPropertyValue('font-family')"
+    )
     assert_match(/Montserrat\s*Underline/i, hero_font,
-      "expected .ng-neon-tube to keep Montserrat Underline under Cherenkov; got: #{hero_font}")
+      "expected .ng-neon-tube to override to Montserrat Underline under Nixie; got: #{hero_font}")
   end
 
   test "ng-neon-tube picks up palette primary color" do
