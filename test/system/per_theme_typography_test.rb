@@ -69,6 +69,42 @@ class PerThemeTypographyTest < ApplicationSystemTestCase
       "expected VFD to set --ng-font-display to VT323; got: #{display_font_family}")
   end
 
+  # ---------- Batch 3 — Character pieces ----------
+
+  test "Grunge applies Special Elite to display elements" do
+    select_palette("90's Grunge")
+    assert_match(/Special\s*Elite/i, display_font_family,
+      "expected Grunge to set --ng-font-display to Special Elite; got: #{display_font_family}")
+  end
+
+  test "Social uses native system font stack (no Google Font)" do
+    # Social's referent is "your device picks the font" — the 2010s
+    # platform-native choice. So we assert the DECLARED font-family
+    # string contains the platform primitives (-apple-system and/or
+    # BlinkMacSystemFont and/or Segoe UI) and does NOT name any of
+    # the Phase 2/3 downloaded faces.
+    select_palette("2010's Social")
+
+    font = display_font_family
+    assert_match(/-apple-system|BlinkMacSystemFont|Segoe UI/, font,
+      "expected Social to use a native system font stack; got: #{font}")
+    refute_match(/Inter|Montserrat|Orbitron|Syncopate|Space Grotesk|Rubik Glitch|VT323|Megrim|Special Elite|B612 Mono/, font,
+      "expected Social to NOT include any downloaded font face; got: #{font}")
+  end
+
+  test "Social also overrides body font (not just display)" do
+    # Social is the one palette in Phase 3 where BODY type carries
+    # the referent — "device-native" isn't device-native if only
+    # headlines respect the platform.
+    select_palette("2010's Social")
+
+    body_font = page.evaluate_script(
+      "window.getComputedStyle(document.body).getPropertyValue('font-family')"
+    )
+    assert_match(/-apple-system|BlinkMacSystemFont|Segoe UI/, body_font,
+      "expected Social body to use native system stack; got: #{body_font}")
+  end
+
   # ---------- Cross-palette sanity ----------
 
   test "switching palettes changes the display font" do

@@ -20,7 +20,7 @@
    See 2026-04-10 design spec for the delivery-mechanism reasoning
    (OFL-only, CDN-delivered, zero bundled font files, identical
    behavior across Rails/gem/npm distributions). */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=B612+Mono:wght@400;700&family=Montserrat+Underline:wght@400;700&family=Orbitron:wght@400;700&family=Syncopate:wght@400;700&family=Space+Grotesk:wght@400;700&family=Rubik+Glitch&family=VT323&family=Megrim&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=B612+Mono:wght@400;700&family=Montserrat+Underline:wght@400;700&family=Orbitron:wght@400;700&family=Syncopate:wght@400;700&family=Space+Grotesk:wght@400;700&family=Rubik+Glitch&family=VT323&family=Megrim&family=Special+Elite&display=swap');
 
 /* ============================================================
    BASE DARK SURFACE SYSTEM
@@ -303,6 +303,14 @@
   --ng-text:           #d8d0c0;
   --ng-text-secondary: #a89878;
   --ng-text-muted:     #6e5e44;
+
+  /* Phase 3: Special Elite — typewriter-photocopy face. 90s zine
+     aesthetic, dive-bar flyer stapled to a telephone pole, feedback
+     loops and flannel. Body stays Inter for readability — zines had
+     hand-typed headlines over cleaner body text too.
+     Alt re-set; see Gotcha #6 in CLAUDE.md. */
+  --ng-font-display:     'Special Elite', 'Courier New', monospace;
+  --ng-font-display-alt: var(--ng-font-display);
 }
 
 /* ============================================================
@@ -398,6 +406,19 @@
   --ng-surface-overlay:#1e2444;
   --ng-border:         #283058;
   --ng-border-subtle:  #1c2240;
+
+  /* Phase 3: native system font stack for BOTH display and body.
+     2010s social platforms (Twitter, Instagram, Facebook, Reddit)
+     rendered in whatever font your device used — Helvetica Neue on
+     iOS, Roboto on Android, Segoe UI on Windows. The platform-native
+     typography IS the 2010s referent: "your device chooses the font"
+     as a deliberate design choice, not a fallback. Distinct from
+     every other palette for being the non-choice choice.
+     Alt re-set; see Gotcha #6. Body overridden too because this is
+     one of the rare palettes where body type carries the referent. */
+  --ng-font-display:     -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --ng-font-display-alt: var(--ng-font-display);
+  --ng-font-body:        -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 /* ============================================================

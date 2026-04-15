@@ -129,6 +129,8 @@ Each palette with a strong era or hardware referent gets a display font tuned to
 | **Y2K** | `Syncopate` | Wide tall sans — early-2000s chrome and frosted glass |
 | **Cyberpunk** | `Rubik Glitch` | Geometric sans with visible data-corruption artifacts baked into the glyphs — type that IS broken, not type that depicts broken-ness |
 | **VFD** | `VT323` | Pixel terminal typeface — matches the vacuum-fluorescent segmented-display referent |
+| **Grunge** | `Special Elite` | Typewriter-photocopy face — 90s zine, dive-bar flyer, hand-typed feedback loop |
+| **Social** | native system stack (display + body) | Platform-native 2010s ethos — your device picks the font, which IS the referent |
 | **Cherenkov** | `Space Grotesk` | Clean technical humanist sans — modern scientific instrument typography |
 | **Nixie** | `B612 Mono` (display + body) + `Montserrat Underline` (h1/h2 in `.ng-card`) | Airbus cockpit-display font for the instrument-readout register; underline font composes into wire-grid tube cells |
 
