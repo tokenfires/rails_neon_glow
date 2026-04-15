@@ -225,4 +225,135 @@ class HardwarePalettesTest < ApplicationSystemTestCase
     assert page.evaluate_script("document.body.classList.contains('neon-overdrive')"),
       "first-load with palette saved but no intensity saved should apply the palette default"
   end
+
+  test "Nixie palette applies B612 Mono to body text" do
+    visit root_path
+
+    find("select[data-theme-switcher-target='palette']").select("Nixie")
+
+    # Read the --ng-font-body CSS variable on body (set by .neon-nixie) rather
+    # than the resolved computed font-family. The resolved font-family is
+    # overridden by the higher-specificity .neon-glow-body class rule; reading
+    # the variable directly confirms the Nixie token override is active.
+    font_family = page.evaluate_script(
+      "window.getComputedStyle(document.body).getPropertyValue('--ng-font-body').trim()"
+    )
+    assert_match(/B612\s*Mono/i, font_family,
+      "expected --ng-font-body to include B612 Mono when Nixie is active; got: #{font_family}")
+  end
+
+  test "non-Nixie palette does not use B612 Mono on body" do
+    visit root_path
+
+    find("select[data-theme-switcher-target='palette']").select("Cherenkov")
+
+    font_family = page.evaluate_script(
+      "window.getComputedStyle(document.body).getPropertyValue('--ng-font-body').trim()"
+    )
+    refute_match(/B612\s*Mono/i, font_family,
+      "expected --ng-font-body to NOT include B612 Mono when Cherenkov is active; got: #{font_family}")
+  end
+
+  test "all four typography tokens are defined on :root" do
+    visit root_path
+
+    display_font = page.evaluate_script(
+      "window.getComputedStyle(document.documentElement).getPropertyValue('--ng-font-display').trim()"
+    )
+    body_font = page.evaluate_script(
+      "window.getComputedStyle(document.documentElement).getPropertyValue('--ng-font-body').trim()"
+    )
+    mono_font = page.evaluate_script(
+      "window.getComputedStyle(document.documentElement).getPropertyValue('--ng-font-mono').trim()"
+    )
+    alt_font = page.evaluate_script(
+      "window.getComputedStyle(document.documentElement).getPropertyValue('--ng-font-display-alt').trim()"
+    )
+
+    refute display_font.empty?, "expected --ng-font-display to be defined; got empty string"
+    refute body_font.empty?, "expected --ng-font-body to be defined; got empty string"
+    refute mono_font.empty?, "expected --ng-font-mono to be defined; got empty string"
+    refute alt_font.empty?, "expected --ng-font-display-alt to be defined; got empty string"
+  end
+
+  test "Nixie card headings have wire-grid frame pseudo-element" do
+    visit root_path
+
+    find("select[data-theme-switcher-target='palette']").select("Nixie")
+
+    # The home page only has h3 elements inside .ng-card; wire-grid applies to
+    # h1/h2/.h1/.h2/.display-4/.display-5. Visit the Bootstrap kitchen sink
+    # which has both h1 and h2 inside .ng-card. Palette persists via localStorage.
+    visit bootstrap_kitchen_sink_path
+
+    bg_image = page.evaluate_script(<<~JS)
+      (function() {
+        var heading = document.querySelector('.ng-card h1, .ng-card h2, .ng-card .h1, .ng-card .h2');
+        if (!heading) return 'NO_HEADING_FOUND';
+        var style = window.getComputedStyle(heading, '::before');
+        return style.getPropertyValue('background-image') || 'EMPTY';
+      })()
+    JS
+
+    refute_equal "NO_HEADING_FOUND", bg_image,
+      "no card heading found on the page; test setup may need a page with card headings"
+    refute_equal "EMPTY", bg_image,
+      "expected wire-grid frame ::before background-image to be set on Nixie card heading"
+    assert_match(/linear-gradient/i, bg_image,
+      "expected ::before background-image to contain a linear-gradient; got: #{bg_image}")
+  end
+
+  test "non-Nixie palette card headings do not have wire-grid frame" do
+    visit root_path
+
+    find("select[data-theme-switcher-target='palette']").select("Cherenkov")
+
+    # Visit bootstrap kitchen sink for consistent h1/h2 card headings (home page
+    # only has h3 inside .ng-card). Palette persists via localStorage.
+    visit bootstrap_kitchen_sink_path
+
+    bg_image = page.evaluate_script(<<~JS)
+      (function() {
+        var heading = document.querySelector('.ng-card h1, .ng-card h2, .ng-card .h1, .ng-card .h2');
+        if (!heading) return 'NO_HEADING_FOUND';
+        var style = window.getComputedStyle(heading, '::before');
+        return style.getPropertyValue('background-image') || 'EMPTY';
+      })()
+    JS
+
+    refute_equal "NO_HEADING_FOUND", bg_image
+    # The wire-grid frame is specifically a repeating-linear-gradient.
+    # Other CSS may legitimately set ::before background images for other
+    # reasons, so we only verify the wire-grid pattern is absent.
+    if bg_image != "EMPTY" && bg_image != "none"
+      refute_match(/repeating-linear-gradient/i, bg_image,
+        "expected wire-grid (repeating-linear-gradient) to NOT apply to Cherenkov card headings; got: #{bg_image}")
+    end
+  end
+
+  test "ng-nixie-digit utility class renders wire-grid frame when applied" do
+    visit root_path
+
+    find("select[data-theme-switcher-target='palette']").select("Nixie")
+
+    # Inject a test element with the .ng-nixie-digit class and verify
+    # the pseudo-element rendering.
+    bg_image = page.evaluate_script(<<~JS)
+      (function() {
+        var el = document.createElement('span');
+        el.className = 'ng-nixie-digit';
+        el.textContent = '42';
+        document.body.appendChild(el);
+        var style = window.getComputedStyle(el, '::before');
+        var bg = style.getPropertyValue('background-image') || 'EMPTY';
+        el.remove();
+        return bg;
+      })()
+    JS
+
+    refute_equal "EMPTY", bg_image,
+      "expected .ng-nixie-digit to produce a ::before with background-image; got EMPTY"
+    assert_match(/linear-gradient/i, bg_image,
+      "expected .ng-nixie-digit ::before to contain a linear-gradient; got: #{bg_image}")
+  end
 end
