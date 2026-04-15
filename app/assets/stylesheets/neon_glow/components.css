@@ -786,44 +786,19 @@ samp {
    horizontal support brackets behind the glowing digit. Recreates
    the cathode stack visible through the glass of a lit Nixie tube.
 
-   Two layers: (1) a utility class .ng-nixie-digit for manual
-   application to specific elements, (2) auto-application to
-   card h1/h2 (including Bootstrap typography classes) inside
-   .neon-nixie so consumers get the effect on card headings
-   without having to opt in manually.
+   Two entry points share the same visual effect:
+     1. .ng-nixie-digit utility class for manual application to
+        any element
+     2. Auto-application to .ng-card h1/h2 (and Bootstrap .h1/.h2/
+        .display-4/.display-5) inside .neon-nixie, so consumers
+        get the effect on card headings without having to opt in
 
    Technique: repeating-linear-gradient for vertical wires, single
    borders for horizontal brackets, z-index: -1 to sit behind the
    parent's text. Pure CSS, no external assets.
    ============================================================ */
 
-.ng-nixie-digit {
-  position: relative;
-  display: inline-block;
-  padding: 0.3em 0.5em 0.35em;
-}
-
-.ng-nixie-digit::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    to right,
-    rgba(var(--ng-primary-rgb), 0.22) 0,
-    rgba(var(--ng-primary-rgb), 0.22) 1px,
-    transparent 1px,
-    transparent 6px
-  );
-  border-top:    1px solid rgba(var(--ng-primary-rgb), 0.35);
-  border-bottom: 1px solid rgba(var(--ng-primary-rgb), 0.35);
-  pointer-events: none;
-  z-index: -1;
-}
-
-/* Auto-apply to card headings inside the Nixie palette.
-   Covers both semantic headings (h1/h2) and Bootstrap typography
-   utility classes (.h1/.h2/.display-4/.display-5) so the effect
-   applies on both Tailwind and Bootstrap kitchen sink pages. */
+.ng-nixie-digit,
 .neon-nixie .ng-card h1,
 .neon-nixie .ng-card h2,
 .neon-nixie .ng-card .h1,
@@ -835,6 +810,7 @@ samp {
   padding: 0.3em 0.5em 0.35em;
 }
 
+.ng-nixie-digit::before,
 .neon-nixie .ng-card h1::before,
 .neon-nixie .ng-card h2::before,
 .neon-nixie .ng-card .h1::before,
