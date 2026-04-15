@@ -912,16 +912,19 @@ samp {
      - Retrowave: hot magenta/cyan tube letters
      - Cyberpunk: toxic green tube letters with data-corrupt glow
      - Cinematic: amber Blade Runner title-card tube
-     - Nixie:     Montserrat Underline (Nixie-specific override below)
-                  so the Phase 2 tube-line-with-riders visual stays
-                  Nixie's signature register
-     - All others: Megrim — thin glass letters lit from within
+     - Nixie:     same Megrim tube letters, plus per-character
+                  wire-grid overlay (structural, not typographic;
+                  applied automatically via .ng-nixie-char wrapping)
+     - All palettes: Megrim — thin glass letters lit from within
 
    Phase 2 (Nixie's original H1/H2 experiment) used Montserrat
    Underline. Phase 2.5 promoted Montserrat Underline to be the
    universal tube font across all palettes, which was a propagation
-   rather than a design choice. Phase 3 returns Montserrat Underline
-   to Nixie-only and adopts Megrim for the universal affordance.
+   rather than a design choice. Phase 3 replaces it with Megrim as
+   the universal affordance; Montserrat Underline stays on Nixie's
+   card H1/H2 and numerals demo (palette-signature scope) but the
+   tube utility itself is the same everywhere. Universal utilities
+   are universal.
 
    Text-shadow produces a soft outer glow so the tube reads as
    illuminated, not just shaped. Intensity-responsive via tokens.
@@ -952,17 +955,6 @@ samp {
     0 0 var(--ng-glow-text-blur)             rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.70)),
     0 0 calc(var(--ng-glow-text-blur) * 2.5) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.40)),
     0 0 calc(var(--ng-glow-text-blur) * 4)   rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.25));
-}
-
-/* Nixie-specific override for the tube affordance. Montserrat Underline
-   is Nixie's signature font (Phase 2); under Nixie, hero/signage-level
-   elements should stay in that register rather than adopting Megrim.
-   Specificity 0,3,0 (one palette class + doubled utility class) beats
-   the 0,2,0 default rule above. Paired with the existing per-character
-   wire-grid wrapping, this preserves the Phase 2.5 Nixie hero look
-   exactly while other palettes get Megrim. */
-.neon-nixie .ng-neon-tube.ng-neon-tube {
-  font-family: 'Montserrat Underline', 'Courier New', monospace;
 }
 
 /* When Nixie is active, .ng-neon-tube elements get character-wrapped by

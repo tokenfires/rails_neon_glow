@@ -397,19 +397,22 @@ class HardwarePalettesTest < ApplicationSystemTestCase
       "expected .ng-neon-tube to keep Megrim under Cherenkov; got: #{hero_font}")
   end
 
-  test "ng-neon-tube applies Montserrat Underline specifically under Nixie" do
-    # Nixie-specific override: under .neon-nixie the tube reverts to
-    # Montserrat Underline (its Phase 2 signature register — underline
-    # strokes composing into a continuous tube-line that characters
-    # ride on). Other palettes get Megrim.
+  test "ng-neon-tube stays Megrim under Nixie (universal utility, no per-palette override)" do
+    # Regression test for the "universal utilities should be universal"
+    # principle: an earlier Phase 3 commit added a Nixie-specific
+    # override that made the hero switch to Montserrat Underline when
+    # Nixie was selected. That made the hero feel out of place when
+    # cycling through palettes. Nixie's signature (Montserrat Underline)
+    # still lives on .ng-card h1/h2 and .ng-nixie-digit — palette-
+    # specific scopes, not the universal tube.
     visit root_path
     find("select[data-theme-switcher-target='palette']").select("Nixie")
 
     hero_font = page.evaluate_script(
       "window.getComputedStyle(document.querySelector('.ng-neon-tube')).getPropertyValue('font-family')"
     )
-    assert_match(/Montserrat\s*Underline/i, hero_font,
-      "expected .ng-neon-tube to override to Montserrat Underline under Nixie; got: #{hero_font}")
+    assert_match(/Megrim/i, hero_font,
+      "expected .ng-neon-tube to stay Megrim under Nixie (no palette override); got: #{hero_font}")
   end
 
   test "ng-neon-tube picks up palette primary color" do
