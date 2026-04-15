@@ -808,9 +808,18 @@ samp {
   position: relative;
   isolation: isolate;
   display: inline-block;
-  padding: 0.3em 0.5em 0.35em;
+  padding: 0.3em 0 0.35em;
 }
 
+/* The ::before draws one "tube cell" as a linear-gradient and tiles it at
+   1ch intervals. Because Nixie uses a monospace font (B612 Mono), 1ch
+   equals exactly one character width for every character — so each
+   character gets its own tube with a left bracket, interior wires at
+   25%/50%/75%, and a right bracket. Adjacent cells' right+left brackets
+   naturally overlap at tube boundaries, producing a stronger vertical
+   line where tubes meet (visually accurate to real multi-tube displays).
+   Continuous top/bottom borders suggest the metal chassis holding the
+   tube row. */
 .ng-nixie-digit::before,
 .neon-nixie .ng-card h1::before,
 .neon-nixie .ng-card h2::before,
@@ -821,15 +830,30 @@ samp {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: repeating-linear-gradient(
+  background-size: 1ch 100%;
+  background-image: linear-gradient(
     to right,
-    rgba(var(--ng-primary-rgb), 0.22) 0,
-    rgba(var(--ng-primary-rgb), 0.22) 1px,
+    rgba(var(--ng-primary-rgb), 0.45) 0,
+    rgba(var(--ng-primary-rgb), 0.45) 1px,
     transparent 1px,
-    transparent 6px
+    transparent calc(25% - 0.5px),
+    rgba(var(--ng-primary-rgb), 0.18) calc(25% - 0.5px),
+    rgba(var(--ng-primary-rgb), 0.18) calc(25% + 0.5px),
+    transparent calc(25% + 0.5px),
+    transparent calc(50% - 0.5px),
+    rgba(var(--ng-primary-rgb), 0.18) calc(50% - 0.5px),
+    rgba(var(--ng-primary-rgb), 0.18) calc(50% + 0.5px),
+    transparent calc(50% + 0.5px),
+    transparent calc(75% - 0.5px),
+    rgba(var(--ng-primary-rgb), 0.18) calc(75% - 0.5px),
+    rgba(var(--ng-primary-rgb), 0.18) calc(75% + 0.5px),
+    transparent calc(75% + 0.5px),
+    transparent calc(100% - 1px),
+    rgba(var(--ng-primary-rgb), 0.45) calc(100% - 1px),
+    rgba(var(--ng-primary-rgb), 0.45) 100%
   );
-  border-top:    1px solid rgba(var(--ng-primary-rgb), 0.35);
-  border-bottom: 1px solid rgba(var(--ng-primary-rgb), 0.35);
+  border-top:    1px solid rgba(var(--ng-primary-rgb), 0.40);
+  border-bottom: 1px solid rgba(var(--ng-primary-rgb), 0.40);
   pointer-events: none;
   z-index: -1;
 }
