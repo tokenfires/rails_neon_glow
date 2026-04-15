@@ -768,7 +768,7 @@
 }
 
 .ng-card p,
-body {
+.neon-glow-body {
   font-family: var(--ng-font-body);
 }
 

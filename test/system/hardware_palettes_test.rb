@@ -231,12 +231,8 @@ class HardwarePalettesTest < ApplicationSystemTestCase
 
     find("select[data-theme-switcher-target='palette']").select("Nixie")
 
-    # Read the --ng-font-body CSS variable on body (set by .neon-nixie) rather
-    # than the resolved computed font-family. The resolved font-family is
-    # overridden by the higher-specificity .neon-glow-body class rule; reading
-    # the variable directly confirms the Nixie token override is active.
     font_family = page.evaluate_script(
-      "window.getComputedStyle(document.body).getPropertyValue('--ng-font-body').trim()"
+      "window.getComputedStyle(document.body).getPropertyValue('font-family')"
     )
     assert_match(/B612\s*Mono/i, font_family,
       "expected --ng-font-body to include B612 Mono when Nixie is active; got: #{font_family}")
@@ -248,7 +244,7 @@ class HardwarePalettesTest < ApplicationSystemTestCase
     find("select[data-theme-switcher-target='palette']").select("Cherenkov")
 
     font_family = page.evaluate_script(
-      "window.getComputedStyle(document.body).getPropertyValue('--ng-font-body').trim()"
+      "window.getComputedStyle(document.body).getPropertyValue('font-family')"
     )
     refute_match(/B612\s*Mono/i, font_family,
       "expected --ng-font-body to NOT include B612 Mono when Cherenkov is active; got: #{font_family}")
