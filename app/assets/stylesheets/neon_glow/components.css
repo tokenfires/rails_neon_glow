@@ -917,13 +917,31 @@ samp {
    illuminated, not just shaped. Sized in em so it scales with font-size.
    ============================================================ */
 
-.ng-neon-tube {
+/* Doubled class on the selector is a specificity hack (0,2,0) that
+   deliberately beats palette-specific heading rules like
+   .neon-cherenkov h1 (0,1,1) and .neon-nixie h1 (0,1,1). Without
+   this, the palette-specific hardcoded text-shadows win and the
+   tube's intensity-responsive glow never applies — the hero stops
+   responding to the intensity dropdown. The doubled selector is
+   visually identical to .ng-neon-tube; only specificity differs. */
+.ng-neon-tube.ng-neon-tube {
   font-family: 'Montserrat Underline', 'Courier New', monospace;
   color: rgb(var(--ng-primary-rgb));
+  /* Four-layer glow tied to the intensity system: blur radius and
+     opacity both come from intensity tokens (--ng-glow-text-blur and
+     --ng-glow-opacity), so switching intensity re-reads through.
+     Overdrive on Cherenkov produces the "glow-through-water" bloom
+     the palette was designed for — the 4x outer halo spreads ~110px
+     of soft blue past the text on Overdrive, retreats to ~16px on
+     Subtle. Extra wide outer layer (4x blur, 0.25x opacity) is what
+     gives the luminous-pool character; a three-layer version reads
+     as "halo around solid letters" rather than "gas lit inside a
+     tube." */
   text-shadow:
-    0 0 0.2em rgba(var(--ng-primary-rgb), 0.8),
-    0 0 0.5em rgba(var(--ng-primary-rgb), 0.5),
-    0 0 1em   rgba(var(--ng-primary-rgb), 0.3);
+    0 0 calc(var(--ng-glow-text-blur) * 0.5) rgba(var(--ng-primary-rgb), var(--ng-glow-opacity)),
+    0 0 var(--ng-glow-text-blur)             rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.70)),
+    0 0 calc(var(--ng-glow-text-blur) * 2.5) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.40)),
+    0 0 calc(var(--ng-glow-text-blur) * 4)   rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.25));
 }
 
 /* When Nixie is active, .ng-neon-tube elements get character-wrapped by

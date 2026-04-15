@@ -426,6 +426,28 @@ class HardwarePalettesTest < ApplicationSystemTestCase
       "when Nixie is active; got #{wrapped_count} wrapped spans"
   end
 
+  test "ng-neon-tube glow scales with intensity" do
+    visit root_path
+
+    # Cherenkov uses Overdrive by default. Compare the rendered text-shadow
+    # on Overdrive vs. Subtle — the neon-tube glow should expand/contract
+    # with intensity (regression test: an earlier implementation hardcoded
+    # the text-shadow and did not respond to intensity changes).
+    find("select[data-theme-switcher-target='palette']").select("Cherenkov")
+    overdrive_shadow = page.evaluate_script(
+      "window.getComputedStyle(document.querySelector('.ng-neon-tube')).getPropertyValue('text-shadow')"
+    )
+
+    find("select[data-theme-switcher-target='intensity']").select("Subtle")
+    subtle_shadow = page.evaluate_script(
+      "window.getComputedStyle(document.querySelector('.ng-neon-tube')).getPropertyValue('text-shadow')"
+    )
+
+    refute_equal overdrive_shadow, subtle_shadow,
+      "expected .ng-neon-tube text-shadow to change with intensity; " \
+      "both rendered as: #{overdrive_shadow}"
+  end
+
   test "ng-neon-tube is not character-wrapped on non-Nixie palettes" do
     visit root_path
 
