@@ -816,6 +816,11 @@ samp {
   isolation: isolate;
   display: inline-block;
   padding: 0.1em 0.2em;
+  /* Match the heading font so numerals in the Nixie demo row have the
+     same built-in-underline "connector wire" character as H1/H2 text.
+     Without this, numerals drift to B612 Mono (inherited from Nixie's
+     --ng-font-body/display tokens) and lose the wire-connector look. */
+  font-family: 'Montserrat Underline', 'Courier New', monospace;
 }
 
 .neon-nixie .ng-nixie-char {

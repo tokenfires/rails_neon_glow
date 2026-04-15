@@ -15,6 +15,14 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
+    <%# Google Fonts loaded via <link> rather than @import because Tailwind v4's
+        CSS compiler strips remote @import statements during build. Without this,
+        neon_glow typography tokens resolve to fallback fonts on tailwind-layout
+        pages (home, tailwind kitchen sink). Bootstrap layout has its own mechanism. %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=B612+Mono:wght@400;700&family=Montserrat+Underline:wght@400;700&display=swap">
+
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
