@@ -17,16 +17,43 @@ const VFD_PRESET_HUES = {
   "neon-vfd-purple": "270", "neon-vfd-pink": "330"
 }
 
+const INTENSITIES = ["neon-subtle", "neon-medium", "neon-intense", "neon-overdrive"]
+
+const PALETTE_DEFAULT_INTENSITIES = {
+  "neon-rainbow":    "neon-medium",
+  "neon-unicorn":    "neon-intense",
+  "neon-cinematic":  "neon-intense",
+  "neon-pink":       "neon-medium",
+  "neon-retrowave":  "neon-intense",
+  "neon-grunge":     "neon-intense",
+  "neon-y2k":        "neon-medium",
+  "neon-social":     "neon-subtle",
+  "neon-cyberpunk":  "neon-overdrive",
+  "neon-vfd":        "neon-medium",
+  "neon-cherenkov":  "neon-overdrive",
+  "neon-nixie":      "neon-intense",
+}
+
 export default class extends Controller {
   static targets = ["palette", "intensity", "vfdHue", "vfdPreset", "vfdHueGroup"]
 
   connect() {
     const savedPalette = localStorage.getItem("ng-palette") || "neon-rainbow"
-    const savedIntensity = localStorage.getItem("ng-intensity") || "neon-medium"
+    // If no saved intensity, use the current palette's default. This
+    // gives new visitors the intended visual register for whichever
+    // palette they're seeing first; returning visitors keep their
+    // last manual choice.
+    const savedIntensity = localStorage.getItem("ng-intensity")
+      || PALETTE_DEFAULT_INTENSITIES[savedPalette]
+      || "neon-medium"
     const savedHue = localStorage.getItem("ng-vfd-hue") || "170"
     const savedPreset = localStorage.getItem("ng-vfd-preset") || "neon-vfd-cyan"
 
     this.applyPalette(savedPalette)
+    // Explicitly re-apply saved intensity AFTER applyPalette, since
+    // applyPalette will have auto-applied the palette default. This
+    // ensures returning visitors with a saved manual intensity get
+    // their preference back.
     this.applyIntensity(savedIntensity)
     this.applyVfdHue(savedHue)
     this.applyVfdPreset(savedPreset, false)
@@ -61,11 +88,20 @@ export default class extends Controller {
     body.classList.add(palette)
     localStorage.setItem("ng-palette", palette)
     this.toggleVfdControls(palette === "neon-vfd")
+
+    // Auto-apply this palette's default intensity. The user can still
+    // manually override afterward; this just lands the palette's
+    // intended visual register on first switch.
+    const defaultIntensity = PALETTE_DEFAULT_INTENSITIES[palette]
+    if (defaultIntensity) {
+      this.applyIntensity(defaultIntensity)
+      if (this.hasIntensityTarget) this.intensityTarget.value = defaultIntensity
+    }
   }
 
   applyIntensity(intensity) {
     const body = document.body
-    body.classList.remove("neon-subtle", "neon-medium", "neon-intense")
+    INTENSITIES.forEach(i => body.classList.remove(i))
     body.classList.add(intensity)
     localStorage.setItem("ng-intensity", intensity)
   }
