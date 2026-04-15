@@ -806,6 +806,7 @@ samp {
 .neon-nixie .ng-card .display-4,
 .neon-nixie .ng-card .display-5 {
   position: relative;
+  isolation: isolate;
   display: inline-block;
   padding: 0.3em 0.5em 0.35em;
 }
