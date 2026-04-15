@@ -159,8 +159,17 @@ export default class extends Controller {
     // Spaces stay as plain text nodes so they render without a wire-grid
     // cell (natural "gap between tubes" effect).
     const fragment = document.createDocumentFragment()
+    // Match any Unicode whitespace — not just ' ', '\u00a0', '\t'.
+    // Previously we enumerated only those three, which missed '\n' and
+    // '\r'. ERB templates that indent the heading content (e.g. the home
+    // page hero spans multiple lines inside the <h1>) produce newlines
+    // inside textContent; under Nixie those newlines would be wrapped
+    // in a .ng-nixie-char span and render as an empty wire-grid tube
+    // cell before the actual text. Broadening to /\s/ covers every
+    // whitespace the DOM might produce. See the 2026-04-15 hero bug.
+    const isWhitespace = (ch) => /\s/.test(ch)
     for (const c of text) {
-      if (c === " " || c === "\u00a0" || c === "\t") {
+      if (isWhitespace(c)) {
         fragment.appendChild(document.createTextNode(c))
       } else {
         const span = document.createElement("span")

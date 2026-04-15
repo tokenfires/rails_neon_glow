@@ -448,6 +448,29 @@ class HardwarePalettesTest < ApplicationSystemTestCase
       "both rendered as: #{overdrive_shadow}"
   end
 
+  test "ng-neon-tube character wrap skips newlines from ERB indentation" do
+    # Regression: the home page hero spans multiple lines inside its
+    # <h1>, so textContent contains leading/trailing newlines + spaces.
+    # An earlier wrapper enumerated only ' ', '\u00a0', '\t' as
+    # whitespace, causing newlines to get wrapped in .ng-nixie-char
+    # spans. Under Nixie those empty spans rendered as visible extra
+    # wire-grid cells flanking "Neon Glow". Fix was switching to a
+    # /\s/ whitespace test. Assert every wrapped span has non-whitespace
+    # content.
+    visit root_path
+    find("select[data-theme-switcher-target='palette']").select("Nixie")
+
+    bad_chars = page.evaluate_script(<<~JS)
+      Array.from(document.querySelectorAll('.ng-neon-tube .ng-nixie-char'))
+        .map(el => el.textContent)
+        .filter(t => /^\\s*$/.test(t))
+    JS
+
+    assert_equal [], bad_chars,
+      "expected no .ng-nixie-char span to contain only whitespace; " \
+      "found #{bad_chars.length} whitespace-only spans: #{bad_chars.inspect}"
+  end
+
   test "ng-neon-tube is not character-wrapped on non-Nixie palettes" do
     visit root_path
 
