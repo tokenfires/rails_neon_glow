@@ -2,7 +2,7 @@
 
 **A dark neon glow design system for Bootstrap and Tailwind CSS.**
 
-12 color palettes. 4 intensity levels. Fully open source.
+12 color palettes. 4 intensity levels. 3 typography slots. Fully open source.
 
 <p align="center">
   <img src="docs/gifs/home_800x560.gif" alt="Neon Glow -- palette switching demo">
@@ -103,6 +103,57 @@ Each palette has a default intensity that lands its visual identity on first imp
 | `neon-vfd` | Medium | Instrument display readability |
 | `neon-cherenkov` | Overdrive | Reactor-pool bloom needs the extra spread |
 | `neon-nixie` | Intense | Modern nostalgic-recreation register |
+
+---
+
+## Typography
+
+`neon_glow` defines three primary font slots as CSS custom properties, plus an optional fourth for themes that layer multiple display voices:
+
+| Token | Default | Role |
+|-------|---------|------|
+| `--ng-font-display` | `Inter` | Headlines, hero text, display elements |
+| `--ng-font-body` | `Inter` | Paragraphs, body content, unstyled text |
+| `--ng-font-mono` | `JetBrains Mono` | Code, pre-formatted text, keyboard input |
+| `--ng-font-display-alt` | `var(--ng-font-display)` | Optional secondary display face for subheads; used by some themes to layer multiple display voices |
+
+Fonts are delivered via Google Fonts `@import` at the top of `tokens.css`. All included fonts are OFL-licensed and free for commercial use.
+
+### Per-theme font overrides
+
+Currently one theme overrides the defaults:
+
+- **Nixie** uses `B612 Mono` on both display and body — a font commissioned by Airbus for cockpit instrument displays, which maps onto Nixie's 1960s scientific-instrumentation register. Nixie also gains a signature wire-grid frame effect on card headings, recreating the cathode stack visible through a real lit Nixie tube.
+
+Additional per-theme font overrides will be added in later phases.
+
+### Using custom fonts
+
+Override the tokens in your own CSS:
+
+```css
+:root {
+  --ng-font-display: 'Your Custom Font', sans-serif;
+  --ng-font-body:    'Your Body Font', serif;
+  --ng-font-mono:    'Your Mono Font', monospace;
+}
+```
+
+You can also override per-theme by scoping to a palette class:
+
+```css
+.neon-cyberpunk {
+  --ng-font-display: 'Orbitron', sans-serif;
+}
+```
+
+### The Nixie wire-grid frame
+
+The `.ng-nixie-digit` utility class applies a cathode-wire-and-bracket frame behind its contents, recreating the visual of a lit Nixie tube's cathode stack. Auto-applied to card `h1` and `h2` headings inside the `.neon-nixie` palette. You can apply it manually to any element:
+
+```html
+<span class="ng-nixie-digit">42</span>
+```
 
 ---
 
