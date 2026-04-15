@@ -869,3 +869,20 @@ samp {
 .neon-nixie .ng-nixie-only {
   display: block;
 }
+
+/* --- Nixie heading font: Montserrat Underline ---
+   Experimental: override H1/H2 headings inside Nixie cards to use
+   Montserrat Underline. The font has an underline stroke built into
+   each character's glyph, which combined with our per-character
+   wire-grid wrapping produces a PCB-trace-between-tube-bases visual.
+   Scoped narrowly to H1/H2/.display-4/.display-5 — H3 and below keep
+   B612 Mono for readability. If this treatment doesn't land, revert
+   this block alone to roll back cleanly. */
+.neon-nixie .ng-card h1,
+.neon-nixie .ng-card h2,
+.neon-nixie .ng-card .h1,
+.neon-nixie .ng-card .h2,
+.neon-nixie .ng-card .display-4,
+.neon-nixie .ng-card .display-5 {
+  font-family: 'Montserrat Underline', 'Courier New', monospace;
+}
