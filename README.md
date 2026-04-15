@@ -2,7 +2,7 @@
 
 **A dark neon glow design system for Bootstrap and Tailwind CSS.**
 
-12 color palettes. 3 intensity levels. Fully open source.
+12 color palettes. 4 intensity levels. Fully open source.
 
 <p align="center">
   <img src="docs/gifs/home_800x560.gif" alt="Neon Glow -- palette switching demo">
@@ -82,7 +82,27 @@ Use a preset class alongside `neon-vfd`, or set any hue directly:
 |-------|-------|-------------|
 | `neon-subtle` | **Subtle** | Gentle glow. Professional. Easy on the eyes. |
 | `neon-medium` | **Medium** | Balanced glow. The sweet spot for most apps. |
-| `neon-intense` | **Intense** | Maximum glow. Over the top. The WOW factor. |
+| `neon-intense` | **Intense** | Strong glow. Over the top. The WOW factor. |
+| `neon-overdrive` | **Overdrive** | Maximum bloom. Light pushing past normal operating range. The streetlamp-at-night register. |
+
+### Per-theme defaults
+
+Each palette has a default intensity that lands its visual identity on first impression. Selecting a palette in the demo automatically applies its default; you can still manually override the intensity afterward.
+
+| Palette | Default Intensity | Why |
+|---------|-------------------|-----|
+| `neon-rainbow` | Medium | Full-spectrum color is already loud; intensity shouldn't compound |
+| `neon-unicorn` | Intense | Dreamy fantasy register; pastels at intense produce ethereal rather than washed |
+| `neon-cinematic` | Intense | Blade Runner doesn't apologize |
+| `neon-pink` | Medium | Magenta is already assertive; medium keeps it feminine-assertive |
+| `neon-retrowave` | Intense | 80s synthwave was designed loud |
+| `neon-grunge` | Intense | Raw feedback aesthetic; dial it up |
+| `neon-y2k` | Medium | Boy-band glossy-clean; smearing breaks the polish |
+| `neon-social` | Subtle | Modern corporate UI; calmness is the aesthetic |
+| `neon-cyberpunk` | Overdrive | Toxic dystopian neon; system saturation is the point |
+| `neon-vfd` | Medium | Instrument display readability |
+| `neon-cherenkov` | Overdrive | Reactor-pool bloom needs the extra spread |
+| `neon-nixie` | Intense | Modern nostalgic-recreation register |
 
 ---
 
@@ -190,9 +210,10 @@ Hardware:
 ### Intensity Classes
 
 ```
-neon-subtle   -- Gentle, professional
-neon-medium   -- Balanced (default)
-neon-intense  -- Maximum glow
+neon-subtle    -- Gentle, professional
+neon-medium    -- Balanced (default)
+neon-intense   -- Strong glow
+neon-overdrive -- Maximum bloom; light pushing past normal range
 ```
 
 ### Component Classes
@@ -263,7 +284,7 @@ palettes.forEach(p => document.body.classList.remove(p));
 document.body.classList.add("neon-cyberpunk");
 
 // Switch to Intense glow
-document.body.classList.remove("neon-subtle", "neon-medium", "neon-intense");
+document.body.classList.remove("neon-subtle", "neon-medium", "neon-intense", "neon-overdrive");
 document.body.classList.add("neon-intense");
 
 // Set VFD hue (when using neon-vfd palette)
