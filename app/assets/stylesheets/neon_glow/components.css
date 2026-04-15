@@ -912,19 +912,20 @@ samp {
      - Retrowave: hot magenta/cyan tube letters
      - Cyberpunk: toxic green tube letters with data-corrupt glow
      - Cinematic: amber Blade Runner title-card tube
-     - Nixie:     same Megrim tube letters, plus per-character
-                  wire-grid overlay (structural, not typographic;
-                  applied automatically via .ng-nixie-char wrapping)
-     - All palettes: Megrim — thin glass letters lit from within
+     - Cherenkov: deep blue tubes with pool-of-water Overdrive bloom
+     - Nixie:     same Megrim tube letters — Nixie's wire-grid and
+                  Montserrat Underline treatment stay on palette-
+                  native scopes (.ng-card h1/h2, .ng-nixie-digit)
+                  and do NOT apply to .ng-neon-tube
 
    Phase 2 (Nixie's original H1/H2 experiment) used Montserrat
    Underline. Phase 2.5 promoted Montserrat Underline to be the
-   universal tube font across all palettes, which was a propagation
-   rather than a design choice. Phase 3 replaces it with Megrim as
-   the universal affordance; Montserrat Underline stays on Nixie's
-   card H1/H2 and numerals demo (palette-signature scope) but the
-   tube utility itself is the same everywhere. Universal utilities
-   are universal.
+   universal tube font across all palettes AND applied Nixie's
+   wire-grid character-wrap to the tube when Nixie was active. Both
+   were propagation rather than design — a universal utility can't
+   behave differently for one palette. Phase 3 replaces the font
+   with Megrim universally and scopes the wire-grid wrap to Nixie's
+   own card-heading selectors only. Universal utilities are universal.
 
    Text-shadow produces a soft outer glow so the tube reads as
    illuminated, not just shaped. Intensity-responsive via tokens.
@@ -957,7 +958,7 @@ samp {
     0 0 calc(var(--ng-glow-text-blur) * 4)   rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.25));
 }
 
-/* When Nixie is active, .ng-neon-tube elements get character-wrapped by
-   the controller and inherit the Nixie wire-grid via .ng-nixie-char's
-   existing ::before rule (scoped to .neon-nixie). No additional CSS
-   needed here — the shared span class carries the decoration. */
+/* Note: .ng-neon-tube is NOT character-wrapped by the controller,
+   on any palette. The per-character wire-grid belongs to Nixie's own
+   card-heading scope and the .ng-nixie-digit demo utility, not to
+   the palette-agnostic tube. See Gotcha #7 in CLAUDE.md. */

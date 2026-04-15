@@ -168,7 +168,7 @@ The `.ng-nixie-digit` utility class applies a cathode-wire-and-bracket frame beh
 
 The `.ng-neon-tube` utility makes any element read as literal neon signage. It applies the `Megrim` font — a constructivist display face whose thin geometric letterforms are built from single-line strokes the way physical neon signs are: lengths of glass tubing bent into letter shapes. Each letter IS a tube. Color follows the active palette's primary, so the same element renders as a differently-colored tube under each palette.
 
-The utility is identical under every palette — no per-palette overrides. Under Nixie specifically, the per-character wire-grid overlay kicks in via the `.ng-nixie-char` character-wrapping pattern, giving Nixie's tube letters the cathode-stack decoration; the font itself stays Megrim across all twelve palettes.
+The utility is identical under every palette — no per-palette overrides, no palette-specific decoration. Nixie's signature treatments (wire-grid frame, Montserrat Underline) stay on Nixie's own scopes (`.ng-card h1`/`h2` and the `.ng-nixie-digit` numerals demo); the tube utility itself is the same wherever you drop it.
 
 ```html
 <h1 class="ng-neon-tube">Neon Glow</h1>
