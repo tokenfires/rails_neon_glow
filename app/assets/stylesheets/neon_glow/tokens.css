@@ -634,6 +634,22 @@
 }
 
 /* ============================================================
+   INTENSITY: OVERDRIVE
+   Light pushed past normal operating range. Bloom escapes the
+   element boundary. The streetlamp-at-night register — what
+   neon does when current exceeds spec. The brand register for
+   palettes whose physical referent is itself a light source.
+   ============================================================ */
+.neon-overdrive {
+  --ng-glow-spread:    20px;
+  --ng-glow-blur:      56px;
+  --ng-glow-opacity:   0.95;
+  --ng-glow-text-blur: 28px;
+  --ng-border-glow-opacity: 1.0;
+  --ng-pulse-scale:    1.10;
+}
+
+/* ============================================================
    DEFAULT PALETTE
    If no palette class is set, fall back to Rainbow.
    ============================================================ */
