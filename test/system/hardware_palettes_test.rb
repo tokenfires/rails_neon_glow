@@ -478,6 +478,48 @@ class HardwarePalettesTest < ApplicationSystemTestCase
   end
 
   # ============================================================
+  # Phase 5b — Cyberpunk Chrome
+  # ============================================================
+
+  test "Cyberpunk auto-applies asymmetric panel clip-path to cards" do
+    visit root_path
+    find("select[data-theme-switcher-target='palette']").select("2020's Cyberpunk")
+
+    clip = page.evaluate_script(
+      "window.getComputedStyle(document.querySelector('.ng-card')).getPropertyValue('clip-path')"
+    )
+    assert_match(/polygon/i, clip,
+      "expected .ng-card under Cyberpunk to have a clip-path polygon; got: #{clip}")
+  end
+
+  test "Cyberpunk panel clip-path does not leak to non-Cyberpunk palettes" do
+    visit root_path
+    find("select[data-theme-switcher-target='palette']").select("Cherenkov")
+
+    clip = page.evaluate_script(
+      "window.getComputedStyle(document.querySelector('.ng-card')).getPropertyValue('clip-path')"
+    )
+    assert clip == "none" || clip.to_s.empty?,
+      "expected .ng-card under Cherenkov to NOT have a clip-path; got: #{clip}"
+  end
+
+  test "Cyberpunk heading has glitch animation defined on hover" do
+    visit root_path
+    find("select[data-theme-switcher-target='palette']").select("2020's Cyberpunk")
+
+    # Verify the glitch-offset custom property is set on card headings
+    offset = page.evaluate_script(<<~JS)
+      (function() {
+        var h = document.querySelector('.ng-card h3');
+        if (!h) return 'NO_H3';
+        return window.getComputedStyle(h).getPropertyValue('--ng-glitch-offset').trim();
+      })()
+    JS
+    assert_equal "2px", offset,
+      "expected Cyberpunk card h3 to have --ng-glitch-offset: 2px; got: #{offset}"
+  end
+
+  # ============================================================
   # Phase 2.5 — Neon Tube Affordance (.ng-neon-tube)
   #
   # Generalizes Phase 2's underline-font + character-wrap effect to

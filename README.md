@@ -330,6 +330,10 @@ ng-retrowave-chrome  -- Metallic chrome text-shadow (auto-applied under Retrowav
 ng-retrowave-scanlines -- CRT scanline overlay (auto-applied under Retrowave)
 ng-retrowave-grid    -- Perspective grid floor (opt-in)
 ng-retrowave-horizon -- Horizon-split sunset gradient (opt-in)
+ng-cyberpunk-panel   -- Asymmetric notched clip-path (auto-applied under Cyberpunk)
+ng-cyberpunk-glitch  -- RGB channel-split glitch with hover flicker animation
+ng-cyberpunk-shear   -- Holographic skewX tilt (opt-in)
+ng-cyberpunk-label   -- Tiny HUD annotation in display-alt font
 ng-instrument-frame  -- Hard-edged instrument-panel bezel (auto-applied under VFD)
 ng-chamfer           -- 45° chamfered corners via clip-path
 ng-vfd-separator     -- Hairline horizontal rule for instrument panels
