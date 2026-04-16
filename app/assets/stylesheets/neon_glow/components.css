@@ -1483,6 +1483,43 @@ samp {
 .neon-grunge .ng-card:nth-child(4n+3) { transform: rotate(-0.5deg); }
 .neon-grunge .ng-card:nth-child(4n)   { transform: rotate( 1.5deg); }
 
+/* --- Grunge marginalia: annotation without content ---
+   Sparse pen-mark accents sprinkled across the card grid. The
+   gesture of annotation without any actual annotation — someone
+   scrawled on this but didn't mean it. Generational-irony texture:
+   the shape of caring, untethered from care.
+
+   Two marks, applied via nth-child so they hit ~1 in 3 cards,
+   alternating color, never adjacent:
+     - Red scribbled cross-out (wavy sharpie stroke, top-right)
+     - Green incomplete hand-drawn circle (pen-arc, bottom-left)
+
+   Both are composed with the existing noise + card-background via
+   the multi-layer background shorthand. SVG paths use hardcoded
+   Grunge palette rgb values (90,138,74 olive + 168,50,50 dirty red)
+   because CSS custom properties don't resolve inside data-URI
+   background-images. If the Grunge palette ever re-tunes success/
+   danger, update these hardcoded values too.
+
+   These are scoped to .neon-grunge, so re-tuning affects Grunge only. */
+.neon-grunge .ng-card:nth-child(6n+3) {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 40'><path d='M 5 15 Q 15 22 25 12 Q 35 26 45 14 Q 52 25 55 18' stroke='rgba(168,50,50,0.55)' stroke-width='2.5' fill='none' stroke-linecap='round'/><path d='M 8 28 Q 18 20 28 30 Q 38 22 48 32' stroke='rgba(168,50,50,0.45)' stroke-width='2' fill='none' stroke-linecap='round'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.6  0 0 0 0 0.5  0 0 0 0 0.35  0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>");
+  background-position: calc(100% - 1rem) 1rem, 0 0;
+  background-size: 3rem 2rem, 200px 200px;
+  background-repeat: no-repeat, repeat;
+}
+
+.neon-grunge .ng-card:nth-child(6n+5) {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'><path d='M 38 10 Q 50 20 48 32 Q 42 46 28 46 Q 12 44 8 30 Q 7 18 18 12' stroke='rgba(90,138,74,0.6)' stroke-width='2.5' fill='none' stroke-linecap='round'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.6  0 0 0 0 0.5  0 0 0 0 0.35  0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>");
+  background-position: 1rem calc(100% - 1rem), 0 0;
+  background-size: 2.5rem 2.5rem, 200px 200px;
+  background-repeat: no-repeat, repeat;
+}
+
 /* ============================================================
    NEON TUBE AFFORDANCE (Phase 2.5, re-pointed Phase 3)
 
