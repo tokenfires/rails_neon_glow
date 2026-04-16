@@ -26,15 +26,14 @@ const INTENSITIES = ["neon-subtle", "neon-medium", "neon-intense", "neon-overdri
 // Pure CSS can't do per-character styling; this is the minimal DOM
 // hook needed for that effect.
 //
-// Two groups:
-// 1. NIXIE_CARD_HEADING_SELECTORS — Nixie-specific auto-wrap for the
-//    card H1/H2 heading treatment. Only relevant when Nixie is active.
-// 2. NEON_TUBE_SELECTOR — Phase 2.5 generalization. Any element opted
-//    into the neon-tube affordance via .ng-neon-tube. These get wrapped
-//    only when Nixie is active (so the wire-grid CSS rule matches);
-//    on other palettes .ng-neon-tube relies on the Montserrat Underline
-//    font alone, no wrapping needed.
-const NIXIE_CARD_HEADING_SELECTORS = [
+// Scope is deliberately narrow: ONLY Nixie's own card-heading scope.
+// Phase 3 learning: the neon-tube utility (.ng-neon-tube) is meant to
+// be palette-agnostic, so applying Nixie's wire-grid to it under
+// Nixie would make the utility behave differently for one palette —
+// the exact anti-pattern Gotcha #7 in CLAUDE.md calls out. Nixie
+// carries its identity through its own scopes; the universal tube
+// stays universal.
+const NIXIE_WRAP_SELECTORS = [
   ".ng-card h1",
   ".ng-card h2",
   ".ng-card .h1",
@@ -42,10 +41,6 @@ const NIXIE_CARD_HEADING_SELECTORS = [
   ".ng-card .display-4",
   ".ng-card .display-5"
 ].join(", ")
-
-const NEON_TUBE_SELECTOR = ".ng-neon-tube"
-
-const NIXIE_WRAP_SELECTORS = `${NIXIE_CARD_HEADING_SELECTORS}, ${NEON_TUBE_SELECTOR}`
 
 const PALETTE_DEFAULT_INTENSITIES = {
   "neon-rainbow":    "neon-medium",

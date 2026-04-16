@@ -875,14 +875,18 @@ samp {
   display: block;
 }
 
-/* --- Nixie heading font: Montserrat Underline ---
-   Experimental: override H1/H2 headings inside Nixie cards to use
-   Montserrat Underline. The font has an underline stroke built into
-   each character's glyph, which combined with our per-character
-   wire-grid wrapping produces a PCB-trace-between-tube-bases visual.
+/* --- Nixie heading font: Montserrat Underline (signature, Phase 2) ---
+   Nixie-specific override for H1/H2 headings inside Nixie cards.
+   Montserrat Underline has an underline stroke built into each
+   character's glyph; combined with the per-character wire-grid
+   wrapping it produces a PCB-trace-between-tube-bases visual — a
+   specific "neon sign with a rail running through it" register that
+   is the Nixie-only signature.
    Scoped narrowly to H1/H2/.display-4/.display-5 — H3 and below keep
-   B612 Mono for readability. If this treatment doesn't land, revert
-   this block alone to roll back cleanly. */
+   B612 Mono for readability. Separately, .ng-neon-tube (the universal
+   tube affordance from Phase 2.5) uses Megrim as its default on all
+   other palettes, so Montserrat Underline is now a Nixie signature
+   rather than being cross-palette. */
 .neon-nixie .ng-card h1,
 .neon-nixie .ng-card h2,
 .neon-nixie .ng-card .h1,
@@ -893,28 +897,38 @@ samp {
 }
 
 /* ============================================================
-   NEON TUBE AFFORDANCE (Phase 2.5)
+   NEON TUBE AFFORDANCE (Phase 2.5, re-pointed Phase 3)
 
    .ng-neon-tube — palette-agnostic utility that makes any element
-   read as literal neon signage. The Montserrat Underline font has an
-   underline stroke built into each character's glyph; across a string
-   those strokes compose into a single continuous line running through
-   the characters — visually a glass neon tube with the characters
-   riding on it.
+   read as literal neon signage. Megrim is a constructivist display
+   face whose thin geometric letterforms ARE tubes: each letter is
+   constructed from single-line strokes the way actual neon signs are
+   physically constructed (lengths of glass tubing bent into letter
+   shapes). That is the most literal "this is a neon tube" register
+   possible as typography.
 
    Color comes from --ng-primary-rgb, so the same utility produces a
    distinct visual register for each of the 12 palettes:
-     - Retrowave: hot magenta/cyan tube
-     - Cyberpunk: toxic green tube in a dystopian district
-     - Cinematic: amber Blade Runner movie-title tube
-     - Nixie:     amber tube + per-character wire-grid (overlay applied
-                  automatically when neon-nixie is active; see
-                  theme_switcher_controller.js wrapping)
+     - Retrowave: hot magenta/cyan tube letters
+     - Cyberpunk: toxic green tube letters with data-corrupt glow
+     - Cinematic: amber Blade Runner title-card tube
+     - Cherenkov: deep blue tubes with pool-of-water Overdrive bloom
+     - Nixie:     same Megrim tube letters — Nixie's wire-grid and
+                  Montserrat Underline treatment stay on palette-
+                  native scopes (.ng-card h1/h2, .ng-nixie-digit)
+                  and do NOT apply to .ng-neon-tube
 
-   One utility, twelve distinct registers.
+   Phase 2 (Nixie's original H1/H2 experiment) used Montserrat
+   Underline. Phase 2.5 promoted Montserrat Underline to be the
+   universal tube font across all palettes AND applied Nixie's
+   wire-grid character-wrap to the tube when Nixie was active. Both
+   were propagation rather than design — a universal utility can't
+   behave differently for one palette. Phase 3 replaces the font
+   with Megrim universally and scopes the wire-grid wrap to Nixie's
+   own card-heading selectors only. Universal utilities are universal.
 
    Text-shadow produces a soft outer glow so the tube reads as
-   illuminated, not just shaped. Sized in em so it scales with font-size.
+   illuminated, not just shaped. Intensity-responsive via tokens.
    ============================================================ */
 
 /* Doubled class on the selector is a specificity hack (0,2,0) that
@@ -925,7 +939,7 @@ samp {
    responding to the intensity dropdown. The doubled selector is
    visually identical to .ng-neon-tube; only specificity differs. */
 .ng-neon-tube.ng-neon-tube {
-  font-family: 'Montserrat Underline', 'Courier New', monospace;
+  font-family: 'Megrim', 'Courier New', monospace;
   color: rgb(var(--ng-primary-rgb));
   /* Four-layer glow tied to the intensity system: blur radius and
      opacity both come from intensity tokens (--ng-glow-text-blur and
@@ -944,7 +958,7 @@ samp {
     0 0 calc(var(--ng-glow-text-blur) * 4)   rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.25));
 }
 
-/* When Nixie is active, .ng-neon-tube elements get character-wrapped by
-   the controller and inherit the Nixie wire-grid via .ng-nixie-char's
-   existing ::before rule (scoped to .neon-nixie). No additional CSS
-   needed here — the shared span class carries the decoration. */
+/* Note: .ng-neon-tube is NOT character-wrapped by the controller,
+   on any palette. The per-character wire-grid belongs to Nixie's own
+   card-heading scope and the .ng-nixie-digit demo utility, not to
+   the palette-agnostic tube. See Gotcha #7 in CLAUDE.md. */

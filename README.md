@@ -121,11 +121,22 @@ Fonts are delivered via Google Fonts `@import` at the top of `tokens.css`. All i
 
 ### Per-theme font overrides
 
-Currently one theme overrides the defaults:
+Each palette with a strong era or hardware referent gets a display font tuned to that referent. Body type stays `Inter` across most palettes for consistent reading.
 
-- **Nixie** uses `B612 Mono` on both display and body — a font commissioned by Airbus for cockpit instrument displays, which maps onto Nixie's 1960s scientific-instrumentation register. Nixie also gains a signature wire-grid frame effect on card headings, recreating the cathode stack visible through a real lit Nixie tube.
+| Palette | Display font | Why |
+|---------|--------------|-----|
+| **Retrowave** | `Orbitron` | Wide geometric sci-fi sans — 80s synthwave / Blade Runner title cards |
+| **Y2K** | `Syncopate` | Wide tall sans — early-2000s chrome and frosted glass |
+| **Cyberpunk** | `Rubik Glitch` | Geometric sans with visible data-corruption artifacts baked into the glyphs — type that IS broken, not type that depicts broken-ness |
+| **VFD** | `VT323` | Pixel terminal typeface — matches the vacuum-fluorescent segmented-display referent |
+| **Grunge** | `Special Elite` | Typewriter-photocopy face — 90s zine, dive-bar flyer, hand-typed feedback loop |
+| **Social** | native system stack (display + body) | Platform-native 2010s ethos — your device picks the font, which IS the referent |
+| **Cherenkov** | `Space Grotesk` | Clean technical humanist sans — modern scientific instrument typography |
+| **Nixie** | `B612 Mono` (display + body) + `Montserrat Underline` (h1/h2 in `.ng-card`) | Airbus cockpit-display font for the instrument-readout register; underline font composes into wire-grid tube cells |
 
-Additional per-theme font overrides will be added in later phases.
+Classic palettes (Rainbow, Unicorn, Cinematic, Pink) stay on `Inter` — they're abstract color stories without era/object referents, and a custom font would feel imposed.
+
+Additional per-theme overrides land in later batches of Phase 3.
 
 ### Using custom fonts
 
@@ -157,7 +168,9 @@ The `.ng-nixie-digit` utility class applies a cathode-wire-and-bracket frame beh
 
 ### The neon tube affordance
 
-The `.ng-neon-tube` utility makes any element read as literal neon signage. It applies the `Montserrat Underline` font — whose glyphs have a built-in stroke running beneath each character — so that across a string the strokes compose into a single continuous line: visually a glass neon tube with characters riding on it. Color follows the active palette's primary, so the same element renders as a differently-colored tube under each palette.
+The `.ng-neon-tube` utility makes any element read as literal neon signage. It applies the `Megrim` font — a constructivist display face whose thin geometric letterforms are built from single-line strokes the way physical neon signs are: lengths of glass tubing bent into letter shapes. Each letter IS a tube. Color follows the active palette's primary, so the same element renders as a differently-colored tube under each palette.
+
+The utility is identical under every palette — no per-palette overrides, no palette-specific decoration. Nixie's signature treatments (wire-grid frame, Montserrat Underline) stay on Nixie's own scopes (`.ng-card h1`/`h2` and the `.ng-nixie-digit` numerals demo); the tube utility itself is the same wherever you drop it.
 
 ```html
 <h1 class="ng-neon-tube">Neon Glow</h1>

@@ -374,23 +374,45 @@ class HardwarePalettesTest < ApplicationSystemTestCase
   # a good fixture for these tests.
   # ============================================================
 
-  test "ng-neon-tube applies Montserrat Underline font across palettes" do
+  test "ng-neon-tube applies Megrim on non-Nixie palettes" do
+    # Phase 3 re-pointed .ng-neon-tube from Montserrat Underline (which
+    # was promoted from Nixie's Phase 2 experiment) to Megrim, which is
+    # a stronger universal-tube referent — each Megrim letter IS a tube
+    # shape rather than riding on one.
     visit root_path
 
-    # Default palette (Rainbow): hero should already be in Montserrat Underline
+    # Default palette (Rainbow): hero should be Megrim
     hero_font = page.evaluate_script(
       "window.getComputedStyle(document.querySelector('.ng-neon-tube')).getPropertyValue('font-family')"
     )
-    assert_match(/Montserrat\s*Underline/i, hero_font,
-      "expected .ng-neon-tube to apply Montserrat Underline on default palette; got: #{hero_font}")
+    assert_match(/Megrim/i, hero_font,
+      "expected .ng-neon-tube to apply Megrim on default palette; got: #{hero_font}")
 
-    # Switch to a non-Nixie palette and confirm the font persists
+    # Switch to another non-Nixie palette and confirm Megrim persists
     find("select[data-theme-switcher-target='palette']").select("Cherenkov")
     hero_font = page.evaluate_script(
       "window.getComputedStyle(document.querySelector('.ng-neon-tube')).getPropertyValue('font-family')"
     )
-    assert_match(/Montserrat\s*Underline/i, hero_font,
-      "expected .ng-neon-tube to keep Montserrat Underline under Cherenkov; got: #{hero_font}")
+    assert_match(/Megrim/i, hero_font,
+      "expected .ng-neon-tube to keep Megrim under Cherenkov; got: #{hero_font}")
+  end
+
+  test "ng-neon-tube stays Megrim under Nixie (universal utility, no per-palette override)" do
+    # Regression test for the "universal utilities should be universal"
+    # principle: an earlier Phase 3 commit added a Nixie-specific
+    # override that made the hero switch to Montserrat Underline when
+    # Nixie was selected. That made the hero feel out of place when
+    # cycling through palettes. Nixie's signature (Montserrat Underline)
+    # still lives on .ng-card h1/h2 and .ng-nixie-digit — palette-
+    # specific scopes, not the universal tube.
+    visit root_path
+    find("select[data-theme-switcher-target='palette']").select("Nixie")
+
+    hero_font = page.evaluate_script(
+      "window.getComputedStyle(document.querySelector('.ng-neon-tube')).getPropertyValue('font-family')"
+    )
+    assert_match(/Megrim/i, hero_font,
+      "expected .ng-neon-tube to stay Megrim under Nixie (no palette override); got: #{hero_font}")
   end
 
   test "ng-neon-tube picks up palette primary color" do
@@ -413,17 +435,31 @@ class HardwarePalettesTest < ApplicationSystemTestCase
       "both palettes rendered as: #{cherenkov_color}"
   end
 
-  test "ng-neon-tube gets character-wrapped when Nixie palette is active" do
+  test "ng-neon-tube is never character-wrapped, on any palette" do
+    # Phase 3 refinement: the tube utility is palette-agnostic. Earlier
+    # (Phase 2.5) behavior wrapped .ng-neon-tube elements under Nixie
+    # so the wire-grid ::before could apply per character, but that
+    # made the hero look palette-specific under Nixie and broke the
+    # "universal utility" promise (Gotcha #7). Wire-grid stays on
+    # Nixie's own card-heading scope. Spot-check Nixie (where wrapping
+    # would be wrong) and Cherenkov (baseline).
     visit root_path
 
     find("select[data-theme-switcher-target='palette']").select("Nixie")
+    nixie_wrapped = page.evaluate_script(
+      "document.querySelectorAll('.ng-neon-tube .ng-nixie-char').length"
+    )
+    assert_equal 0, nixie_wrapped,
+      "expected .ng-neon-tube to NOT be character-wrapped under Nixie " \
+      "(universal utility); got #{nixie_wrapped} wrapped spans"
 
-    wrapped_count = page.evaluate_script(<<~JS)
-      document.querySelectorAll('.ng-neon-tube .ng-nixie-char').length
-    JS
-    assert wrapped_count > 0,
-      "expected .ng-neon-tube to be character-wrapped with .ng-nixie-char spans " \
-      "when Nixie is active; got #{wrapped_count} wrapped spans"
+    find("select[data-theme-switcher-target='palette']").select("Cherenkov")
+    cherenkov_wrapped = page.evaluate_script(
+      "document.querySelectorAll('.ng-neon-tube .ng-nixie-char').length"
+    )
+    assert_equal 0, cherenkov_wrapped,
+      "expected .ng-neon-tube to NOT be character-wrapped on Cherenkov; " \
+      "got #{cherenkov_wrapped} wrapped spans"
   end
 
   test "ng-neon-tube glow scales with intensity" do
@@ -448,39 +484,28 @@ class HardwarePalettesTest < ApplicationSystemTestCase
       "both rendered as: #{overdrive_shadow}"
   end
 
-  test "ng-neon-tube character wrap skips newlines from ERB indentation" do
-    # Regression: the home page hero spans multiple lines inside its
-    # <h1>, so textContent contains leading/trailing newlines + spaces.
-    # An earlier wrapper enumerated only ' ', '\u00a0', '\t' as
-    # whitespace, causing newlines to get wrapped in .ng-nixie-char
-    # spans. Under Nixie those empty spans rendered as visible extra
-    # wire-grid cells flanking "Neon Glow". Fix was switching to a
-    # /\s/ whitespace test. Assert every wrapped span has non-whitespace
-    # content.
+  test "Nixie card-heading character wrap skips whitespace from ERB indentation" do
+    # Regression from Phase 2.5: ERB templates that indent heading
+    # content produce textContent with leading/trailing newlines plus
+    # indentation spaces. An earlier wrapper enumerated only ' ',
+    # '\u00a0', '\t' as whitespace, causing newlines to get wrapped
+    # in .ng-nixie-char spans that rendered as phantom wire-grid cells.
+    # Fix: wrapper uses /\s/. Previously this test targeted the home
+    # hero's .ng-neon-tube; Phase 3 removed .ng-neon-tube from the
+    # wrap list, so this test now targets .ng-card headings (which
+    # still get the wrap under Nixie).
     visit root_path
     find("select[data-theme-switcher-target='palette']").select("Nixie")
+    visit bootstrap_kitchen_sink_path  # has h1/h2 inside .ng-card
 
     bad_chars = page.evaluate_script(<<~JS)
-      Array.from(document.querySelectorAll('.ng-neon-tube .ng-nixie-char'))
+      Array.from(document.querySelectorAll('.ng-card .ng-nixie-char'))
         .map(el => el.textContent)
         .filter(t => /^\\s*$/.test(t))
     JS
 
     assert_equal [], bad_chars,
-      "expected no .ng-nixie-char span to contain only whitespace; " \
+      "expected no .ng-nixie-char span inside .ng-card to contain only whitespace; " \
       "found #{bad_chars.length} whitespace-only spans: #{bad_chars.inspect}"
-  end
-
-  test "ng-neon-tube is not character-wrapped on non-Nixie palettes" do
-    visit root_path
-
-    find("select[data-theme-switcher-target='palette']").select("Cherenkov")
-
-    wrapped_count = page.evaluate_script(<<~JS)
-      document.querySelectorAll('.ng-neon-tube .ng-nixie-char').length
-    JS
-    assert_equal 0, wrapped_count,
-      "expected .ng-neon-tube to NOT be character-wrapped on non-Nixie palettes; " \
-      "Cherenkov produced #{wrapped_count} wrapped spans"
   end
 end

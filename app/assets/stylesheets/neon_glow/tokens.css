@@ -20,7 +20,7 @@
    See 2026-04-10 design spec for the delivery-mechanism reasoning
    (OFL-only, CDN-delivered, zero bundled font files, identical
    behavior across Rails/gem/npm distributions). */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=B612+Mono:wght@400;700&family=Montserrat+Underline:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=B612+Mono:wght@400;700&family=Montserrat+Underline:wght@400;700&family=Orbitron:wght@400;700&family=Syncopate:wght@400;700&family=Space+Grotesk:wght@400;700&family=Rubik+Glitch&family=VT323&family=Megrim&family=Special+Elite&display=swap');
 
 /* ============================================================
    BASE DARK SURFACE SYSTEM
@@ -248,6 +248,16 @@
   --ng-surface-overlay:#2d004a;
   --ng-border:         #3d1060;
   --ng-border-subtle:  #280840;
+
+  /* Phase 3: Orbitron — wide geometric sci-fi sans, the Blade Runner /
+     synthwave title-card register. Body stays Inter for paragraph
+     readability; the personality lives in the headlines.
+     Alt is re-set so it forwards to display at this cascade level —
+     :root's --ng-font-display-alt: var(--ng-font-display) resolves
+     once at :root scope (to Inter) and inherits as the resolved value;
+     overriding display alone leaves alt stuck on Inter. */
+  --ng-font-display:     'Orbitron', system-ui, sans-serif;
+  --ng-font-display-alt: var(--ng-font-display);
 }
 
 /* ============================================================
@@ -293,6 +303,14 @@
   --ng-text:           #d8d0c0;
   --ng-text-secondary: #a89878;
   --ng-text-muted:     #6e5e44;
+
+  /* Phase 3: Special Elite — typewriter-photocopy face. 90s zine
+     aesthetic, dive-bar flyer stapled to a telephone pole, feedback
+     loops and flannel. Body stays Inter for readability — zines had
+     hand-typed headlines over cleaner body text too.
+     Alt re-set; see Gotcha #6 in CLAUDE.md. */
+  --ng-font-display:     'Special Elite', 'Courier New', monospace;
+  --ng-font-display-alt: var(--ng-font-display);
 }
 
 /* ============================================================
@@ -339,6 +357,12 @@
   --ng-text:           #e8ecf4;
   --ng-text-secondary: #a0a8c0;
   --ng-text-muted:     #606880;
+
+  /* Phase 3: Syncopate — wide tall geometric sans, the early-2000s
+     chrome-and-frosted-glass register. Body stays Inter.
+     Alt re-set; see Retrowave block for the cascade-resolution note. */
+  --ng-font-display:     'Syncopate', system-ui, sans-serif;
+  --ng-font-display-alt: var(--ng-font-display);
 }
 
 /* ============================================================
@@ -382,6 +406,19 @@
   --ng-surface-overlay:#1e2444;
   --ng-border:         #283058;
   --ng-border-subtle:  #1c2240;
+
+  /* Phase 3: native system font stack for BOTH display and body.
+     2010s social platforms (Twitter, Instagram, Facebook, Reddit)
+     rendered in whatever font your device used — Helvetica Neue on
+     iOS, Roboto on Android, Segoe UI on Windows. The platform-native
+     typography IS the 2010s referent: "your device chooses the font"
+     as a deliberate design choice, not a fallback. Distinct from
+     every other palette for being the non-choice choice.
+     Alt re-set; see Gotcha #6. Body overridden too because this is
+     one of the rare palettes where body type carries the referent. */
+  --ng-font-display:     -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --ng-font-display-alt: var(--ng-font-display);
+  --ng-font-body:        -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 /* ============================================================
@@ -425,6 +462,17 @@
   --ng-surface-overlay:#1a2420;
   --ng-border:         #243028;
   --ng-border-subtle:  #1a261e;
+
+  /* Phase 3: Rubik Glitch — clean geometric sans with visible
+     data-corruption artifacts baked into the glyphs. The letterforms
+     ARE the message: functional type that's been compromised. That's
+     the cyberpunk thesis in a single design — "the future arrived and
+     it's beautiful and broken," executed as type rather than depicted
+     by type. Fallback to sans-serif rather than monospace since the
+     base form of Rubik is geometric sans, not mono.
+     Alt re-set; see Gotcha #6 in CLAUDE.md. */
+  --ng-font-display:     'Rubik Glitch', system-ui, sans-serif;
+  --ng-font-display-alt: var(--ng-font-display);
 }
 
 /* ============================================================
@@ -483,6 +531,16 @@
   --ng-radius:    0.125rem;
   --ng-radius-lg: 0.1875rem;
   --ng-radius-xl: 0.25rem;
+
+  /* Phase 3: VT323 — pixelated terminal typeface that matches the
+     segmented-display referent. The hue slider already lets you swap
+     colors through a monochromatic VFD; this swaps the type so the
+     palette reads as an actual vacuum-fluorescent readout, not Inter
+     in a tinted box. Body stays Inter — VT323 at paragraph size
+     becomes hard to read, and VFD card bodies need to stay legible
+     across all hue rotations. */
+  --ng-font-display:     'VT323', 'Courier New', monospace;
+  --ng-font-display-alt: var(--ng-font-display);
 }
 
 /* VFD hue presets -- use alongside .neon-vfd
@@ -543,6 +601,14 @@
   --ng-text:           #c9d4e8;
   --ng-text-secondary: #8b9dc1;
   --ng-text-muted:     #56698f;
+
+  /* Phase 3: Space Grotesk — clean technical humanist sans. Reads as
+     modern scientific instrument typography (the register of academic
+     papers, lab equipment LCDs, and high-end engineering software).
+     Anchors Cherenkov's "I am a real physical phenomenon" claim.
+     Alt re-set; see Retrowave block for the cascade-resolution note. */
+  --ng-font-display:     'Space Grotesk', system-ui, sans-serif;
+  --ng-font-display-alt: var(--ng-font-display);
 }
 
 /* ============================================================
@@ -609,9 +675,15 @@
      Nixie uses B612 Mono for both display AND body. The entire
      surface should feel like a continuous instrument readout;
      paragraphs and headings share the same instrument-font register.
-     Mono stays default (JetBrains Mono) for code. */
-  --ng-font-display: 'B612 Mono', 'Courier New', monospace;
-  --ng-font-body:    'B612 Mono', 'Courier New', monospace;
+     Mono stays default (JetBrains Mono) for code.
+     Alt re-set so it forwards to display at this cascade level —
+     :root's --ng-font-display-alt: var(--ng-font-display) resolves
+     once at :root scope (to Inter). Without re-setting alt here, h2/h3
+     inside Nixie cards would render as Inter against B612 Mono body
+     text. (Latent Phase 2 bug, fixed during Phase 3.) */
+  --ng-font-display:     'B612 Mono', 'Courier New', monospace;
+  --ng-font-body:        'B612 Mono', 'Courier New', monospace;
+  --ng-font-display-alt: var(--ng-font-display);
 }
 
 /* ============================================================
