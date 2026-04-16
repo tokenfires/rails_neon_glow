@@ -1065,24 +1065,14 @@ samp {
 }
 
 /* --- .ng-retrowave-scanlines ---
-   CRT scanline overlay via repeating-linear-gradient. 2px clear lines
+   CRT scanline overlay via background-image layer. 2px clear lines
    alternating with 1px dark lines at very low opacity (0.1) so the
    texture reads as CRT without hurting text readability.
-   Apply to any container; scanlines cover the full element. */
+   Uses background-image (not ::after) to avoid pseudo-element
+   collisions with .ng-border-glow — the gradient border + bloom is
+   part of the Retrowave aesthetic and must NOT be suppressed. */
 .ng-retrowave-scanlines {
-  position: relative;
-}
-
-.ng-retrowave-scanlines::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  border-radius: 0;
-  filter: none;
-  opacity: 1;
-  background: repeating-linear-gradient(
+  background-image: repeating-linear-gradient(
     to bottom,
     transparent 0px,
     transparent 2px,
@@ -1165,22 +1155,14 @@ samp {
 /* --- Retrowave auto-application ---
    When Retrowave is active:
    - Card headings get the chrome text effect automatically.
-   - Cards get the scanline overlay automatically.
-   Consumers add zero classes; switching the palette does it. */
+   - Cards get the CRT scanline overlay as a background-image layer.
+   Uses background-image (not ::after) so .ng-border-glow's pseudo-
+   elements are preserved — the gradient border + bloom is PART of
+   the Retrowave aesthetic and should NOT be suppressed. The scanline
+   gradient layers on top of background-color because .ng-card sets
+   background-color (not the background shorthand). */
 .neon-retrowave .ng-card {
-  position: relative;
-}
-
-.neon-retrowave .ng-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  border-radius: inherit;
-  filter: none;
-  opacity: 1;
-  background: repeating-linear-gradient(
+  background-image: repeating-linear-gradient(
     to bottom,
     transparent 0px,
     transparent 2px,

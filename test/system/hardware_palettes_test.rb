@@ -447,7 +447,7 @@ class HardwarePalettesTest < ApplicationSystemTestCase
       "expected .ng-card h3 under Retrowave to have a chrome text-shadow; got: #{shadow}"
   end
 
-  test "Retrowave auto-applies scanline overlay on cards" do
+  test "Retrowave auto-applies scanline overlay on cards via background-image" do
     visit root_path
     find("select[data-theme-switcher-target='palette']").select("80's Retrowave")
 
@@ -455,12 +455,11 @@ class HardwarePalettesTest < ApplicationSystemTestCase
       (function() {
         var card = document.querySelector('.ng-card');
         if (!card) return 'NO_CARD';
-        var style = window.getComputedStyle(card, '::after');
-        return style.getPropertyValue('background-image') || 'EMPTY';
+        return window.getComputedStyle(card).getPropertyValue('background-image') || 'EMPTY';
       })()
     JS
     assert_match(/repeating-linear-gradient/i, bg,
-      "expected .ng-card ::after under Retrowave to contain scanline gradient; got: #{bg}")
+      "expected .ng-card background-image under Retrowave to contain scanline gradient; got: #{bg}")
   end
 
   test "Retrowave chrome does not leak to non-Retrowave palettes" do
