@@ -1187,6 +1187,165 @@ samp {
 }
 
 /* ============================================================
+   CYBERPUNK CHROME (Phase 5b)
+
+   "Partially corrupted holographic interface." These interfaces
+   were engineered to be corporate-clean and precise. What we see is
+   the degradation — holographic projector aging, signal interference,
+   framebuffer bad sectors. Every utility starts from engineered
+   geometry and introduces corruption.
+
+   No pseudo-elements used (Gotcha #8 — ng-border-glow uses both).
+   Panel = clip-path on the element itself. Glitch = text-shadow +
+   keyframe animation. All palette-agnostic via tokens.
+   ============================================================ */
+
+/* --- .ng-cyberpunk-panel ---
+   Asymmetric clip-path: top-right heavily notched (1.5rem), bottom-
+   right lightly notched (0.5rem), left side square. Reads as
+   "manufactured rectangular, rendering distorted on one side." The
+   asymmetry is the tell — a working system would clip symmetrically;
+   this one has a render error on the right edge.
+   ng-border-glow pseudo-elements clip to this shape, so the glow
+   conforms to the panel frame. Intentional: a holographic panel's
+   glow follows its own frame. */
+.ng-cyberpunk-panel {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 1.5rem) 0,
+    100% 1.5rem,
+    100% calc(100% - 0.5rem),
+    calc(100% - 0.5rem) 100%,
+    0 100%
+  );
+}
+
+/* --- .ng-cyberpunk-glitch ---
+   RGB channel-split text-shadow. The display still shows the right
+   content but the color channels have drifted apart — like a
+   projector with misaligned optics. Red shifts left, cyan shifts
+   right. Offset amount tuneable via --ng-glitch-offset.
+   On hover: a jittery flicker animation (steps(1) = instant
+   transitions, glitches SNAP not ease). At rest: no effect, because
+   a constant glitch is exhausting to look at (per spec).
+   Reduced-motion fallback: static offset, no animation. */
+.ng-cyberpunk-glitch {
+  --ng-glitch-offset: 2px;
+  transition: text-shadow 0.05s;
+}
+
+.ng-cyberpunk-glitch:hover {
+  animation: ng-cyberpunk-glitch-flicker 0.4s steps(1) infinite;
+}
+
+@keyframes ng-cyberpunk-glitch-flicker {
+  0%, 100% {
+    text-shadow:
+      calc(var(--ng-glitch-offset) * -1) 0 rgba(255, 0, 0, 0.7),
+      var(--ng-glitch-offset)            0 rgba(0, 255, 255, 0.7);
+  }
+  25% {
+    text-shadow:
+      calc(var(--ng-glitch-offset) * -1.5) 1px rgba(255, 0, 0, 0.9),
+      calc(var(--ng-glitch-offset) * 0.5)  -1px rgba(0, 255, 255, 0.5);
+  }
+  50% {
+    text-shadow:
+      calc(var(--ng-glitch-offset) * -0.5) -1px rgba(255, 0, 0, 0.5),
+      calc(var(--ng-glitch-offset) * 1.5)  0    rgba(0, 255, 255, 0.9);
+  }
+  75% {
+    text-shadow:
+      calc(var(--ng-glitch-offset) * -1) 1px rgba(255, 0, 0, 0.8),
+      var(--ng-glitch-offset)           -1px rgba(0, 255, 255, 0.6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ng-cyberpunk-glitch:hover {
+    animation: none;
+    text-shadow:
+      calc(var(--ng-glitch-offset) * -1) 0 rgba(255, 0, 0, 0.7),
+      var(--ng-glitch-offset)            0 rgba(0, 255, 255, 0.7);
+  }
+}
+
+/* --- .ng-cyberpunk-shear ---
+   Small skewX tilt implying a holographic projection that's not
+   quite perpendicular to the viewer. Barely perceptible. Opt-in
+   because skewing shifts the bounding box and can surprise layouts. */
+.ng-cyberpunk-shear {
+  transform: skewX(-1deg);
+}
+
+/* --- .ng-cyberpunk-label ---
+   Tiny HUD annotation: system diagnostic text the UI is exposing
+   because the interface layer has partially failed. Uses the
+   display-alt font (Rubik Glitch under Cyberpunk) so the labels
+   carry the same corruption aesthetic as headlines. */
+.ng-cyberpunk-label {
+  font-family: var(--ng-font-display-alt);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgb(var(--ng-primary-rgb));
+  opacity: 0.6;
+  font-weight: 400;
+}
+
+/* --- Cyberpunk-only display control --- */
+.ng-cyberpunk-only {
+  display: none;
+}
+
+.neon-cyberpunk .ng-cyberpunk-only {
+  display: block;
+}
+
+/* --- Cyberpunk auto-application ---
+   Cards gain asymmetric panel clip-path. Headings gain the glitch
+   effect on hover. No pseudo-elements touched (Gotcha #8). */
+.neon-cyberpunk .ng-card {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 1.5rem) 0,
+    100% 1.5rem,
+    100% calc(100% - 0.5rem),
+    calc(100% - 0.5rem) 100%,
+    0 100%
+  );
+}
+
+.neon-cyberpunk .ng-card h1,
+.neon-cyberpunk .ng-card h2,
+.neon-cyberpunk .ng-card .h1,
+.neon-cyberpunk .ng-card .h2,
+.neon-cyberpunk .ng-card h3 {
+  --ng-glitch-offset: 2px;
+}
+
+.neon-cyberpunk .ng-card h1:hover,
+.neon-cyberpunk .ng-card h2:hover,
+.neon-cyberpunk .ng-card .h1:hover,
+.neon-cyberpunk .ng-card .h2:hover,
+.neon-cyberpunk .ng-card h3:hover {
+  animation: ng-cyberpunk-glitch-flicker 0.4s steps(1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neon-cyberpunk .ng-card h1:hover,
+  .neon-cyberpunk .ng-card h2:hover,
+  .neon-cyberpunk .ng-card .h1:hover,
+  .neon-cyberpunk .ng-card .h2:hover,
+  .neon-cyberpunk .ng-card h3:hover {
+    animation: none;
+    text-shadow:
+      -2px 0 rgba(255, 0, 0, 0.7),
+       2px 0 rgba(0, 255, 255, 0.7);
+  }
+}
+
+/* ============================================================
    NEON TUBE AFFORDANCE (Phase 2.5, re-pointed Phase 3)
 
    .ng-neon-tube — palette-agnostic utility that makes any element
