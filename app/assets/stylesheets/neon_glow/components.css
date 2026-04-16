@@ -897,6 +897,139 @@ samp {
 }
 
 /* ============================================================
+   HARDWARE CHROME (Phase 4)
+
+   Palette-agnostic instrument-panel utility classes. These are pure
+   visual primitives — they don't care which palette is active. They
+   are auto-applied inside the .neon-vfd context so activating VFD
+   makes cards look like a real 1970s-80s Pioneer stereo readout.
+   Users on any palette can also apply them manually.
+
+   VFD is the only palette whose physical referent lived inside
+   bezeled hardware (audio components, synthesizer displays, cash
+   register readouts). Nixie tubes were individual glass envelopes;
+   Cherenkov is a phenomenon with no device. Auto-application is
+   deliberately VFD-only.
+   ============================================================ */
+
+/* --- .ng-instrument-frame ---
+   Hard-edged rectangular bezel with recessed inset shadow. The core
+   transform: soft card → instrument panel window. */
+.ng-instrument-frame {
+  border: 2px solid var(--ng-border);
+  border-radius: 0;
+  box-shadow:
+    inset 0 0 0 1px var(--ng-border-subtle),
+    inset 0 2px 8px rgba(0,0,0,0.6),
+    inset 0 -2px 8px rgba(0,0,0,0.4);
+  padding: 1rem 1.25rem;
+  background: var(--ng-surface);
+}
+
+/* --- .ng-chamfer ---
+   45° chamfered corners via clip-path. The era's closest
+   approximation to rounded corners. */
+.ng-chamfer {
+  clip-path: polygon(
+    0.5rem 0, calc(100% - 0.5rem) 0,
+    100% 0.5rem, 100% calc(100% - 0.5rem),
+    calc(100% - 0.5rem) 100%, 0.5rem 100%,
+    0 calc(100% - 0.5rem), 0 0.5rem
+  );
+}
+
+/* --- .ng-vfd-separator ---
+   Hairline horizontal rule with hard edges. Divides display regions
+   on an instrument panel. */
+.ng-vfd-separator {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    var(--ng-border) 10%,
+    var(--ng-border) 90%,
+    transparent 100%
+  );
+  margin: 0.75rem 0;
+}
+
+/* --- .ng-vfd-label ---
+   Tiny all-caps hairline label for functional zones. The "TREBLE",
+   "BASS", "VOL" labels silk-screened onto real audio components. */
+.ng-vfd-label {
+  font-family: var(--ng-font-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--ng-text-muted);
+  font-weight: 400;
+}
+
+/* --- .ng-vu-segment ---
+   Trapezoidal fan-out segment for VU meter style indicators. Each
+   segment is slightly wider at the bottom, creating a fan when
+   multiple are laid out horizontally. */
+.ng-vu-segment {
+  clip-path: polygon(15% 0, 85% 0, 100% 100%, 0 100%);
+  background: var(--ng-primary);
+  box-shadow: 0 0 var(--ng-glow-blur) rgba(var(--ng-primary-rgb), var(--ng-glow-opacity));
+}
+
+/* --- VFD auto-application ---
+   When VFD is active, all .ng-card elements automatically receive
+   instrument-frame treatment. The consumer adds zero classes — just
+   switching the palette chrome-ifies everything.
+   Optional: set data-vfd-label="DISPLAY" (or any string) on an
+   .ng-card to render a tiny mono label in the top-left corner via
+   ::before. If the attribute is absent, no label renders. */
+.neon-vfd .ng-card {
+  position: relative;
+  border: 2px solid var(--ng-border);
+  border-radius: 0;
+  box-shadow:
+    inset 0 0 0 1px var(--ng-border-subtle),
+    inset 0 2px 8px rgba(0,0,0,0.6),
+    inset 0 -2px 8px rgba(0,0,0,0.4),
+    0 0 var(--ng-glow-blur) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.3));
+}
+
+/* Suppress the border-glow pseudo-elements under VFD. The instrument
+   frame replaces the soft gradient glow, and we need ::before free
+   for data-vfd-label content. Without this, .ng-border-glow's
+   ::before (gradient border) stomps the label — CSS only allows one
+   ::before per element. */
+.neon-vfd .ng-border-glow::before,
+.neon-vfd .ng-border-glow::after {
+  display: none;
+}
+
+/* The label rule must fully reset properties inherited from the
+   lower-specificity .ng-border-glow::before rule: z-index (-1 puts
+   the pseudo behind the card), background (gradient), opacity (0.7),
+   inset (-1px stretches it full-bleed). Without these resets the
+   label text renders but is invisible behind the card content. */
+.neon-vfd .ng-card[data-vfd-label]::before {
+  display: block;
+  content: attr(data-vfd-label);
+  position: absolute;
+  top: 0.5rem;
+  left: 0.75rem;
+  right: auto;
+  bottom: auto;
+  z-index: 1;
+  background: none;
+  opacity: 1;
+  border-radius: 0;
+  font-family: var(--ng-font-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--ng-text-muted);
+  font-weight: 400;
+  pointer-events: none;
+}
+
+/* ============================================================
    NEON TUBE AFFORDANCE (Phase 2.5, re-pointed Phase 3)
 
    .ng-neon-tube — palette-agnostic utility that makes any element

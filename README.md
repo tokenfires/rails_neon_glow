@@ -186,6 +186,22 @@ The demo kitchen sinks (Bootstrap and Tailwind) and the home page hero all use t
 
 Unlike `.ng-nixie-digit`, which is Nixie-only, `.ng-neon-tube` works under every palette. This is what makes the "neon glow" brand claim structural, not just color-based.
 
+### Hardware Chrome (VFD instrument panel)
+
+The VFD Display palette auto-applies instrument-panel chrome to every `.ng-card` — hard-edged bezels, recessed inset shadows, and zero border radius. Cards snap from soft rounded rectangles to 1970s-80s Pioneer stereo readout panels when VFD is selected. No classes to add; just switching the palette does it.
+
+Add `data-vfd-label="DISPLAY"` (or any string) to an `.ng-card` to get a tiny monospace label silk-screened in the top-left corner, like the "TREBLE" / "BASS" / "VOL" labels on real audio components. Only renders under VFD; other palettes ignore the attribute.
+
+The underlying primitives are palette-agnostic utilities you can use on any palette:
+
+```
+ng-instrument-frame  -- Hard-edged bezel with recessed inset shadow
+ng-chamfer           -- 45° clipped corners via clip-path
+ng-vfd-separator     -- Hairline horizontal rule
+ng-vfd-label         -- Tiny all-caps mono label
+ng-vu-segment        -- Trapezoidal fan-out segment (VU meter style)
+```
+
 ---
 
 ## Features
@@ -310,6 +326,11 @@ ng-text-glow         -- Glowing text (primary)
 ng-gradient-text     -- Rainbow gradient text
 ng-nixie-digit       -- Nixie cathode wire-grid frame (see Typography section)
 ng-neon-tube         -- Neon-signage treatment; picks up palette primary color
+ng-instrument-frame  -- Hard-edged instrument-panel bezel (auto-applied under VFD)
+ng-chamfer           -- 45° chamfered corners via clip-path
+ng-vfd-separator     -- Hairline horizontal rule for instrument panels
+ng-vfd-label         -- Tiny all-caps mono label
+ng-vu-segment        -- Trapezoidal VU meter segment
 ng-btn               -- Base button
 ng-btn-primary       -- Primary glowing button
 ng-btn-secondary     -- Secondary glowing button

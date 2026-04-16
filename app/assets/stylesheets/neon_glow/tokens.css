@@ -526,6 +526,11 @@
   --ng-text:           hsl(var(--ng-vfd-hue), 60%, 80%);
   --ng-text-secondary: hsl(var(--ng-vfd-hue), 40%, 55%);
   --ng-text-muted:     hsl(var(--ng-vfd-hue), 25%, 35%);
+  /* Phase 4: was inheriting :root default (#0a0a1e, a blue-tinted
+     dark). VFD's bg is #050508 (near-black with slight violet); the
+     inverse text on bright VFD-colored buttons should be tuned to
+     that surface, not to the default blue-dark. */
+  --ng-text-inverse:   #050508;
 
   --ng-radius-sm: 0.125rem;
   --ng-radius:    0.125rem;
