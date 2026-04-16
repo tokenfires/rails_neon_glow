@@ -433,6 +433,51 @@ class HardwarePalettesTest < ApplicationSystemTestCase
   end
 
   # ============================================================
+  # Phase 5a — Retrowave Chrome
+  # ============================================================
+
+  test "Retrowave auto-applies chrome text-shadow to card headings" do
+    visit root_path
+    find("select[data-theme-switcher-target='palette']").select("80's Retrowave")
+
+    shadow = page.evaluate_script(
+      "window.getComputedStyle(document.querySelector('.ng-card h3')).getPropertyValue('text-shadow')"
+    )
+    refute shadow == "none" || shadow.to_s.empty?,
+      "expected .ng-card h3 under Retrowave to have a chrome text-shadow; got: #{shadow}"
+  end
+
+  test "Retrowave auto-applies scanline overlay on cards via background-image" do
+    visit root_path
+    find("select[data-theme-switcher-target='palette']").select("80's Retrowave")
+
+    bg = page.evaluate_script(<<~JS)
+      (function() {
+        var card = document.querySelector('.ng-card');
+        if (!card) return 'NO_CARD';
+        return window.getComputedStyle(card).getPropertyValue('background-image') || 'EMPTY';
+      })()
+    JS
+    assert_match(/repeating-linear-gradient/i, bg,
+      "expected .ng-card background-image under Retrowave to contain scanline gradient; got: #{bg}")
+  end
+
+  test "Retrowave chrome does not leak to non-Retrowave palettes" do
+    visit root_path
+    find("select[data-theme-switcher-target='palette']").select("Cherenkov")
+
+    shadow = page.evaluate_script(
+      "window.getComputedStyle(document.querySelector('.ng-card h3')).getPropertyValue('text-shadow')"
+    )
+    # Cherenkov has its own heading text-shadow, but it should NOT have
+    # the Retrowave chrome pattern (multi-layer with white highlight).
+    # Simple check: the shadow should not contain the distinctive
+    # rgb(255, 255, 255) highlight layer.
+    refute_match(/rgba?\(255,\s*255,\s*255/, shadow,
+      "expected Cherenkov h3 to NOT have a white-highlight chrome shadow; got: #{shadow}")
+  end
+
+  # ============================================================
   # Phase 2.5 — Neon Tube Affordance (.ng-neon-tube)
   #
   # Generalizes Phase 2's underline-font + character-wrap effect to

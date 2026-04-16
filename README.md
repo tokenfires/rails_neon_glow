@@ -326,6 +326,10 @@ ng-text-glow         -- Glowing text (primary)
 ng-gradient-text     -- Rainbow gradient text
 ng-nixie-digit       -- Nixie cathode wire-grid frame (see Typography section)
 ng-neon-tube         -- Neon-signage treatment; picks up palette primary color
+ng-retrowave-chrome  -- Metallic chrome text-shadow (auto-applied under Retrowave)
+ng-retrowave-scanlines -- CRT scanline overlay (auto-applied under Retrowave)
+ng-retrowave-grid    -- Perspective grid floor (opt-in)
+ng-retrowave-horizon -- Horizon-split sunset gradient (opt-in)
 ng-instrument-frame  -- Hard-edged instrument-panel bezel (auto-applied under VFD)
 ng-chamfer           -- 45° chamfered corners via clip-path
 ng-vfd-separator     -- Hairline horizontal rule for instrument panels

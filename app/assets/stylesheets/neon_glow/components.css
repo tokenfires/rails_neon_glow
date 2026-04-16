@@ -1030,6 +1030,163 @@ samp {
 }
 
 /* ============================================================
+   RETROWAVE CHROME (Phase 5a)
+
+   80s synthwave album-cover geometry. Four palette-agnostic utilities
+   that compose the visual vocabulary of a gatefold inner sleeve:
+   chrome-outlined headlines, CRT scanline overlay, perspective grid
+   floor, and horizon-split gradient.
+
+   The utilities use palette tokens (--ng-primary-rgb, --ng-secondary-rgb)
+   so they produce palette-colored output on any palette, but they're
+   designed for Retrowave's magenta + cyan. Auto-application inside
+   .neon-retrowave applies chrome text and scanlines; grid and horizon
+   are opt-in full-background elements.
+   ============================================================ */
+
+/* --- .ng-retrowave-chrome ---
+   Metallic text-shadow stack creating a chrome outline effect on
+   display text. Multiple hard-edged shadow layers simulate metallic
+   reflection: white highlight top-left, dark shadow bottom-right,
+   colored reflections (cyan top, magenta bottom) from the palette's
+   primary and secondary. The last layers add soft neon bloom.
+   The hard 0-blur layers are what give it the metallic sharpness;
+   real 80s chrome lettering was screen-printed with hard reflective
+   edges, not soft gradients. */
+.ng-retrowave-chrome {
+  text-shadow:
+    -1px -1px 0    rgba(255, 255, 255, 0.8),
+     1px  1px 0    rgba(0,   0,   0,   0.6),
+     0   -2px 0    rgba(var(--ng-secondary-rgb), 0.7),
+     0    2px 0    rgba(var(--ng-primary-rgb), 0.7),
+    -2px  0   4px  rgba(var(--ng-secondary-rgb), 0.4),
+     2px  0   4px  rgba(var(--ng-primary-rgb), 0.4),
+     0    0   12px rgba(var(--ng-primary-rgb), 0.3);
+}
+
+/* --- .ng-retrowave-scanlines ---
+   CRT scanline overlay via background-image layer. 2px clear lines
+   alternating with 1px dark lines at very low opacity (0.1) so the
+   texture reads as CRT without hurting text readability.
+   Uses background-image (not ::after) to avoid pseudo-element
+   collisions with .ng-border-glow — the gradient border + bloom is
+   part of the Retrowave aesthetic and must NOT be suppressed. */
+.ng-retrowave-scanlines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.1) 2px,
+    rgba(0, 0, 0, 0.1) 3px
+  );
+}
+
+/* --- .ng-retrowave-grid ---
+   Perspective grid floor vanishing to a horizon. Pure CSS: a flat
+   grid pattern on a ::before pseudo-element, tilted into perspective
+   via CSS transform. The grid occupies the bottom 60% of the element,
+   leaving the top as dark sky.
+   Opt-in — apply to the element that should be the floor. Typically
+   a full-width container or page background section. */
+.ng-retrowave-grid {
+  position: relative;
+  overflow: hidden;
+}
+
+.ng-retrowave-grid::before {
+  content: "";
+  position: absolute;
+  left: -50%;
+  right: -50%;
+  bottom: 0;
+  height: 70%;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(var(--ng-primary-rgb), 0.35) 0px,
+      rgba(var(--ng-primary-rgb), 0.35) 1px,
+      transparent 1px,
+      transparent 60px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(var(--ng-primary-rgb), 0.35) 0px,
+      rgba(var(--ng-primary-rgb), 0.35) 1px,
+      transparent 1px,
+      transparent 40px
+    );
+  transform: perspective(400px) rotateX(55deg);
+  transform-origin: center bottom;
+  pointer-events: none;
+}
+
+/* --- .ng-retrowave-horizon ---
+   Hard-edged horizon-split gradient with the classic sun-setting-
+   into-grid look. Dark purple sky above, bright sun band at the
+   horizon, fade to deep ground below. Uses palette colors via tokens
+   for the sun glow so it adapts to non-Retrowave palettes if someone
+   applies it manually. */
+.ng-retrowave-horizon {
+  background: linear-gradient(
+    to bottom,
+    #1a0033   0%,
+    #2a0050  35%,
+    rgba(var(--ng-primary-rgb), 0.6) 46%,
+    rgba(var(--ng-primary-rgb), 0.9) 49%,
+    rgba(var(--ng-accent-rgb), 0.8) 50%,
+    rgba(var(--ng-primary-rgb), 0.9) 51%,
+    rgba(var(--ng-primary-rgb), 0.6) 54%,
+    #0d0018  65%,
+    #0a0010 100%
+  );
+}
+
+/* --- Retrowave-only display control ---
+   Same pattern as .ng-nixie-only — hides demo/reference content
+   unless the Retrowave palette is active. */
+.ng-retrowave-only {
+  display: none;
+}
+
+.neon-retrowave .ng-retrowave-only {
+  display: block;
+}
+
+/* --- Retrowave auto-application ---
+   When Retrowave is active:
+   - Card headings get the chrome text effect automatically.
+   - Cards get the CRT scanline overlay as a background-image layer.
+   Uses background-image (not ::after) so .ng-border-glow's pseudo-
+   elements are preserved — the gradient border + bloom is PART of
+   the Retrowave aesthetic and should NOT be suppressed. The scanline
+   gradient layers on top of background-color because .ng-card sets
+   background-color (not the background shorthand). */
+.neon-retrowave .ng-card {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.1) 2px,
+    rgba(0, 0, 0, 0.1) 3px
+  );
+}
+
+.neon-retrowave .ng-card h1,
+.neon-retrowave .ng-card h2,
+.neon-retrowave .ng-card .h1,
+.neon-retrowave .ng-card .h2,
+.neon-retrowave .ng-card h3 {
+  text-shadow:
+    -1px -1px 0    rgba(255, 255, 255, 0.8),
+     1px  1px 0    rgba(0,   0,   0,   0.6),
+     0   -2px 0    rgba(var(--ng-secondary-rgb), 0.7),
+     0    2px 0    rgba(var(--ng-primary-rgb), 0.7),
+    -2px  0   4px  rgba(var(--ng-secondary-rgb), 0.4),
+     2px  0   4px  rgba(var(--ng-primary-rgb), 0.4),
+     0    0   12px rgba(var(--ng-primary-rgb), 0.3);
+}
+
+/* ============================================================
    NEON TUBE AFFORDANCE (Phase 2.5, re-pointed Phase 3)
 
    .ng-neon-tube — palette-agnostic utility that makes any element
