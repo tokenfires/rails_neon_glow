@@ -1370,6 +1370,186 @@ samp {
 }
 
 /* ============================================================
+   GRUNGE CHROME (Phase 5c)
+
+   90s zine culture. Photocopied flyers stapled to telephone poles,
+   cut-and-paste layouts, Xerox halation, ink-bleed on cheap paper.
+   The central design tension: CSS produces clean geometry by default,
+   so every deliberate choice must introduce IMPRECISION — non-round
+   rotation angles, hand-drawn SVG paths instead of polygons, noise
+   overlays, asymmetric values. The line between "deliberately rough"
+   and "broken" is thin; these utilities live on the right side of it.
+
+   No pseudo-elements used (Gotcha #8). Transform creates a stacking
+   context which would trap ng-border-glow's ::before inside the
+   card (same failure mode as Cyberpunk), so border-glow is
+   suppressed under Grunge and replaced with a hard-edged paper-on-
+   wall offset shadow. Grunge cards aren't lit from within — they're
+   paper objects in dim rooms.
+   ============================================================ */
+
+/* --- .ng-grunge-noise ---
+   Procedural noise texture via inlined SVG feTurbulence filter.
+   Low baseFrequency = coarser grain; numOctaves=2 adds visual depth.
+   Applied as background-image layer (NOT pseudo-element) so it
+   composes with any existing background-color. Low opacity keeps
+   the noise readable as texture without eroding text legibility. */
+.ng-grunge-noise {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.6  0 0 0 0 0.5  0 0 0 0 0.35  0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>");
+  background-size: 200px 200px;
+  background-repeat: repeat;
+}
+
+/* --- .ng-grunge-rotate ---
+   Custom-property-driven rotation. Default 0deg so the utility is
+   inert until an angle is set. Non-round angle values preserve the
+   handmade feel — humans stapling flyers don't align to integers. */
+.ng-grunge-rotate {
+  --ng-grunge-angle: 0deg;
+  transform: rotate(var(--ng-grunge-angle));
+}
+
+/* --- .ng-grunge-torn ---
+   SVG mask with an irregular hand-drawn bottom edge. Opt-in because
+   tearing every card would be visual noise. CSS clip-path polygons
+   look too regular for torn paper; SVG path nodes allow varying
+   tooth sizes and asymmetric spacing. The mask covers the full top
+   of the element and tears the bottom ~8% with irregular teeth. */
+.ng-grunge-torn {
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><path d='M 0,0 L 100,0 L 100,94 L 96,98 L 92,93 L 87,99 L 83,92 L 79,97 L 74,93 L 70,99 L 65,94 L 61,98 L 57,92 L 52,97 L 48,93 L 43,99 L 38,94 L 34,98 L 29,93 L 25,97 L 20,92 L 16,99 L 11,94 L 7,98 L 3,93 L 0,97 Z' fill='black'/></svg>");
+          mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'><path d='M 0,0 L 100,0 L 100,94 L 96,98 L 92,93 L 87,99 L 83,92 L 79,97 L 74,93 L 70,99 L 65,94 L 61,98 L 57,92 L 52,97 L 48,93 L 43,99 L 38,94 L 34,98 L 29,93 L 25,97 L 20,92 L 16,99 L 11,94 L 7,98 L 3,93 L 0,97 Z' fill='black'/></svg>");
+  -webkit-mask-size: 100% 100%;
+          mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+}
+
+/* --- .ng-grunge-stamp ---
+   Rubber-stamped text on paper. Rough border, rotation, ink-uneven
+   via noise overlay. Inline-block so it wraps just the text and
+   reads as a label, not a container. */
+.ng-grunge-stamp {
+  display: inline-block;
+  padding: 0.35rem 0.85rem;
+  border: 2px solid rgba(var(--ng-primary-rgb), 0.7);
+  color: rgba(var(--ng-primary-rgb), 0.85);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  transform: rotate(-1.7deg);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.3'/></svg>");
+  background-size: 100px 100px;
+}
+
+/* --- Grunge-only display control --- */
+.ng-grunge-only {
+  display: none;
+}
+
+.neon-grunge .ng-grunge-only {
+  display: block;
+}
+
+/* --- Grunge auto-application ---
+   Suppress border-glow (transform stacking context traps ::before
+   as a visible gradient fill — same failure as Cyberpunk). Replace
+   with hard-edged paper-on-wall offset shadow. Cards get noise
+   overlay automatically. Rotation cycles four non-round angles via
+   nth-child so a grid of cards reads as "wall of flyers, none
+   quite straight, no two adjacent the same angle."
+
+   Four-cycle pattern (4n+1/+2/+3/+0) with irrational-looking degrees:
+     1st: -1.2deg
+     2nd:  0.7deg
+     3rd: -0.5deg
+     4th:  1.5deg
+   The cycle never places two adjacent cards at the same angle,
+   which reads as handmade rather than alternating-pattern. */
+.neon-grunge .ng-border-glow::before,
+.neon-grunge .ng-border-glow::after {
+  display: none;
+}
+
+.neon-grunge .ng-card {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.6  0 0 0 0 0.5  0 0 0 0 0.35  0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>");
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  border: 1px solid rgba(var(--ng-primary-rgb), 0.3);
+  box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.neon-grunge .ng-card:nth-child(4n+1) { transform: rotate(-1.2deg); }
+.neon-grunge .ng-card:nth-child(4n+2) { transform: rotate( 0.7deg); }
+.neon-grunge .ng-card:nth-child(4n+3) { transform: rotate(-0.5deg); }
+.neon-grunge .ng-card:nth-child(4n)   { transform: rotate( 1.5deg); }
+
+/* --- Grunge marginalia: annotation without content ---
+   Sparse pen-mark accents sprinkled across the card grid. The
+   gesture of annotation without any actual annotation — someone
+   scrawled on this but didn't mean it. Generational-irony texture:
+   the shape of caring, untethered from care.
+
+   Two marks, applied via nth-child so they hit ~1 in 3 cards,
+   alternating color, never adjacent:
+     - Red scribbled cross-out (wavy sharpie stroke, top-right)
+     - Green incomplete hand-drawn circle (pen-arc, bottom-left)
+
+   Both are composed with the existing noise + card-background via
+   the multi-layer background shorthand. SVG paths use hardcoded
+   Grunge palette rgb values (90,138,74 olive + 168,50,50 dirty red)
+   because CSS custom properties don't resolve inside data-URI
+   background-images. If the Grunge palette ever re-tunes success/
+   danger, update these hardcoded values too.
+
+   These are scoped to .neon-grunge, so re-tuning affects Grunge only. */
+.neon-grunge .ng-card:nth-child(6n+3),
+.neon-grunge .ng-card[data-grunge-mark="scribble"] {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 40'><path d='M 5 15 Q 15 22 25 12 Q 35 26 45 14 Q 52 25 55 18' stroke='rgba(168,50,50,0.55)' stroke-width='2.5' fill='none' stroke-linecap='round'/><path d='M 8 28 Q 18 20 28 30 Q 38 22 48 32' stroke='rgba(168,50,50,0.45)' stroke-width='2' fill='none' stroke-linecap='round'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.6  0 0 0 0 0.5  0 0 0 0 0.35  0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>");
+  background-position: calc(100% - 1rem) 1rem, 0 0;
+  background-size: 3rem 2rem, 200px 200px;
+  background-repeat: no-repeat, repeat;
+}
+
+.neon-grunge .ng-card:nth-child(6n+5) {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'><path d='M 38 10 Q 50 20 48 32 Q 42 46 28 46 Q 12 44 8 30 Q 7 18 18 12' stroke='rgba(90,138,74,0.6)' stroke-width='2.5' fill='none' stroke-linecap='round'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.6  0 0 0 0 0.5  0 0 0 0 0.35  0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>");
+  background-position: 1rem calc(100% - 1rem), 0 0;
+  background-size: 2.5rem 2.5rem, 200px 200px;
+  background-repeat: no-repeat, repeat;
+}
+
+/* Opt-in circle uses a different corner than the nth-child auto-apply.
+   Reason: the auto-apply lives on content-heavy homepage cards where
+   the bottom-left corner is empty whitespace. Kitchen-sink cards like
+   Forms and Buttons have interactive controls clustered in that exact
+   corner (submit buttons, first button in a group), which swallows the
+   mark entirely. Bottom-RIGHT is reliably empty on both card types. */
+.neon-grunge .ng-card[data-grunge-mark="circle"] {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'><path d='M 38 10 Q 50 20 48 32 Q 42 46 28 46 Q 12 44 8 30 Q 7 18 18 12' stroke='rgba(90,138,74,0.6)' stroke-width='2.5' fill='none' stroke-linecap='round'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.6  0 0 0 0 0.5  0 0 0 0 0.35  0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>");
+  background-position: calc(100% - 1rem) calc(100% - 1rem), 0 0;
+  background-size: 2.5rem 2.5rem, 200px 200px;
+  background-repeat: no-repeat, repeat;
+}
+
+/* Explicit opt-out — wins over nth-child accents. Used when an
+   nth-child position happens to place an accent somewhere that
+   crosses the line from "incidental residue" into "visible pattern."
+   Sometimes three marks in sequence breaks the whatever-feel even
+   if each individual mark is right. */
+.neon-grunge .ng-card[data-grunge-mark="none"] {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.6  0 0 0 0 0.5  0 0 0 0 0.35  0 0 0 0.4 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/></svg>");
+  background-position: 0 0;
+  background-size: 200px 200px;
+  background-repeat: repeat;
+}
+
+/* ============================================================
    NEON TUBE AFFORDANCE (Phase 2.5, re-pointed Phase 3)
 
    .ng-neon-tube — palette-agnostic utility that makes any element

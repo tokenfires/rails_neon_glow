@@ -334,6 +334,10 @@ ng-cyberpunk-panel   -- Asymmetric notched clip-path (auto-applied under Cyberpu
 ng-cyberpunk-glitch  -- RGB channel-split glitch with hover flicker animation
 ng-cyberpunk-shear   -- Holographic skewX tilt (opt-in)
 ng-cyberpunk-label   -- Tiny HUD annotation in display-alt font
+ng-grunge-noise      -- SVG feTurbulence texture overlay (auto-applied under Grunge)
+ng-grunge-rotate     -- Custom-property-driven tilt (auto-applied via nth-child)
+ng-grunge-torn       -- SVG mask for hand-drawn torn bottom edge (opt-in)
+ng-grunge-stamp      -- Rubber-stamped text with rough border + rotation (opt-in)
 ng-instrument-frame  -- Hard-edged instrument-panel bezel (auto-applied under VFD)
 ng-chamfer           -- 45° chamfered corners via clip-path
 ng-vfd-separator     -- Hairline horizontal rule for instrument panels

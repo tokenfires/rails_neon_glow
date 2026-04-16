@@ -520,6 +520,60 @@ class HardwarePalettesTest < ApplicationSystemTestCase
   end
 
   # ============================================================
+  # Phase 5c — Grunge Chrome
+  # ============================================================
+
+  test "Grunge auto-applies noise background-image to cards" do
+    visit root_path
+    find("select[data-theme-switcher-target='palette']").select("90's Grunge")
+
+    bg = page.evaluate_script(
+      "window.getComputedStyle(document.querySelector('.ng-card')).getPropertyValue('background-image')"
+    )
+    # feTurbulence noise is inlined as a data URI SVG
+    assert_match(/data:image\/svg\+xml/i, bg,
+      "expected .ng-card under Grunge to have SVG noise background-image; got: #{bg}")
+    assert_match(/feTurbulence/i, bg,
+      "expected Grunge noise to use feTurbulence filter; got: #{bg}")
+  end
+
+  test "Grunge cards rotate via nth-child" do
+    visit root_path
+    find("select[data-theme-switcher-target='palette']").select("90's Grunge")
+
+    # Collect transform values across all .ng-card elements. Expect at
+    # least two distinct rotation matrices across the Hardware section
+    # (which has 3 cards — they should hit 3 of the 4 rotation slots).
+    transforms = page.evaluate_script(<<~JS)
+      Array.from(document.querySelectorAll('.ng-card'))
+        .map(el => window.getComputedStyle(el).getPropertyValue('transform'))
+    JS
+
+    distinct = transforms.uniq
+    assert distinct.length >= 2,
+      "expected Grunge cards to have at least 2 distinct rotation transforms " \
+      "(cycling via nth-child); got #{distinct.length} unique values: #{distinct.inspect}"
+  end
+
+  test "Grunge border-glow pseudo-elements are suppressed" do
+    visit root_path
+    find("select[data-theme-switcher-target='palette']").select("90's Grunge")
+
+    before_display = page.evaluate_script(<<~JS)
+      (function() {
+        var el = document.querySelector('.ng-card.ng-border-glow') || document.querySelector('.ng-card');
+        if (!el) return 'NO_CARD';
+        return window.getComputedStyle(el, '::before').getPropertyValue('display');
+      })()
+    JS
+
+    assert_equal "none", before_display,
+      "expected .ng-border-glow::before to be display:none under Grunge " \
+      "(transform stacking context would otherwise trap the gradient as a fill); " \
+      "got: #{before_display}"
+  end
+
+  # ============================================================
   # Phase 2.5 — Neon Tube Affordance (.ng-neon-tube)
   #
   # Generalizes Phase 2's underline-font + character-wrap effect to
