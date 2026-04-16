@@ -363,6 +363,76 @@ class HardwarePalettesTest < ApplicationSystemTestCase
   end
 
   # ============================================================
+  # Phase 4 — Hardware Chrome (VFD instrument panel)
+  # ============================================================
+
+  test "VFD palette auto-applies instrument-frame to .ng-card" do
+    visit root_path
+    find("select[data-theme-switcher-target='palette']").select("VFD Display")
+
+    border_radius = page.evaluate_script(
+      "window.getComputedStyle(document.querySelector('.ng-card')).getPropertyValue('border-radius')"
+    )
+    assert_equal "0px", border_radius,
+      "expected .ng-card under VFD to have border-radius: 0 (instrument frame); got: #{border_radius}"
+  end
+
+  test "VFD instrument-frame does not leak to non-VFD palettes" do
+    visit root_path
+    find("select[data-theme-switcher-target='palette']").select("Cherenkov")
+
+    border_radius = page.evaluate_script(
+      "window.getComputedStyle(document.querySelector('.ng-card')).getPropertyValue('border-radius')"
+    )
+    refute_equal "0px", border_radius,
+      "expected .ng-card under Cherenkov to retain its default border-radius (not instrument frame); " \
+      "got: #{border_radius}"
+  end
+
+  test "VFD data-vfd-label renders via ::before pseudo-element" do
+    visit root_path
+    find("select[data-theme-switcher-target='palette']").select("VFD Display")
+
+    label_content = page.evaluate_script(<<~JS)
+      (function() {
+        var card = document.querySelector('.ng-card[data-vfd-label]');
+        if (!card) return 'NO_CARD_WITH_LABEL';
+        var style = window.getComputedStyle(card, '::before');
+        return style.getPropertyValue('content');
+      })()
+    JS
+
+    refute_equal "NO_CARD_WITH_LABEL", label_content,
+      "no .ng-card with data-vfd-label found on the page"
+    refute_equal "none", label_content,
+      "expected ::before content to render the label text; got: none"
+    assert_match(/DISPLAY/i, label_content,
+      "expected ::before content to contain the label text 'DISPLAY'; got: #{label_content}")
+  end
+
+  test "data-vfd-label does not render on non-VFD palettes" do
+    visit root_path
+    find("select[data-theme-switcher-target='palette']").select("Cherenkov")
+
+    label_content = page.evaluate_script(<<~JS)
+      (function() {
+        var card = document.querySelector('.ng-card[data-vfd-label]');
+        if (!card) return 'NO_CARD';
+        var style = window.getComputedStyle(card, '::before');
+        return style.getPropertyValue('content');
+      })()
+    JS
+
+    # On non-VFD palettes the ::before selector (.neon-vfd .ng-card[data-vfd-label]::before)
+    # doesn't match, so content should be "none", "normal", empty, or the CSS quoted empty '""'.
+    if label_content != "NO_CARD"
+      non_rendering = ["none", "", "normal", '""']
+      assert non_rendering.include?(label_content),
+        "expected data-vfd-label ::before to NOT render on Cherenkov; got: #{label_content}"
+    end
+  end
+
+  # ============================================================
   # Phase 2.5 — Neon Tube Affordance (.ng-neon-tube)
   #
   # Generalizes Phase 2's underline-font + character-wrap effect to
