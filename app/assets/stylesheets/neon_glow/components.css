@@ -993,7 +993,18 @@ samp {
     0 0 var(--ng-glow-blur) rgba(var(--ng-primary-rgb), calc(var(--ng-glow-opacity) * 0.3));
 }
 
+/* Suppress the border-glow pseudo-elements under VFD. The instrument
+   frame replaces the soft gradient glow, and we need ::before free
+   for data-vfd-label content. Without this, .ng-border-glow's
+   ::before (gradient border) stomps the label — CSS only allows one
+   ::before per element. */
+.neon-vfd .ng-border-glow::before,
+.neon-vfd .ng-border-glow::after {
+  display: none;
+}
+
 .neon-vfd .ng-card[data-vfd-label]::before {
+  display: block;
   content: attr(data-vfd-label);
   position: absolute;
   top: 0.5rem;
