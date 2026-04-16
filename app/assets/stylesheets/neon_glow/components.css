@@ -1003,12 +1003,23 @@ samp {
   display: none;
 }
 
+/* The label rule must fully reset properties inherited from the
+   lower-specificity .ng-border-glow::before rule: z-index (-1 puts
+   the pseudo behind the card), background (gradient), opacity (0.7),
+   inset (-1px stretches it full-bleed). Without these resets the
+   label text renders but is invisible behind the card content. */
 .neon-vfd .ng-card[data-vfd-label]::before {
   display: block;
   content: attr(data-vfd-label);
   position: absolute;
   top: 0.5rem;
   left: 0.75rem;
+  right: auto;
+  bottom: auto;
+  z-index: 1;
+  background: none;
+  opacity: 1;
+  border-radius: 0;
   font-family: var(--ng-font-mono);
   font-size: 0.625rem;
   text-transform: uppercase;
