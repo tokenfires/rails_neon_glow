@@ -412,7 +412,7 @@ document.body.style.setProperty("--ng-vfd-hue", "30"); // amber
 
 ## Kitchen Sink Demo
 
-This repository includes a Rails 8.1.2 application with live demos:
+This repository includes a Rails 8.1.4.1 application with live demos:
 
 - **Home** (`/`) -- Overview with palette cards organized by category
 - **Tailwind Kitchen Sink** (`/tailwind`) -- All components styled with Tailwind + Neon Glow
@@ -435,7 +435,7 @@ Visit `http://localhost:5000` and use the palette/intensity dropdowns in the nav
 
 ## Tech Stack
 
-- Ruby 4.0.0 / Rails 8.1.2
+- Ruby 4.0.10 / Rails 8.1.4.1
 - SQLite (zero-config, included)
 - Tailwind CSS 4.2 (via tailwindcss-rails)
 - Bootstrap 5.3 (via dartsass-rails)
