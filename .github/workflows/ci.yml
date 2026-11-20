@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  scan_ruby:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Scan application security
+        run: bundle exec brakeman --no-pager --exit-on-warn --exit-on-error
+      - name: Audit Ruby dependencies
+        run: bundle exec bundler-audit check --update
+
+  scan_js:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Audit importmap dependencies
+        run: bin/importmap audit
+
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      RAILS_ENV: test
+      CI: "true"
+      DISABLE_SPRING: "1"
+      PARALLEL_WORKERS: "1"
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Prepare test database
+        run: bin/rails db:create db:schema:load
+      - name: Check application autoloading
+        run: bin/rails zeitwerk:check
+      - name: Build assets
+        run: bin/rails assets:precompile
+      - name: Run Rails tests
+        run: bin/rails test
+      - name: Run browser tests
+        run: bin/rails test:system
+      - name: Save failure screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: tmp/screenshots
+          if-no-files-found: ignore
